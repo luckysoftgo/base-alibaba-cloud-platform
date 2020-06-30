@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.application.cloud</groupId>
+	<artifactId>base-alibaba-cloud-platform</artifactId>
+	<name>base-alibaba-cloud-platform</name>
+	<version>1.0.0-RELEASE</version>
+	<description>基于阿里巴巴组件的微服务框架快速开发平台</description>
+	<packaging>pom</packaging>
+	
+	<!-- spring-boot的版本 https://start.spring.io/  https://start.aliyun.com/ -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.2.RELEASE</version>
+		<relativePath/>
+	</parent>
+	
+	<!--平台管理上的各个模块-->
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
+		<maven.test.skip>true</maven.test.skip>
+		
+		<spring-cloud.version>Hoxton.SR2</spring-cloud.version>
+		<spring-security-oauth.version>2.3.6.RELEASE</spring-security-oauth.version>
+		<spring-platform.version>Cairo-SR8</spring-platform.version>
+		<platform.version>1.0.0-RELEASE</platform.version>
+		
+		<hutool.version>5.1.0</hutool.version>
+		<swagger.version>2.9.2</swagger.version>
+		<knife4j.version>2.0.2</knife4j.version>
+		<spring-boot.version>2.2.2.RELEASE</spring-boot.version>
+		<spring-boot-admin.version>2.2.2</spring-boot-admin.version>
+		<mybatis-plus-boot-starter.version>3.3.1</mybatis-plus-boot-starter.version>
+		<jasypt.version>2.1.1</jasypt.version>
+		<curator.version>4.2.0</curator.version>
+		<xxl-job.version>2.1.2</xxl-job.version>
+		<ali-java-sdk-core.version>4.1.0</ali-java-sdk-core.version>
+		<hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
+		<aliyun-sdk-oss.version>3.8.0</aliyun-sdk-oss.version>
+		<fastjson.version>1.2.60</fastjson.version>
+		<easypoi-spring-boot.version>4.1.3</easypoi-spring-boot.version>
+		<spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
+		<guava.version>23.0</guava.version>
+		<justAuth.version>1.3.1</justAuth.version>
+		<p6spy.version>3.8.6</p6spy.version>
+		<HdrHistogram.version>2.1.10</HdrHistogram.version>
+		<bcpkix-jdk15on.version>1.64</bcpkix-jdk15on.version>
+		<jsr305.version>3.0.2</jsr305.version>
+		<simpleclient.version>0.7.0</simpleclient.version>
+		<lombok.version>1.18.12 </lombok.version>
+		
+		<downloadSources>true</downloadSources>
+	</properties>
+	
+	<!-- 代码库 -->
+	<repositories>
+		<repository>
+			<id>nexus-aliyun</id>
+			<name>Nexus aliyun</name>
+			<url>https://maven.aliyun.com/repository/public</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>maven-ali</id>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>sonatype-oss-snapshots</id>
+			<name>Sonatype OSS Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
+	
+	<!-- plugin设置 -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus-aliyun</id>
+			<name>Nexus aliyun</name>
+			<url>https://maven.aliyun.com/repository/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+	
+	<!--构建-->
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<target>${java.version}</target>
+						<source>${java.version}</source>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<addMavenDescriptor>false</addMavenDescriptor>
+						</archive>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.yml</include>
+					<include>**/*.xml</include>
+					<include>**/*.tld</include>
+					<include>**/*.p12</include>
+					<include>**/*.conf</include>
+					<include>**/*.txt</include>
+					<include>**/*.wsdl</include>
+					<include>**/*.xsd</include>
+					<include>**/*.ftl</include>
+					<include>processes/*</include>
+					<include>**/*.ico</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.tld</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/view</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			
+			<resource>
+				<directory>src/main/proto</directory>
+				<includes>
+					<include>**/*.proto</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+	</build>
+	
+	<profiles>
+		<profile>
+			<id>jdk8</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<jdk>1.8</jdk>
+			</activation>
+			<properties>
+				<maven.compiler.source>1.8</maven.compiler.source>
+				<maven.compiler.target>1.8</maven.compiler.target>
+				<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+			</properties>
+		</profile>
+	</profiles>
+	
+</project>
