@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.application.cloud</groupId>
+	<artifactId>app-cloud-framework</artifactId>
+	<name>app-cloud-framework</name>
+	<description>平台组件相关的基础设置</description>
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>app-cloud-framework-basic</module>
+	</modules>
+	
+	<parent>
+		<groupId>com.application.cloud</groupId>
+		<artifactId>base-alibaba-cloud-platform</artifactId>
+		<version>1.0.0-RELEASE</version>
+	</parent>
+	
+</project>

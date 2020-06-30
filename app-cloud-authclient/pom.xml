@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.application.cloud</groupId>
+	<artifactId>app-cloud-authclient</artifactId>
+	<name>app-cloud-authclient</name>
+	<packaging>jar</packaging>
+	<description>平台的认证中心</description>
+	
+	<parent>
+		<groupId>com.application.cloud</groupId>
+		<artifactId>base-alibaba-cloud-platform</artifactId>
+		<version>1.0.0-RELEASE</version>
+	</parent>
+
+</project>

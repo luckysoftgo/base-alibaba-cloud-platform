@@ -8,6 +8,13 @@
 	<name>base-alibaba-cloud-platform</name>
 	<version>1.0.0-RELEASE</version>
 	<description>基于阿里巴巴组件的微服务框架快速开发平台</description>
+	
+	<!--平台管理上的各个模块-->
+	<modules>
+		<module>app-cloud-generater</module>
+		<module>app-cloud-framework</module>
+		<module>app-cloud-authclient</module>
+	</modules>
 	<packaging>pom</packaging>
 	
 	<!-- spring-boot的版本 https://start.spring.io/  https://start.aliyun.com/ -->
@@ -17,8 +24,6 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/>
 	</parent>
-	
-	<!--平台管理上的各个模块-->
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
