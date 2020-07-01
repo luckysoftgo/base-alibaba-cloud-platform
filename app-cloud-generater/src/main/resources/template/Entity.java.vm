@@ -1,0 +1,66 @@
+package ${absolutePath}.entity;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.application.cloud.basic.common.BasicEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.util.Date;
+import java.time.LocalDateTime;
+
+
+/**
+ * ${tableComment}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@TableName("${tableName}")
+@NoArgsConstructor
+@ApiModel(value="${lowerClassName}",description="${tableComment}", parent = ${upperClassName}Entity.class)
+public class ${upperClassName}Entity extends BasicEntity {
+
+	private static final long serialVersionUID = 1L;
+
+    /**
+    * 表名
+    */
+    public static final String TABLE_NAME = "${tableName}";
+
+#foreach ($column in $tableColumns)
+ 	/**$column.columnComment*/
+#if($column.columnName == $primaryKey.columnName)
+    @TableId
+#end
+#if($column.attributeType == "String")
+#if($column.isNullable == "YES")
+    @NotEmpty(message = "${column.columnComment}-必填")
+    @Size(min = 0,max = ${column.characterMaximumLength},message ="${column.columnComment}不能超过${column.characterMaximumLength}" )
+#end
+#elseif($column.attributeType != "String")
+#if($column.isNullable == "YES")
+    @NotNull(message = "${column.columnComment}-必填")
+#end
+#end
+    @ApiModelProperty(value="${column.columnComment}",name="${column.lowerAttrName}")
+    private $column.attributeType $column.lowerAttrName;
+    /**$column.columnComment 对应的静态变量值*/
+	public static final String FIELD_$column.staticFinalName = "$column.lowerAttrName";
+
+#end
+
+}

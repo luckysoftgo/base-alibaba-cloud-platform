@@ -1,0 +1,108 @@
+package ${absolutePath}.controller;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import ${absolutePath}.entity.${upperClassName}Entity;
+import ${absolutePath}.service.${upperClassName}Service;
+import com.application.cloud.basic.page.PageProcessor;
+import com.application.cloud.basic.common.result.AjaxResult;
+
+
+/**
+ * ${tableComment}访问入口.
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Slf4j
+@RestController
+@RequestMapping("${moduleName}/${pathName}")
+@Api(tags = "${tableComment}接口信息服务")
+public class ${upperClassName}Controller {
+
+    @Autowired
+    private ${upperClassName}Service ${lowerClassName}Service;
+
+    /**
+     * 列表
+     */
+    @ApiOperation(value = "${tableComment}分页信息",notes="${tableComment}分页信息", httpMethod = "GET")
+    @ApiImplicitParams({
+		    @ApiImplicitParam(name="pageNum" ,value="当前页码" ,required=true ,dataType="int",paramType="query"),
+		    @ApiImplicitParam(name="pageSize" ,value="每页多少条" ,required=true ,dataType="int",paramType="query"),
+    })
+    @GetMapping("/list")
+    @RequiresPermissions("${moduleName}:${pathName}:list")
+    public AjaxResult list(@RequestParam Map<String, Object> params){
+        PageProcessor page = ${lowerClassName}Service.queryPage(params);
+        return AjaxResult.success(page);
+    }
+
+
+    /**
+     * 信息
+     */
+    @ApiOperation(value = "${tableComment}查询单个信息",notes="${tableComment}查询单个信息", httpMethod = "GET")
+    @ApiImplicitParams({
+		    @ApiImplicitParam(name="${primaryKey.attributeType}" ,value="信息主键" ,required=true ,dataType="${primaryKey.attributeType}",paramType="query"),
+    })
+    @GetMapping("/info/{${primaryKey.lowerAttrName}}")
+    @RequiresPermissions("${moduleName}:${pathName}:info")
+    public AjaxResult info(@PathVariable("${primaryKey.lowerAttrName}") ${primaryKey.attributeType} ${primaryKey.lowerAttrName}){
+		${upperClassName}Entity ${lowerClassName} = ${lowerClassName}Service.getById(${primaryKey.lowerAttrName});
+        return AjaxResult.success(${lowerClassName});
+    }
+
+    /**
+     * 保存
+     */
+    @ApiOperation(value = "${tableComment}信息保存",notes="${tableComment}信息保存", httpMethod = "POST")
+    @ApiImplicitParams({
+		    @ApiImplicitParam(name="${lowerClassName}" ,value="详细实体${lowerClassName}" ,required=true ,dataType="${upperClassName}"),
+    })
+    @PostMapping("/save")
+    @RequiresPermissions("${moduleName}:${pathName}:save")
+    public AjaxResult save(@RequestBody ${upperClassName}Entity ${lowerClassName}){
+		${lowerClassName}Service.save(${lowerClassName});
+        return AjaxResult.success("保存成功!");
+    }
+
+    /**
+     * 修改
+     */
+    @ApiOperation(value = "${tableComment}信息修改",notes="${tableComment}信息修改", httpMethod = "POST")
+    @ApiImplicitParams({
+		    @ApiImplicitParam(name="${lowerClassName}" ,value="详细实体${lowerClassName}" ,required=true ,dataType="${upperClassName}"),
+    })
+    @PostMapping("/update")
+    @RequiresPermissions("${moduleName}:${pathName}:update")
+    public AjaxResult update(@RequestBody ${upperClassName}Entity ${lowerClassName}){
+		${lowerClassName}Service.updateById(${lowerClassName});
+        return AjaxResult.success("修改成功!");
+    }
+
+    /**
+     * 删除
+     */
+    @ApiOperation(value = "${tableComment}信息删除",notes="${tableComment}信息删除", httpMethod = "GET")
+    @ApiImplicitParams({
+		    @ApiImplicitParam(name="${primaryKey.lowerAttrName}s" ,value="信息主键集合" ,required=true ,dataType="${primaryKey.attributeType}",paramType="query"),
+    })
+    @GetMapping("/delete")
+    @RequiresPermissions("${moduleName}:${pathName}:delete")
+    public AjaxResult delete(@RequestBody ${primaryKey.attributeType}[] ${primaryKey.lowerAttrName}s){
+		${lowerClassName}Service.removeByIds(Arrays.asList(${primaryKey.lowerAttrName}s));
+        return AjaxResult.success("删除成功!");
+    }
+
+}

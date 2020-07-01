@@ -1,0 +1,25 @@
+package ${absolutePath}.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.application.cloud.basic.page.PageProcessor;
+import ${absolutePath}.entity.${upperClassName}Entity;
+
+import java.util.Map;
+
+/**
+ * ${tableComment}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${upperClassName}Service extends IService<${upperClassName}Entity> {
+
+    /**
+    * 分页查询
+    * @param params
+    * @return
+    */
+    PageProcessor queryPage(Map<String, Object> params);
+}
+
