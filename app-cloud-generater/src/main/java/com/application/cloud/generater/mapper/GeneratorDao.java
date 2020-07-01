@@ -1,4 +1,4 @@
-package com.application.cloud.generater.dao;
+package com.application.cloud.generater.mapper;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.application.cloud.generater.dao;
+package com.application.cloud.generater.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 

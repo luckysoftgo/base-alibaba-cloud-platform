@@ -1,6 +1,6 @@
 package com.application.cloud.generater.mongo.dao;
 
-import com.application.cloud.generater.dao.GeneratorDao;
+import com.application.cloud.generater.mapper.GeneratorDao;
 import com.application.cloud.generater.mongo.adaptor.MongoTableInfoAdaptor;
 import com.application.cloud.generater.mongo.config.MongoCondition;
 import com.application.cloud.generater.mongo.config.MongoManager;

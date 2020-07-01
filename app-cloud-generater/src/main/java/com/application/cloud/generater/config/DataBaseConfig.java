@@ -1,10 +1,10 @@
 package com.application.cloud.generater.config;
 
-import com.application.cloud.generater.dao.GeneratorDao;
-import com.application.cloud.generater.dao.MySQLGeneratorDao;
-import com.application.cloud.generater.dao.OracleGeneratorDao;
-import com.application.cloud.generater.dao.PostgreSQLGeneratorDao;
-import com.application.cloud.generater.dao.SQLServerGeneratorDao;
+import com.application.cloud.generater.mapper.GeneratorDao;
+import com.application.cloud.generater.mapper.MySQLGeneratorDao;
+import com.application.cloud.generater.mapper.OracleGeneratorDao;
+import com.application.cloud.generater.mapper.PostgreSQLGeneratorDao;
+import com.application.cloud.generater.mapper.SQLServerGeneratorDao;
 import com.application.cloud.generater.exception.GenException;
 import com.application.cloud.generater.mongo.dao.MongoDBGeneratorDao;
 import org.springframework.beans.factory.annotation.Autowired;
