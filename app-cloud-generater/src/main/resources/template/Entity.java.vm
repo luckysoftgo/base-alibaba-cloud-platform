@@ -1,8 +1,11 @@
 package ${absolutePath}.entity;
 
+import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.application.cloud.dynamic.datasource.datatool.IdEntity;
 import com.application.cloud.dynamic.datasource.datatool.BasicEntity;
+import com.application.cloud.dynamic.datasource.datatool.GenericEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -32,10 +35,17 @@ import java.time.LocalDateTime;
 @TableName("${tableName}")
 @NoArgsConstructor
 @ApiModel(value="${lowerClassName}",description="${tableComment}", parent = ${upperClassName}Entity.class)
+#if($entityTag == 'IdEntity')
+public class ${upperClassName}Entity extends IdEntity {
+#elseif($entityTag == 'BasicEntity')
 public class ${upperClassName}Entity extends BasicEntity {
-
+#elseif($entityTag == 'GenericEntity')
+public class ${upperClassName}Entity extends GenericEntity {
+#else
+public class ${upperClassName}Entity implements Serializable, Cloneable {
+	/**序列化*/
 	private static final long serialVersionUID = 1L;
-
+#end
     /**
     * 表名
     */
@@ -56,7 +66,7 @@ public class ${upperClassName}Entity extends BasicEntity {
     @NotNull(message = "${column.columnComment}-必填")
 #end
 #end
-    @ApiModelProperty(value="${column.columnComment}",name="${column.lowerAttrName}")
+    @ApiModelProperty(value="${column.columnComment}",name="${column.lowerAttrName}",dataType="${column.attributeType}")
     private $column.attributeType $column.lowerAttrName;
     /**$column.columnComment 对应的静态变量值*/
 	public static final String FIELD_$column.staticFinalName = "$column.lowerAttrName";

@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +37,6 @@ import java.util.zip.ZipOutputStream;
  **/
 public class GenerateHolder {
 	
-	/**
-	 * 不需要输出的字段.
-	 */
-	private static List<String> nonNeedColumns = Arrays.asList(new String[]{"id","create_by","create_time","update_by","update_time","remark","info_desc","disabled"});
 	
 	private static String currentTableName;
 	
@@ -83,7 +78,7 @@ public class GenerateHolder {
 	}
 	
 	/**
-	 * 生成代码
+	 * 生成需要的代码
 	 */
 	public static void generatorCode(Map<String, String> table,
 	                                 List<Map<String, String>> columns, ZipOutputStream zip) {
@@ -100,6 +95,19 @@ public class GenerateHolder {
 		tableBean.setUpperClassName(className);
 		tableBean.setLowerClassName(StringUtils.uncapitalize(className));
 		
+		/**
+		 * 对应基础entity的对象.
+		 */
+		String entityTag = getEntityTag(columns);
+		//需要剔除的值.
+		List<String> nonNeedColumns = new ArrayList<>();
+		if (entityTag.equalsIgnoreCase(GenConstant.ID_ENTITY)){
+			nonNeedColumns = GenConstant.idColumns;
+		}else if (entityTag.equalsIgnoreCase(GenConstant.BASIC_ENTITY)){
+			nonNeedColumns = GenConstant.basicColumns;
+		}else if(entityTag.equalsIgnoreCase(GenConstant.GENERIC_ENTITY)){
+			nonNeedColumns = GenConstant.genericColumns;
+		}
 		//列信息
 		List<ColumnBean> columsList = new ArrayList<>();
 		for (Map<String, String> column : columns) {
@@ -198,6 +206,8 @@ public class GenerateHolder {
 		}
 		//封装模板数据
 		Map<String, Object> map = new HashMap<>();
+		
+		map.put("entityTag",entityTag);
 		map.put("tableName", tableBean.getTableName());
 		map.put("tableComment", tableBean.getTableComment());
 		map.put("primaryKey", tableBean.getPrimaryKey());
@@ -215,6 +225,7 @@ public class GenerateHolder {
 		map.put("author", config.getString("author" ));
 		map.put("email", config.getString("email" ));
 		map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
+		
 		VelocityContext context = new VelocityContext(map);
 		
 		//获取模板列表
@@ -234,6 +245,38 @@ public class GenerateHolder {
 				throw new GenException("渲染模板失败，表名：" + tableBean.getTableName(), e);
 			}
 		}
+	}
+	
+	/**
+	 * 判断类型
+	 * @param columns
+	 * @return
+	 */
+	private static String getEntityTag(List<Map<String, String>> columns) {
+		String entityTag = "";
+		List<String> idColumns = new ArrayList<>();
+		idColumns.addAll(GenConstant.idColumns);
+		List<String> basicColumns =  new ArrayList<>();
+		basicColumns.addAll(GenConstant.basicColumns);
+		List<String> genericColumns =  new ArrayList<>();
+		genericColumns.addAll(GenConstant.genericColumns);
+		for (Map<String, String> column : columns) {
+			String columnName = column.get("columnName");
+			idColumns.remove(columnName);
+			basicColumns.remove(columnName);
+			genericColumns.remove(columnName);
+		}
+		if (idColumns.size()==0){
+			entityTag = GenConstant.ID_ENTITY;
+		}
+		if (basicColumns.size()==0){
+			entityTag = GenConstant.BASIC_ENTITY;
+		}
+		if (genericColumns.size()==0){
+			entityTag = GenConstant.GENERIC_ENTITY;
+		}
+		
+		return entityTag;
 	}
 	
 	/**
@@ -386,12 +429,11 @@ public class GenerateHolder {
 			packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
 		}
 		if (template.contains("MongoChildrenEntity.java.vm")) {
-			return packagePath + "entity" + File.separator + "inner" + File.separator + currentTableName + File.separator + className + "InnerEntity.java";
+			return packagePath + "entity" + File.separator + "inner" + File.separator + currentTableName+ File.separator + splitInnerName(className)+ "InnerEntity.java";
 		}
 		if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
 			return packagePath + "entity" + File.separator + className + "Entity.java";
 		}
-		
 		if (template.contains("Dao.java.vm")) {
 			return packagePath + "dao" + File.separator + className + "Dao.java";
 		}

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 /**
  * @author : 孤狼
  * @NAME: GeneraterApplication
- * @DESC: GeneraterApplication 实现设计
+ * @DESC: GeneraterApplication 实现设计:生成mongo 时候,使用@SpringBootApplication 注解,否则使用默认
  **/
 //@SpringBootApplication
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
