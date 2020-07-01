@@ -1,4 +1,4 @@
-思路来源于网上开源系统设计.
+源码来源于网上开源系统设计.
 1.前提:
     必须将:app-cloud-framework-basic 的模块 clean install 进去才行.
 
@@ -23,8 +23,6 @@
     C.启用mongo的配置,在 GeneraterApplication.java 中注释掉:
     @SpringBootApplication
     //@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-
-
 
 4.代码生成器,生成完的代码,运行的前提有:
   A.mybatis-plus 分页插件
