@@ -25,7 +25,7 @@
 		<maven.test.skip>true</maven.test.skip>
 		
 		<mysql-connector-java.version>5.1.38</mysql-connector-java.version>
-		<mybatis-plus-boot.version>3.3.1</mybatis-plus-boot.version>
+		<mybatis-plus-boot.version>3.3.2</mybatis-plus-boot.version>
 		<druid.version>1.1.20</druid.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.5</commons-io.version>
@@ -38,6 +38,7 @@
 		<oracle.version>11.2.0.3</oracle.version>
 		<postgresql.version>42.2.10</postgresql.version>
 		<mongo.version>3.11.0</mongo.version>
+		<lombok.version>1.18.12 </lombok.version>
 		
 		<!-- 下载需要的 jar  -->
 		<downloadSources>true</downloadSources>
@@ -136,11 +137,6 @@
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.application.cloud</groupId>
-			<artifactId>app-cloud-framework-basic</artifactId>
-			<version>${platform.version}</version>
-		</dependency>
 		<!-- mongo驱动 -->
 		<dependency>
 			<groupId>org.mongodb</groupId>
@@ -150,6 +146,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
 		</dependency>
 	</dependencies>
 	

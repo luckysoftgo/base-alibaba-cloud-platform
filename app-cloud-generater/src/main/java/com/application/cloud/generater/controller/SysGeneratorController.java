@@ -1,9 +1,9 @@
 package com.application.cloud.generater.controller;
 
-import com.application.cloud.basic.page.PageProcessor;
-import com.application.cloud.basic.page.PageQuery;
 import com.application.cloud.generater.service.SysGeneratorService;
 import com.application.cloud.generater.utils.GenResultVO;
+import com.application.cloud.generater.utils.page.PageProcessor;
+import com.application.cloud.generater.utils.page.PageQuery;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

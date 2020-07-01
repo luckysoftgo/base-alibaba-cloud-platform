@@ -1,12 +1,12 @@
 package com.application.cloud.generater.service;
 
-import com.application.cloud.basic.page.PageProcessor;
-import com.application.cloud.basic.page.PageQuery;
 import com.application.cloud.generater.dao.GeneratorDao;
 import com.application.cloud.generater.gencdoe.GenerateHolder;
 import com.application.cloud.generater.mongo.config.MongoManager;
 import com.application.cloud.generater.mongo.dao.MongoDBGeneratorDao;
 import com.application.cloud.generater.mongo.factory.MongoDBCollectionFactory;
+import com.application.cloud.generater.utils.page.PageProcessor;
+import com.application.cloud.generater.utils.page.PageQuery;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.io.IOUtils;
