@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
  **/
 //@SpringBootApplication
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-//@MapperScan("com.application.cloud.**.dao")
 public class GeneraterApplication {
 
 	public static void main(String[] args) {

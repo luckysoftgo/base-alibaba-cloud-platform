@@ -63,8 +63,8 @@ public class MongoDBCollectionFactory {
 	 * @return 集合名称
 	 **/
 	public static List<String>  getCollectionNames(Map<String, Object> map) {
-		int limit = Integer.valueOf(Objects.toString(map.get(LIMIT_KEY),"0"));
-		int skip = Integer.valueOf(Objects.toString(map.get(OFFSET_KEY),"0"));
+		int limit = Integer.valueOf(Objects.toString(map.get(LIMIT_KEY),"10"));
+		int skip = Integer.valueOf(Objects.toString(map.get(OFFSET_KEY),"1"));
 		List<String> names;
 		if (map.containsKey(TABLE_NAME_KEY)) {
 			names = getCollectionNames(map.get(TABLE_NAME_KEY).toString());
@@ -73,6 +73,7 @@ public class MongoDBCollectionFactory {
 		}
 		return names.stream().skip(skip).limit(limit).collect(Collectors.toList());
 	}
+	
 	/***
 	 * 获得集合名称总数(表的数量) 为了适配MyBatisPlus的分页插件 提供方法
 	 * @param map 这是查询条件 和关系型数据库一致
@@ -103,5 +104,6 @@ public class MongoDBCollectionFactory {
 				.stream()
 				.filter((name) -> name.contains(likeName)).collect(Collectors.toList());
 	}
+	
 }
 
