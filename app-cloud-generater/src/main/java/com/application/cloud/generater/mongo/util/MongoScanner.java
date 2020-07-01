@@ -8,9 +8,8 @@ import com.mongodb.MongoCommandException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,9 +27,8 @@ import java.util.stream.Collectors;
  * @NAME: MongoScanner
  * @DESC: MongoScanner类设计
  **/
+@Slf4j
 public class MongoScanner {
-	
-	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private MongoCollection<Document> collection;
 	
@@ -39,7 +37,6 @@ public class MongoScanner {
 	private List<String> colNames;
 	
 	private MongoDefinition mongoDefinition;
-	
 	
 	private final static int[] TYPE = {3, 16, 18, 8, 9, 2, 1};
 	
@@ -137,7 +134,7 @@ public class MongoScanner {
 				names.addAll(documentNames);
 			}
 		}
-		logger.info("解析" + parameterName + "有" + names.size() + "个子属性");
+		log.info("解析" + parameterName + "有" + names.size() + "个子属性");
 		return names;
 	}
 	
@@ -171,7 +168,7 @@ public class MongoScanner {
 					}
 					//1是double 2是string 3是对象 4是数组 16是int 18 是long
 					result.setType(i);
-					logger.info("解析[" + propertyName + "]是[List][" + MongoType.typeInfo(result.getType()) + "]");
+					log.info("解析[" + propertyName + "]是[List][" + MongoType.typeInfo(result.getType()) + "]");
 					return result;
 				}
 			}
@@ -185,13 +182,13 @@ public class MongoScanner {
 					//1是double 2是string 3是对象 4是数组 16是int 18 是long
 					//到这里就是数组了
 					result.setType(i);
-					logger.info("解析[" + propertyName + "]是[" + MongoType.typeInfo(result.getType()) + "]");
+					log.info("解析[" + propertyName + "]是[" + MongoType.typeInfo(result.getType()) + "]");
 					return result;
 				}
 			}
 			result.setType(2);
 		}
-		logger.info("解析[" + propertyName + "]是[" + MongoType.typeInfo(result.getType()) + "]");
+		log.info("解析[" + propertyName + "]是[" + MongoType.typeInfo(result.getType()) + "]");
 		return result;
 	}
 	
@@ -211,7 +208,6 @@ public class MongoScanner {
 		return a;
 	}
 	
-	
 	/**
 	 * 功能描述:解析这个集合的列名  用ForkJoin框架实现
 	 */
@@ -227,8 +223,7 @@ public class MongoScanner {
 			task = new ForkJoinGetProcessName(0, (int) count);
 		}
 		this.colNames = pool.invoke(task);
-		logger.info("collection[" + this.collection.getNamespace().getCollectionName() +
-				"]初始化列名成功.....     用时: " + (System.currentTimeMillis() - start) + "毫秒");
+		log.info("collection[" + this.collection.getNamespace().getCollectionName() + "]初始化列名成功.....     用时: " + (System.currentTimeMillis() - start) + "毫秒");
 	}
 	
 	private MongoDefinition scanType() {
@@ -304,9 +299,9 @@ public class MongoScanner {
 			}
 		}
 	}
-	public  <T> List<T> mergeList(List<T> destList, List<T> tmpList){
-		destList.addAll(tmpList);
-		return destList;
+	public  <T> List<T> mergeList(List<T> list1, List<T> list2){
+		list1.addAll(list2);
+		return list1;
 	}
 }
 

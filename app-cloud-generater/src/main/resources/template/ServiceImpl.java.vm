@@ -5,8 +5,8 @@ import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.application.cloud.basic.page.PageProcessor;
-import com.application.cloud.basic.page.PageHolder;
+import com.application.cloud.dynamic.datasource.datapage.PageProcessor;
+import com.application.cloud.dynamic.datasource.datapage.PageHolder;
 
 import ${absolutePath}.dao.${upperClassName}Dao;
 import ${absolutePath}.entity.${upperClassName}Entity;

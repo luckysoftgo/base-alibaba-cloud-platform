@@ -63,4 +63,5 @@ public class MongoTableInfoAdaptor {
 		}
 		return result;
 	}
+
 }

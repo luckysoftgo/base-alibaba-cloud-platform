@@ -7,9 +7,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.10.217:3306/datax_web?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/credit_business?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: 1q2w3E4R
+    password: 123456
     #Oracle配置
     #    driverClassName: oracle.jdbc.OracleDriver
     #    url: jdbc:oracle:thin:@47.100.206.162:1521:xe
@@ -86,7 +86,7 @@ pagehelper:
   params: count=countSql
 
 
-#指定数据库，可选值有[mysql、oracle、sqlserver、postgresql,mongo]
+#指定数据库，可选值有[mysql、oracle、sqlserver、postgresql,mongodb]
 generater:
   database: mysql
 

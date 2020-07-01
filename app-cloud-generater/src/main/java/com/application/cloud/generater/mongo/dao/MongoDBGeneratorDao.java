@@ -29,7 +29,7 @@ public class MongoDBGeneratorDao implements GeneratorDao {
 	
 	@Override
 	public List<Map<String, Object>> queryList(Map<String, Object> map) {
-		List<String> collectionNames = mongoDBCollectionFactory.getCollectionNames(map);
+		List<String> collectionNames = MongoDBCollectionFactory.getCollectionNames(map);
 		return (List) MongoTableInfoAdaptor.tableInfo(collectionNames);
 	}
 	
@@ -54,7 +54,6 @@ public class MongoDBGeneratorDao implements GeneratorDao {
 		}
 		return MongoTableInfoAdaptor.columnInfo(mongoDefinition);
 	}
-	
 	
 }
 

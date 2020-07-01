@@ -29,20 +29,12 @@ public class SysGeneratorService  {
 	@Autowired
 	private GeneratorDao generatorDao;
 	
-	@Autowired(required = false)
-	private MongoDBCollectionFactory mongoDBCollectionFactory;
-	
-	/**
-	 * 查询表(集合)列表
-	 * @param query
-	 * @return
-	 */
 	public PageProcessor queryList(PageQuery query) {
 		Page<?> page = PageHelper.startPage(query.getPage(), query.getLimit());
 		List<Map<String, Object>> list = generatorDao.queryList(query);
 		int total = (int) page.getTotal();
 		if (generatorDao instanceof MongoDBGeneratorDao) {
-			total = mongoDBCollectionFactory.getCollectionTotal(query);
+			total = MongoDBCollectionFactory.getCollectionTotal(query);
 		}
 		return new PageProcessor(list, total, query.getLimit(), query.getPage());
 	}

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 import ${absolutePath}.entity.${upperClassName}Entity;
 import ${absolutePath}.service.${upperClassName}Service;
-import com.application.cloud.basic.page.PageProcessor;
-import com.application.cloud.basic.common.result.AjaxResult;
+import com.application.cloud.dynamic.datasource.datapage.PageProcessor;
+import com.application.cloud.dynamic.datasource.datatool.AjaxResult;
 
 
 /**

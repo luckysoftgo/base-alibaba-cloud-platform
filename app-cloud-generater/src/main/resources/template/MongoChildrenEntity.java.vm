@@ -22,8 +22,8 @@ import org.springframework.data.annotation.Id;
 @Data
 public class ${upperClassName}InnerEntity  {
 
-    #foreach ($column in $tableColumns)
-		private #if($column.extra == "array")List<#end$column.attributeType#if($column.extra == "array")>#end $column.lowerAttrName;
-    #end
+#foreach ($column in $tableColumns)
+    private #if($column.extra == "array")List<#end$column.attributeType#if($column.extra == "array")>#end $column.lowerAttrName;
+#end
 
 }

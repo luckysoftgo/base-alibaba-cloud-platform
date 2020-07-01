@@ -1,7 +1,7 @@
 package ${absolutePath}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.application.cloud.basic.page.PageProcessor;
+import com.application.cloud.dynamic.datasource.datapage.PageProcessor;
 import ${absolutePath}.entity.${upperClassName}Entity;
 
 import java.util.Map;

@@ -28,11 +28,11 @@ public class ${upperClassName}Entity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-    #foreach ($column in $tableColumns)
-        #if($column.columnName == "id")
-		@Id
-        #end
-	private #if($column.extra == "array")List<#end$column.attributeType#if($column.extra == "array")>#end $column.lowerAttrName;
+#foreach ($column in $tableColumns)
+    #if($column.columnName == "id")
+@Id
     #end
+private #if($column.extra == "array")List<#end$column.attributeType#if($column.extra == "array")>#end $column.lowerAttrName;
+#end
 
 }

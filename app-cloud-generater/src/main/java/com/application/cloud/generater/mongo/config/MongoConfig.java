@@ -40,6 +40,7 @@ public class MongoConfig {
 	private String source;
 	
 	@Bean
+	@Conditional(MongoCondition.class)
 	private MongoClient getMongoClient() {
 		List<ServerAddress> adds = new ArrayList<>();
 		ServerAddress serverAddress = new ServerAddress(this.host, this.port);

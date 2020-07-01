@@ -2,7 +2,7 @@ package ${absolutePath}.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.application.cloud.basic.common.BasicEntity;
+import com.application.cloud.dynamic.datasource.datatool.BasicEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;

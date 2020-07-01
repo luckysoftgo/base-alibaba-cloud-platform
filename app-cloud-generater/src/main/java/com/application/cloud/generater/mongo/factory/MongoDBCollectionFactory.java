@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -24,17 +26,29 @@ import java.util.stream.Collectors;
 @Conditional(MongoCondition.class)
 public class MongoDBCollectionFactory {
 	
-	private final String TABLE_NAME_KEY = "tableName";
+	private static  final String TABLE_NAME_KEY = "tableName";
+	private static final String LIMIT_KEY = "limit";
+	private static final String OFFSET_KEY = "offset";
 	
-	private final String LIMIT_KEY = "limit";
+	private static MongoDatabase mongoDatabase;
 	
-	private final String OFFSET_KEY = "offset";
-	
+	/**
+	 * 此处是为了兼容mongo相关内容和关系型数据库的静态耦合所导致的问题
+	 */
 	@Autowired(required = false)
-	private MongoDatabase mongoDatabase;
+	private MongoDatabase database;
+	
+	/**
+	 * 初始化操作.
+	 */
+	@PostConstruct
+	public void initMongoDatabase(){
+		mongoDatabase = database;
+	}
 	
 	/***
 	 * 通过表名获得查询对象
+	 * @author gxz
 	 * @param collectionName mongo的集合名(表名)
 	 * @return 连接查询对象
 	 **/
@@ -48,9 +62,9 @@ public class MongoDBCollectionFactory {
 	 * @param map 这是查询条件 和关系型数据库一致
 	 * @return 集合名称
 	 **/
-	public List<String> getCollectionNames(Map<String, Object> map) {
-		int limit = Integer.valueOf(map.get(LIMIT_KEY).toString());
-		int skip = Integer.valueOf(map.get(OFFSET_KEY).toString());
+	public static List<String>  getCollectionNames(Map<String, Object> map) {
+		int limit = Integer.valueOf(Objects.toString(map.get(LIMIT_KEY),"0"));
+		int skip = Integer.valueOf(Objects.toString(map.get(OFFSET_KEY),"0"));
 		List<String> names;
 		if (map.containsKey(TABLE_NAME_KEY)) {
 			names = getCollectionNames(map.get(TABLE_NAME_KEY).toString());
@@ -59,26 +73,23 @@ public class MongoDBCollectionFactory {
 		}
 		return names.stream().skip(skip).limit(limit).collect(Collectors.toList());
 	}
-	
-	
 	/***
 	 * 获得集合名称总数(表的数量) 为了适配MyBatisPlus的分页插件 提供方法
 	 * @param map 这是查询条件 和关系型数据库一致
 	 * @return int
 	 **/
-	public int getCollectionTotal(Map<String, Object> map) {
+	public static int getCollectionTotal(Map<String, Object> map) {
 		if (map.containsKey(TABLE_NAME_KEY)) {
 			return getCollectionNames(map.get(TABLE_NAME_KEY).toString()).size();
 		}
 		return getCollectionNames().size();
-		
 	}
 	
 	/**
-	 * 获得mongo的collection
+	 * 得到collection信息
 	 * @return
 	 */
-	private List<String> getCollectionNames() {
+	private static List<String> getCollectionNames() {
 		MongoIterable<String> names = mongoDatabase.listCollectionNames();
 		List<String> result = new ArrayList<>();
 		for (String name : names) {
@@ -87,11 +98,7 @@ public class MongoDBCollectionFactory {
 		return result;
 	}
 	
-	/**
-	 * 获得mongo的collection
-	 * @return
-	 */
-	private List<String> getCollectionNames(String likeName) {
+	private static List<String> getCollectionNames(String likeName) {
 		return getCollectionNames()
 				.stream()
 				.filter((name) -> name.contains(likeName)).collect(Collectors.toList());

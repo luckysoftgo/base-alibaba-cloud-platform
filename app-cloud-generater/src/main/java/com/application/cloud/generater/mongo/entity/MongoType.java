@@ -12,7 +12,6 @@ public enum  MongoType {
 	/***
 	 * 类型 和对应mongodb api 的$type的数字
 	 **/
-	DOUBLE(1),
 	VARCHAR(2),
 	NUMBER(16),
 	BIGINT(18),
@@ -20,6 +19,7 @@ public enum  MongoType {
 	ARRAY(4),
 	DATE(9),
 	BIT(8),
+	DOUBLE(1),
 	;
 	
 	private final int num;

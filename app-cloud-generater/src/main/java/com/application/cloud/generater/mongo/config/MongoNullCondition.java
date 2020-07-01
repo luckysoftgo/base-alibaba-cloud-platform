@@ -11,7 +11,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
  * @DESC: MongoCondition类设计
  **/
 @Slf4j
-public class MongoCondition implements Condition {
+public class MongoNullCondition implements Condition {
 	
 	/**
 	 * 条件中是否配置的有mongodb的配置,如果有就加载,否则就不加载.
@@ -23,6 +23,6 @@ public class MongoCondition implements Condition {
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 		String database = context.getEnvironment().getProperty("generater.database");
 		log.info("读取generater.database的配置信息：{}",database);
-		return "mongodb".equalsIgnoreCase(database);
+		return !"mongodb".equalsIgnoreCase(database);
 	}
 }

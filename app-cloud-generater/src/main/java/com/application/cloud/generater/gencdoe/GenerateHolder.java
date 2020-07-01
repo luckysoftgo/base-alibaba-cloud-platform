@@ -60,6 +60,7 @@ public class GenerateHolder {
 		templates.add("template/Service.java.vm");
 		templates.add("template/ServiceImpl.java.vm");
 		templates.add("template/Controller.java.vm");
+		
 		templates.add("template/Index.vue.vm");
 		templates.add("template/Operater.vue.vm");
 		/**
@@ -425,5 +426,10 @@ public class GenerateHolder {
 					File.separator + moduleName + File.separator + className.toLowerCase() + "-Operater.vue";
 		}
 		return null;
+	}
+	
+	private static String splitInnerName(String name){
+		name = name.replaceAll("\\.","_");
+		return name;
 	}
 }
