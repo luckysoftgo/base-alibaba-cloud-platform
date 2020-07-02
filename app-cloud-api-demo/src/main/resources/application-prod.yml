@@ -1,0 +1,182 @@
+##访问配置.
+server:
+  port: 8088
+  servlet:
+    context-path: /
+
+## SpringBoot 参数配置配置.
+spring:
+  ####应用名称
+  application:
+    name: cloud-api-demo
+  ####上传相关的配置设置.
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  ####资源访问配置
+  resources:
+    static-locations: classpath:/static/,classpath:/views/
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+  #### jackson 配置.
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  #### thymeleaf 配置
+  thymeleaf:
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    servlet:
+      content-type: text/html
+    cache: false
+  ###### DataSource 动态数据源配置
+  datasource:
+    ############全局druid的配置.
+    druid:
+      stat-view-servlet:
+        enabled: true
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username:
+        login-password:
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+    ############ 动态数据源的配置
+    dynamic:
+      druid:
+        filters: stat
+      datasource:
+        # 主库数据源
+        master:
+          type: com.alibaba.druid.pool.DruidDataSource
+          username: root
+          password: Admin123!com
+          url: jdbc:mysql://192.168.10.215:3306/credit_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
+          driverClassName: com.mysql.cj.jdbc.Driver
+          # 初始连接数
+          initialSize: 5
+          # 最小连接池数量
+          minIdle: 10
+          # 最大连接池数量
+          maxActive: 20
+          # 配置获取连接等待超时的时间
+          maxWait: 60000
+        # 从库数据源
+        slave:
+          type: com.alibaba.druid.pool.DruidDataSource
+          username: root
+          password: Admin123!com
+          url: jdbc:mysql://192.168.10.215:3306/credit_business?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
+          driverClassName: com.mysql.cj.jdbc.Driver
+          # 初始连接数
+          initialSize: 5
+          # 最小连接池数量
+          minIdle: 10
+          # 最大连接池数量
+          maxActive: 20
+          # 配置获取连接等待超时的时间
+          maxWait: 60000
+
+##日志打印.
+logging:
+  config: classpath:logconf/logback-spring.xml
+  path: ../logs
+  file:
+    path: ../logs
+    clean-history-on-start: true
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss
+  level:
+    com.application.cloud: debug
+    org.hibernate: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: debug
+    org.hibernate.type.descriptor.sql.BasicExtractor: debug
+    ####api文档报错处理.
+    io.swagger.models.parameters.AbstractSerializableParameter: error
+
+
+##管理配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+
+
+## Mybatis-Plus 配置.
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  #type-aliases-package:
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+      logic-delete-value: -1
+      logic-not-delete-value: 0
+    banner: false
+    #原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+####PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+####是否开启swagger2接口文档
+swagger2:
+  config:
+    swagger-ui-open: true
