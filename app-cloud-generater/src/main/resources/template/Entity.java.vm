@@ -1,28 +1,29 @@
 package ${absolutePath}.entity;
 
-import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+#if($entityTag == 'IdEntity')
 import com.application.cloud.dynamic.datasource.datatool.IdEntity;
+#elseif($entityTag == 'BasicEntity')
 import com.application.cloud.dynamic.datasource.datatool.BasicEntity;
+#elseif($entityTag == 'GenericEntity')
 import com.application.cloud.dynamic.datasource.datatool.GenericEntity;
+#else
+import java.io.Serializable;
+#end
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
-import java.util.Date;
+#if($dateType == 'YES')
 import java.time.LocalDateTime;
-
+#end
 
 /**
  * ${tableComment}

@@ -13,7 +13,7 @@ public class GenConstant {
 	/**
 	 * 不需要输出的字段.
 	 */
-	public final static List<String> nonNeedColumns = Arrays.asList(new String[]{"id","inst_id","create_by","create_time","update_by","update_time","info_desc","disabled"});
+	public final static List<String> dateColumns = Arrays.asList(new String[]{"datetime","date","timestamp","timestamp(6)"});
 	
 	/**
 	 * 需要输出的字段.

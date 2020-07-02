@@ -99,6 +99,7 @@ public class GenerateHolder {
 		 * 对应基础entity的对象.
 		 */
 		String entityTag = getEntityTag(columns);
+		String dateType = "NO";
 		//需要剔除的值.
 		List<String> nonNeedColumns = new ArrayList<>();
 		if (entityTag.equalsIgnoreCase(GenConstant.ID_ENTITY)){
@@ -145,6 +146,9 @@ public class GenerateHolder {
 			if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableBean.getPrimaryKey() == null) {
 				tableBean.setPrimaryKey(columnBean);
 			}
+			if (GenConstant.dateColumns.contains(column.get("dataType"))){
+				dateType = "YES";
+			}
 			columsList.add(columnBean);
 		}
 		tableBean.setTableColumns(columsList);
@@ -173,16 +177,6 @@ public class GenerateHolder {
 			String attributeType = config.getString(columnBean.getDataType(), columnToJava(columnBean.getDataType()));
 			columnBean.setAttributeType(attributeType);
 			columnBean.setExtra(column.get("extra"));
-			if (!hasList && "array".equals(columnBean.getExtra())) {
-				hasList = true;
-			}
-			if (!hasBigDecimal && attributeType.equals("BigDecimal")) {
-				hasBigDecimal = true;
-			}
-			//是否主键
-			if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableBean.getPrimaryKey() == null) {
-				tableBean.setPrimaryKey(columnBean);
-			}
 			allColumsList.add(columnBean);
 		}
 		tableBean.setAllTableColumns(allColumsList);
@@ -190,7 +184,6 @@ public class GenerateHolder {
 		if (tableBean.getPrimaryKey() == null) {
 			tableBean.setPrimaryKey(tableBean.getTableColumns().get(0));
 		}
-		
 		//设置velocity资源加载器
 		Properties prop = new Properties();
 		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader" );
@@ -208,6 +201,7 @@ public class GenerateHolder {
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("entityTag",entityTag);
+		map.put("dateType",dateType);
 		map.put("tableName", tableBean.getTableName());
 		map.put("tableComment", tableBean.getTableComment());
 		map.put("primaryKey", tableBean.getPrimaryKey());
