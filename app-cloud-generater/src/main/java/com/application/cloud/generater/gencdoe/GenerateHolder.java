@@ -142,10 +142,7 @@ public class GenerateHolder {
 			if (!hasBigDecimal && attributeType.equals("BigDecimal")) {
 				hasBigDecimal = true;
 			}
-			//是否主键
-			if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableBean.getPrimaryKey() == null) {
-				tableBean.setPrimaryKey(columnBean);
-			}
+			
 			if (GenConstant.dateColumns.contains(column.get("dataType"))){
 				dateType = "YES";
 			}
@@ -177,6 +174,10 @@ public class GenerateHolder {
 			String attributeType = config.getString(columnBean.getDataType(), columnToJava(columnBean.getDataType()));
 			columnBean.setAttributeType(attributeType);
 			columnBean.setExtra(column.get("extra"));
+			//是否主键
+			if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableBean.getPrimaryKey() == null) {
+				tableBean.setPrimaryKey(columnBean);
+			}
 			allColumsList.add(columnBean);
 		}
 		tableBean.setAllTableColumns(allColumsList);

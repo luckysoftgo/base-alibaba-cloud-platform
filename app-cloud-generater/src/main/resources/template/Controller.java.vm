@@ -74,7 +74,7 @@ public class ${upperClassName}Controller {
      * 保存
      */
     @ApiOperation(value = "${tableComment}信息保存",notes="${tableComment}信息保存", httpMethod = "POST")
-    @ApiImplicitParam(name = "form", value = "详细实体${lowerClassName}", required = true, dataType = "${lowerClassName}",paramType="body")
+    @ApiImplicitParam(name = "body", value = "详细实体${lowerClassName}", required = true, dataType = "${lowerClassName}")
     @PostMapping("/save")
     @RequiresPermissions("${moduleName}:${pathName}:save")
     public AjaxResult save(@RequestBody ${upperClassName}Entity ${lowerClassName}){
@@ -86,7 +86,7 @@ public class ${upperClassName}Controller {
      * 修改
      */
     @ApiOperation(value = "${tableComment}信息修改",notes="${tableComment}信息修改", httpMethod = "POST")
-    @ApiImplicitParam(name = "form", value = "详细实体${lowerClassName}", required = true, dataType = "${lowerClassName}",paramType="body")
+    @ApiImplicitParam(name = "body", value = "详细实体${lowerClassName}", required = true, dataType = "${lowerClassName}")
     @PostMapping("/update")
     @RequiresPermissions("${moduleName}:${pathName}:update")
     public AjaxResult update(@RequestBody ${upperClassName}Entity ${lowerClassName}){
