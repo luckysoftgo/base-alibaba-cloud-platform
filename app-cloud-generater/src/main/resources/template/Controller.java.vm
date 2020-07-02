@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -43,14 +44,14 @@ public class ${upperClassName}Controller {
     /**
      * 列表
      */
-    @ApiOperation(value = "${tableComment}分页信息",notes="${tableComment}分页信息", httpMethod = "GET")
     @ApiImplicitParams({
 		    @ApiImplicitParam(name="pageNum" ,value="当前页码" ,required=true ,dataType="int",paramType="query"),
 		    @ApiImplicitParam(name="pageSize" ,value="每页多少条" ,required=true ,dataType="int",paramType="query"),
     })
     @GetMapping("/list")
     @RequiresPermissions("${moduleName}:${pathName}:list")
-    public AjaxResult list(@RequestParam Map<String, Object> params){
+    @ApiOperation(value = "${tableComment}分页信息", notes = "${tableComment}分页信息", response = ${upperClassName}Entity.class, httpMethod = "GET", produces = "application/json")
+    public AjaxResult list(@RequestParam @ApiParam Map<String, Object> params){
         PageProcessor page = ${lowerClassName}Service.queryPage(params);
         return AjaxResult.success(page);
     }
@@ -59,13 +60,13 @@ public class ${upperClassName}Controller {
     /**
      * 信息
      */
-    @ApiOperation(value = "${tableComment}查询单个信息",notes="${tableComment}查询单个信息", httpMethod = "GET")
     @ApiImplicitParams({
 		    @ApiImplicitParam(name="${primaryKey.attributeType}" ,value="信息主键" ,required=true ,dataType="${primaryKey.attributeType}",paramType="path"),
     })
     @GetMapping("/info/{${primaryKey.lowerAttrName}}")
     @RequiresPermissions("${moduleName}:${pathName}:info")
-    public AjaxResult info(@PathVariable("${primaryKey.lowerAttrName}") ${primaryKey.attributeType} ${primaryKey.lowerAttrName}){
+    @ApiOperation(value = "${tableComment}查询单个信息",notes="${tableComment}查询单个信息", response = ${upperClassName}Entity.class, httpMethod = "GET", produces = "application/json")
+    public AjaxResult info(@PathVariable("${primaryKey.lowerAttrName}") @ApiParam ${primaryKey.attributeType} ${primaryKey.lowerAttrName}){
 		${upperClassName}Entity ${lowerClassName} = ${lowerClassName}Service.getById(${primaryKey.lowerAttrName});
         return AjaxResult.success(${lowerClassName});
     }
@@ -73,11 +74,10 @@ public class ${upperClassName}Controller {
     /**
      * 保存
      */
-    @ApiOperation(value = "${tableComment}信息保存",notes="${tableComment}信息保存", httpMethod = "POST")
-    @ApiImplicitParam(name = "body", value = "详细实体${lowerClassName}", required = true, dataType = "${lowerClassName}")
     @PostMapping("/save")
     @RequiresPermissions("${moduleName}:${pathName}:save")
-    public AjaxResult save(@RequestBody ${upperClassName}Entity ${lowerClassName}){
+    @ApiOperation(value = "${tableComment}信息保存",notes="${tableComment}信息保存", httpMethod = "POST", produces = "application/json")
+    public AjaxResult save(@RequestBody @ApiParam ${upperClassName}Entity ${lowerClassName}){
 		${lowerClassName}Service.save(${lowerClassName});
         return AjaxResult.success("保存成功!");
     }
@@ -85,11 +85,10 @@ public class ${upperClassName}Controller {
     /**
      * 修改
      */
-    @ApiOperation(value = "${tableComment}信息修改",notes="${tableComment}信息修改", httpMethod = "POST")
-    @ApiImplicitParam(name = "body", value = "详细实体${lowerClassName}", required = true, dataType = "${lowerClassName}")
     @PostMapping("/update")
     @RequiresPermissions("${moduleName}:${pathName}:update")
-    public AjaxResult update(@RequestBody ${upperClassName}Entity ${lowerClassName}){
+    @ApiOperation(value = "${tableComment}信息修改",notes="${tableComment}信息修改", httpMethod = "POST", produces = "application/json")
+    public AjaxResult update(@RequestBody @ApiParam ${upperClassName}Entity ${lowerClassName}){
 		${lowerClassName}Service.updateById(${lowerClassName});
         return AjaxResult.success("修改成功!");
     }
@@ -97,13 +96,13 @@ public class ${upperClassName}Controller {
     /**
      * 删除
      */
-    @ApiOperation(value = "${tableComment}信息删除",notes="${tableComment}信息删除", httpMethod = "POST")
     @ApiImplicitParams({
 		    @ApiImplicitParam(name="${primaryKey.lowerAttrName}s" ,value="信息主键集合" ,required=true ,dataType="array",paramType="query"),
     })
     @PostMapping("/delete")
     @RequiresPermissions("${moduleName}:${pathName}:delete")
-    public AjaxResult delete(@RequestBody ${primaryKey.attributeType}[] ${primaryKey.lowerAttrName}s){
+    @ApiOperation(value = "${tableComment}信息删除",notes="${tableComment}信息删除", httpMethod = "POST", produces = "application/json")
+    public AjaxResult delete(@RequestBody @ApiParam ${primaryKey.attributeType}[] ${primaryKey.lowerAttrName}s){
 		${lowerClassName}Service.removeByIds(Arrays.asList(${primaryKey.lowerAttrName}s));
         return AjaxResult.success("删除成功!");
     }
