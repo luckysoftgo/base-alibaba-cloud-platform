@@ -208,7 +208,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.open.capacity.XinYiDaiApp</mainClass>
+							<mainClass>com.application.cloud.demo.DemoApplication</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>config/</Class-Path>
