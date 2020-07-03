@@ -1,9 +1,8 @@
 package com.application.cloud.demo.test.controller;
 
-import com.application.cloud.demo.test.dto.CloudTestScoreDto;
 import com.application.cloud.demo.test.entity.CloudTestScoreEntity;
 import com.application.cloud.demo.test.service.CloudTestScoreService;
-import com.application.cloud.dynamic.datasource.datapage.BasicPageVO;
+import com.application.cloud.dynamic.datasource.datapage.HelperProcessor;
 import com.application.cloud.dynamic.datasource.datapage.PageProcessor;
 import com.application.cloud.dynamic.datasource.datatool.AjaxResult;
 import io.swagger.annotations.Api;
@@ -67,8 +66,8 @@ public class CloudTestScoreController {
 	})
 	@GetMapping("/list2")
 	@RequiresPermissions("test:cloudtestscore:list")
-	public AjaxResult list2(@RequestParam BasicPageVO pageVO, @RequestParam CloudTestScoreDto scoreDto){
-		PageProcessor page = cloudTestScoreService.queryEntityPage(pageVO,scoreDto);
+	public AjaxResult list2(@RequestParam Map<String, Object> params){
+		HelperProcessor page = cloudTestScoreService.queryMapInfoPage(params);
 		return AjaxResult.success(page);
 	}
 

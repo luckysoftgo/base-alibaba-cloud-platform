@@ -38,60 +38,17 @@ spring:
     cache: false
   ###### DataSource 动态数据源配置
   datasource:
-    ############全局druid的配置.
-    druid:
-      stat-view-servlet:
-        enabled: true
-      # 初始连接数
-      initialSize: 5
-      # 最小连接池数量
-      minIdle: 10
-      # 最大连接池数量
-      maxActive: 20
-      # 配置获取连接等待超时的时间
-      maxWait: 60000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      timeBetweenEvictionRunsMillis: 60000
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
-      minEvictableIdleTimeMillis: 300000
-      # 配置一个连接在池中最大生存的时间，单位是毫秒
-      maxEvictableIdleTimeMillis: 900000
-      # 配置检测连接是否有效
-      validationQuery: SELECT 1 FROM DUAL
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      webStatFilter:
-        enabled: true
-      statViewServlet:
-        enabled: true
-        # 设置白名单，不填则允许所有访问
-        allow:
-        url-pattern: /druid/*
-        # 控制台管理用户名和密码
-        login-username:
-        login-password:
-      filter:
-        stat:
-          enabled: true
-          # 慢SQL记录
-          log-slow-sql: true
-          slow-sql-millis: 1000
-          merge-sql: true
-        wall:
-          config:
-            multi-statement-allow: true
     ############ 动态数据源的配置
     dynamic:
       druid:
-        filters: stat
+        filters: stat,wall,slf4j
       datasource:
         # 主库数据源
         master:
           type: com.alibaba.druid.pool.DruidDataSource
           username: root
           password: Admin123!com
-          url: jdbc:mysql://192.168.10.215:3306/credit_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
+          url: jdbc:mysql://127.0.0.1:3306/credit_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
           driverClassName: com.mysql.cj.jdbc.Driver
           # 初始连接数
           initialSize: 5
@@ -106,7 +63,7 @@ spring:
           type: com.alibaba.druid.pool.DruidDataSource
           username: root
           password: Admin123!com
-          url: jdbc:mysql://192.168.10.215:3306/credit_business?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
+          url: jdbc:mysql://127.0.0.1:3306/credit_business?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
           driverClassName: com.mysql.cj.jdbc.Driver
           # 初始连接数
           initialSize: 5
@@ -116,6 +73,7 @@ spring:
           maxActive: 20
           # 配置获取连接等待超时的时间
           maxWait: 60000
+
 
 ##日志打印.
 logging:
@@ -146,7 +104,6 @@ management:
       show-details: always
 
 
-
 ## Mybatis-Plus 配置.
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*.xml
@@ -175,6 +132,7 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
 
 ####是否开启swagger2接口文档
 swagger2:

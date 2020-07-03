@@ -18,8 +18,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven-compiler-source.version>1.8</maven-compiler-source.version>
+		<maven-compiler-target.version>1.8</maven-compiler-target.version>
 		<java.version>1.8</java.version>
 		<maven.test.skip>true</maven.test.skip>
 		
@@ -82,6 +82,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
@@ -123,8 +124,8 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<maven.compiler.source>${java.version}</maven.compiler.source>
-				<maven.compiler.target>${java.version}</maven.compiler.target>
+				<maven.compiler.source>${maven-compiler-source.version}</maven.compiler.source>
+				<maven.compiler.target>${maven-compiler-target.version}</maven.compiler.target>
 				<maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
 			</properties>
 		</profile>
@@ -157,56 +158,111 @@
 		</repository>
 	</repositories>
 	
+	<!--构建项目的配置-->
 	<build>
-		<defaultGoal>compile</defaultGoal>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>3.2.0</version>
-					<configuration>
-						<warSourceDirectory>WebContent</warSourceDirectory>
-						<failOnMissingWebXml>false</failOnMissingWebXml>
-					</configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>3.0.0</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.7.0</version>
-					<configuration>
-						<source>${java.version}</source>
-						<target>${java.version}</target>
-						<encoding>UTF-8</encoding>
-						<optimize>true</optimize>
-						<debug>true</debug>
-						<showDeprecation>true</showDeprecation>
-						<showWarnings>false</showWarnings>
-						<compilerArguments>
-							<verbose/>
-							<!-- mac os -->
-							<!--
-							<bootclasspath>${java.home}/lib/rt.jar:${java.home}/lib/jce.jar</bootclasspath>
-							  -->
-							<!-- win os -->
-							<bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>
-						</compilerArguments>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<resources>
+			<!-- 控制资源文件的拷贝 -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.yml</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+				
+				<!-- 本地启动注释掉下面一行，打包部署到生产环境则放开下面一行-->
+				<targetPath>${project.build.directory}/config</targetPath>
+				
+				
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<!-- 设置编译版本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${maven-compiler-source.version}</source>
+					<target>${maven-compiler-target.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<compilerArguments>
+						<verbose />
+						<bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>com.open.capacity.XinYiDaiApp</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Class-Path>config/</Class-Path>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<!-- 拷贝依赖的jar包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-lib</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<!-- 打包后的包名是否包含assembly的id名 -->
+					<appendAssemblyId>false</appendAssemblyId>
+					<!-- 指定最后tar或者zip包的名字 -->
+					<finalName>${project.artifactId}-${project.version}</finalName>
+					<!-- tar或者zip包的输出目录 -->
+					<!-- ../ 是指当前项目的根目录 -->
+					<outputDirectory>${project.build.directory}/</outputDirectory>
+					<descriptors>
+						<!-- 引用的assembly配置文件，可以用多个，即可以同时打包多个格式的包 -->
+						<descriptor>src/main/assembly/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<!-- phase加入package后，则在执行maven package时就可以调用maven-assembly-plugin插件定义的打包方式 -->
+					<execution>
+						<!--名字任意 -->
+						<id>make-assembly</id>
+						<!-- 绑定到package生命周期阶段上 -->
+						<phase>package</phase>
+						<goals>
+							<!-- 只运行一次 -->
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
-
+	
 </project>
