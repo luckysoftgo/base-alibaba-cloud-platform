@@ -28,3 +28,9 @@
 5.使用:
     默认是使用master作为分库的主表,不配做的情况下,一定要配置上master数据源;另外指定访问的数据源可以使用注解:@DataSourceType,详细可以参见注解的内部描述.
 
+6.本地校验服务和应用:
+    http://127.0.0.1:${server.port}/doc.html
+    http://127.0.0.1:${server.port}/swagger-ui.html
+    http://127.0.0.1:${server.port}/test/cloudtestscore/list1?pageNum=1&pageSize=1
+    http://127.0.0.1:${server.port}/test/cloudtestscore/list2?pageNum=1&pageSize=1
+    http://127.0.0.1:${server.port}/druid/index.html
