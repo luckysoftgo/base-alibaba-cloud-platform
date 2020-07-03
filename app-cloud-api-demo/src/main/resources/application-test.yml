@@ -209,7 +209,7 @@ pagehelper:
 ####服务配置相关的设置.
 dynamic:
   config:
-    druid-allow-ip: 192.168.10.217
+    druid-allow-ip: 127.0.0.1
     druid-deny-ip:
     druid-name: admin
     druid-pass: druid
