@@ -31,7 +31,6 @@
 		<fastjson.version>1.2.60</fastjson.version>
 		<jackson.version>2.10.2</jackson.version>
 		<aspectjweaver.version>1.9.5</aspectjweaver.version>
-		<lombok.version>1.18.12 </lombok.version>
 		<validation-api.version>2.0.1.Final</validation-api.version>
 		<easypoi.vesion>4.2.0</easypoi.vesion>
 		
@@ -69,11 +68,6 @@
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
 			<version>${hutool.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
