@@ -32,7 +32,7 @@
 		<jackson.version>2.10.2</jackson.version>
 		<aspectjweaver.version>1.9.5</aspectjweaver.version>
 		<lombok.version>1.18.12 </lombok.version>
-		
+		<validation-api.version>2.0.1.Final</validation-api.version>
 		<!-- 下载需要的 jar  -->
 		<downloadSources>true</downloadSources>
 	</properties>
@@ -83,6 +83,12 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectjweaver.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${validation-api.version}</version>
+		</dependency>
+		
 	</dependencies>
 	
 	<repositories>
