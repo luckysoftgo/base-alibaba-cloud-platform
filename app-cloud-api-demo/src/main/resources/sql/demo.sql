@@ -1,3 +1,6 @@
+DROP database IF EXISTS cloud_app_test;
+CREATE database IF NOT EXISTS cloud_app_test default character set utf8mb4 collate utf8_general_ci;
+
 -- NonEntity
 DROP TABLE IF EXISTS cloud_test_info;
 CREATE TABLE cloud_test_info (
