@@ -58,7 +58,7 @@ spring:
           type: com.alibaba.druid.pool.DruidDataSource
           username: root
           password: Admin123!com
-          url: jdbc:mysql://127.0.0.1:3306/credit_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
+          url: jdbc:mysql://192.168.10.215:3306/credit_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
           driverClassName: com.mysql.cj.jdbc.Driver
           # 初始连接数
           initialSize: 5
@@ -104,7 +104,7 @@ spring:
           type: com.alibaba.druid.pool.DruidDataSource
           username: root
           password: Admin123!com
-          url: jdbc:mysql://127.0.0.1:3306/credit_business?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
+          url: jdbc:mysql://192.168.10.215:3306/credit_business?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
           driverClassName: com.mysql.cj.jdbc.Driver
           # 初始连接数
           initialSize: 5

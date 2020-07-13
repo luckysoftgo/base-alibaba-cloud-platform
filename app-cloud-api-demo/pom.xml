@@ -53,12 +53,12 @@
 		<dependency>
 			<groupId>com.application.cloud</groupId>
 			<artifactId>app-cloud-framework-basic</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${base-xxx.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.application.cloud</groupId>
 			<artifactId>base-dynamic-datasource-processor</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${base-xxx.version}</version>
 		</dependency>
 		
 		<dependency>
