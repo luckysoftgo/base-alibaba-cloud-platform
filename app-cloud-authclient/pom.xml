@@ -1,46 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.application.cloud</groupId>
-	<artifactId>app-cloud-authclient</artifactId>
-	<name>app-cloud-authclient</name>
-	<packaging>jar</packaging>
-	<description>平台的认证中心</description>
-	
 	<parent>
 		<groupId>com.application.cloud</groupId>
 		<artifactId>base-alibaba-cloud-platform</artifactId>
 		<version>1.0.0-RELEASE</version>
 	</parent>
-	
-	<!--配置信息-->
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-		<maven-compiler-source.version>1.8</maven-compiler-source.version>
-		<maven-compiler-target.version>1.8</maven-compiler-target.version>
-		<java.version>1.8</java.version>
-		<maven.test.skip>true</maven.test.skip>
-		
-		<mybatis-plus-boot.version>3.3.2</mybatis-plus-boot.version>
-		<commons-lang.version>2.6</commons-lang.version>
-		<commons-io.version>2.5</commons-io.version>
-		<commons-configuration.version>1.10</commons-configuration.version>
-		<fastjson.version>1.2.60</fastjson.version>
-		<velocity.version>1.7</velocity.version>
-		<mybatis-spring-boot.version>2.1.2</mybatis-spring-boot.version>
-		<druid-boot.version>1.1.22</druid-boot.version>
-		<shiro-core.version>1.5.2</shiro-core.version>
-		<pagehelper-boot.version>1.2.12</pagehelper-boot.version>
-		<mysql.version>8.0.15</mysql.version>
-		<spring-cloud-oauth2.version>2.2.1.RELEASE</spring-cloud-oauth2.version>
-		
-		<!-- 下载需要的 jar  -->
-		<downloadSources>true</downloadSources>
-	</properties>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>app-cloud-authclient</artifactId>
+	<name>app-cloud-authclient</name>
+	<description>app-cloud-authclient认证授权中心</description>
 	
 	<dependencies>
 		<!-- SpringCloud Ailibaba Nacos -->
@@ -58,209 +27,40 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
 		</dependency>
-		<!-- SpringCloud Openfeign -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-		<!-- SpringBoot Boot Redis -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
 		<!-- SpringBoot Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--Oauth2 配置-->
+		<!-- Mysql Connector -->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-oauth2</artifactId>
-			<version>${spring-cloud-oauth2.version}</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		<!--基础baisc-->
-		<dependency>
-			<groupId>com.application.cloud</groupId>
-			<artifactId>app-cloud-framework-basic</artifactId>
-			<version>${base-xxx.version}</version>
-		</dependency>
-		<!--数据操作-->
+		<!-- AppCloud Common Security-->
 		<dependency>
 			<groupId>com.application.cloud</groupId>
-			<artifactId>base-dynamic-datasource-processor</artifactId>
-			<version>${base-xxx.version}</version>
+			<artifactId>app-cloud-framework-security</artifactId>
+			<version>${app-cloud.version}</version>
 		</dependency>
+		<!-- AppCloud Common Redis-->
+		<dependency>
+			<groupId>com.application.cloud</groupId>
+			<artifactId>app-cloud-framework-redis</artifactId>
+			<version>${app-cloud.version}</version>
+		</dependency>
+	
 	</dependencies>
 	
-	<!-- 全局环境变量 -->
-	<profiles>
-		<profile>
-			<id>default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<repositories>
-				<repository>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-					<id>maven-snapshot</id>
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-					<id>maven-snapshot</id>
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
-		<!-- jdk setting -->
-		<profile>
-			<id>jdk8</id>
-			<activation>
-				<jdk>${java.version}</jdk>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<maven.compiler.source>${maven-compiler-source.version}</maven.compiler.source>
-				<maven.compiler.target>${maven-compiler-target.version}</maven.compiler.target>
-				<maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
-			</properties>
-		</profile>
-	</profiles>
-	
-	<repositories>
-		<repository>
-			<id>sonatype-nexus-snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>nexus-aliyun</id>
-			<name>Nexus aliyun</name>
-			<layout>default</layout>
-			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
-			<!-- 是否开启快照版构件下载 -->
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<!-- 是否开启发布版构件下载 -->
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	
-	<!--构建项目的配置-->
 	<build>
-		<resources>
-			<!-- 控制资源文件的拷贝 -->
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.properties</include>
-					<include>**/*.yml</include>
-					<include>**/*.xml</include>
-				</includes>
-				<filtering>false</filtering>
-				
-				<!-- 本地启动注释掉下面一行，打包部署到生产环境则放开下面一行-->
-				<targetPath>${project.build.directory}/config</targetPath>
-			
-			
-			</resource>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.properties</include>
-					<include>**/*.xml</include>
-				</includes>
-				<filtering>false</filtering>
-			</resource>
-		</resources>
 		<plugins>
-			<!-- 设置编译版本 -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${maven-compiler-source.version}</source>
-					<target>${maven-compiler-target.version}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<compilerArguments>
-						<verbose />
-						<bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>
-					</compilerArguments>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.application.cloud.demo.DemoApplication</mainClass>
-						</manifest>
-						<manifestEntries>
-							<Class-Path>config/</Class-Path>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-			<!-- 拷贝依赖的jar包 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-lib</id>
-						<phase>package</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<!-- 打包后的包名是否包含assembly的id名 -->
-					<appendAssemblyId>false</appendAssemblyId>
-					<!-- 指定最后tar或者zip包的名字 -->
-					<finalName>${project.artifactId}-${project.version}</finalName>
-					<!-- tar或者zip包的输出目录 -->
-					<!-- ../ 是指当前项目的根目录 -->
-					<outputDirectory>${project.build.directory}/</outputDirectory>
-					<descriptors>
-						<!-- 引用的assembly配置文件，可以用多个，即可以同时打包多个格式的包 -->
-						<descriptor>src/main/assembly/assembly.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<!-- phase加入package后，则在执行maven package时就可以调用maven-assembly-plugin插件定义的打包方式 -->
-					<execution>
-						<!--名字任意 -->
-						<id>make-assembly</id>
-						<!-- 绑定到package生命周期阶段上 -->
-						<phase>package</phase>
-						<goals>
-							<!-- 只运行一次 -->
-							<goal>single</goal>
+							<goal>repackage</goal>
 						</goals>
 					</execution>
 				</executions>
