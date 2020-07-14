@@ -3,6 +3,11 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.application.cloud</groupId>
+		<artifactId>base-alibaba-cloud-platform</artifactId>
+		<version>1.0.0-RELEASE</version>
+	</parent>
 	<groupId>com.application.cloud</groupId>
 	<artifactId>app-cloud-framework</artifactId>
 	<name>app-cloud-framework</name>
@@ -11,12 +16,12 @@
 	
 	<modules>
 		<module>app-cloud-framework-basic</module>
+		<module>app-cloud-framework-core</module>
+		<module>app-cloud-framework-logs</module>
+		<module>app-cloud-framework-redis</module>
+		<module>app-cloud-framework-swagger</module>
+		<module>app-cloud-framework-security</module>
+		<module>app-cloud-framework-datascope</module>
 	</modules>
-	
-	<parent>
-		<groupId>com.application.cloud</groupId>
-		<artifactId>base-alibaba-cloud-platform</artifactId>
-		<version>1.0.0-RELEASE</version>
-	</parent>
 	
 </project>

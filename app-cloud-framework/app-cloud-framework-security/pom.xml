@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>app-cloud-framework</artifactId>
+		<groupId>com.application.cloud</groupId>
+		<version>1.0.0-RELEASE</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	
+	<artifactId>app-cloud-framework-security</artifactId>
+	<description>app-cloud-framework-security安全模块</description>
+	
+	<dependencies>
+		<!-- Spring Security Oauth2 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
+		</dependency>
+		<!-- AppCloud Api System -->
+		<dependency>
+			<groupId>com.application.cloud</groupId>
+			<artifactId>app-cloud-api-system</artifactId>
+			<version>${app-cloud.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>2.0.4</version>
+			<scope>compile</scope>
+		</dependency>
+	
+	</dependencies>
+</project>
