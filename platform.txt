@@ -3,13 +3,15 @@
         https://github.com/alibaba/nacos/tags
     访问:
         http://127.0.0.1:8848/nacos/index.html
-
     博客：
 
 2.Sentinel :
     下载:
         https://github.com/alibaba/Sentinel/tags
     访问:
-        http://127.0.0.1:8848/nacos/index.html
+        http://localhost:port/#/dashboard/home
     博客:
         https://www.jianshu.com/p/3b8d259666d9
+
+3.nacos使用
+    https://gitee.com/cuixiaoyan/RuoYi-Cloud-Nacos/blob/master/RuoYi-Cloud-Nacos.md
