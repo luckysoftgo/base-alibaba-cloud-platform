@@ -70,9 +70,3 @@
 	</build>
 
 </project>
-<script>
-import VueCountTo from "vue-count-to/src/vue-countTo";
-export default {
-components: {VueCountTo}
-}
-</script>
