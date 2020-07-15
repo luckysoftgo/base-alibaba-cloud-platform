@@ -6,7 +6,7 @@ server:
 spring: 
   application:
     # 应用名称
-    name: cloud-job
+    name: app-cloud-jobtask
   profiles:
     # 环境配置
     active: dev
@@ -21,4 +21,5 @@ spring:
         # 配置文件格式
         file-extension: yml
         # 共享配置
-        shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        ##shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        shared-configs: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

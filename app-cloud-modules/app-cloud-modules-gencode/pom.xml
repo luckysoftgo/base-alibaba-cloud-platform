@@ -9,10 +9,11 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>app-cloud-modules-gencode</artifactId>
+	<name>app-cloud-modules-gencode</name>
+	<packaging>jar</packaging>
 	<description>app-cloud-modules-gencode代码生成</description>
 	
 	<dependencies>
-		
 		<!-- SpringCloud Ailibaba Nacos -->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>

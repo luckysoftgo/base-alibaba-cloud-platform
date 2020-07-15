@@ -6,7 +6,7 @@ server:
 spring: 
   application:
     # 应用名称
-    name: app-cloud-auth
+    name: app-cloud-authclient
   profiles:
     # 环境配置
     active: dev
