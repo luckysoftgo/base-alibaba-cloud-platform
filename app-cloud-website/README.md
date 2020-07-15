@@ -2,20 +2,21 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/luckysoftgo/base-alibaba-cloud-platform
+git clone https://github.com/luckysoftgo/base-alibaba-cloud-platform.git
 
 # 进入项目目录
 cd app-cloud-website
 
 # 安装依赖
 npm install
+上面命令不行，再使用如下：
+cnpm install
 
 # 建议不要直接使用 cnpm 安装依赖，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
 npm install --registry=https://registry.npm.taobao.org
+上面命令不行，再使用如下：
 cnpm install --registry=https://registry.npm.taobao.org
 
-# install 失败. 
-cnpm install
 
 # 启动服务
 npm run dev
