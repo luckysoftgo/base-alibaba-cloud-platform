@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-api-demo/app-cloud-api-demo.iml" filepath="$PROJECT_DIR$/app-cloud-api-demo/app-cloud-api-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-apis/app-cloud-api-system/app-cloud-api-system.iml" filepath="$PROJECT_DIR$/app-cloud-apis/app-cloud-api-system/app-cloud-api-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-apis/app-cloud-apis.iml" filepath="$PROJECT_DIR$/app-cloud-apis/app-cloud-apis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-authclient/app-cloud-authclient.iml" filepath="$PROJECT_DIR$/app-cloud-authclient/app-cloud-authclient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-framework/app-cloud-framework.iml" filepath="$PROJECT_DIR$/app-cloud-framework/app-cloud-framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-basic/app-cloud-framework-basic.iml" filepath="$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-basic/app-cloud-framework-basic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-core/app-cloud-framework-core.iml" filepath="$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-core/app-cloud-framework-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-datascope/app-cloud-framework-datascope.iml" filepath="$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-datascope/app-cloud-framework-datascope.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-logs/app-cloud-framework-logs.iml" filepath="$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-logs/app-cloud-framework-logs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-redis/app-cloud-framework-redis.iml" filepath="$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-redis/app-cloud-framework-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-security/app-cloud-framework-security.iml" filepath="$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-security/app-cloud-framework-security.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-swagger/app-cloud-framework-swagger.iml" filepath="$PROJECT_DIR$/app-cloud-framework/app-cloud-framework-swagger/app-cloud-framework-swagger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-gateway/app-cloud-gateway.iml" filepath="$PROJECT_DIR$/app-cloud-gateway/app-cloud-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-generater/app-cloud-generater.iml" filepath="$PROJECT_DIR$/app-cloud-generater/app-cloud-generater.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-modules/app-cloud-modules.iml" filepath="$PROJECT_DIR$/app-cloud-modules/app-cloud-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-modules/app-cloud-modules-gencode/app-cloud-modules-gencode.iml" filepath="$PROJECT_DIR$/app-cloud-modules/app-cloud-modules-gencode/app-cloud-modules-gencode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-modules/app-cloud-modules-jobtask/app-cloud-modules-jobtask.iml" filepath="$PROJECT_DIR$/app-cloud-modules/app-cloud-modules-jobtask/app-cloud-modules-jobtask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-modules/app-cloud-modules-system/app-cloud-modules-system.iml" filepath="$PROJECT_DIR$/app-cloud-modules/app-cloud-modules-system/app-cloud-modules-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-visual/app-cloud-visual.iml" filepath="$PROJECT_DIR$/app-cloud-visual/app-cloud-visual.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-cloud-visual/app-cloud-visual-monitor/app-cloud-visual-monitor.iml" filepath="$PROJECT_DIR$/app-cloud-visual/app-cloud-visual-monitor/app-cloud-visual-monitor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base-alibaba-cloud-platform.iml" filepath="$PROJECT_DIR$/base-alibaba-cloud-platform.iml" />
+    </modules>
+  </component>
+</project>
