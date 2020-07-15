@@ -36,6 +36,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
 		</dependency>
 		<!-- AppCloud Common Security-->
 		<dependency>
@@ -69,3 +70,9 @@
 	</build>
 
 </project>
+<script>
+import VueCountTo from "vue-count-to/src/vue-countTo";
+export default {
+components: {VueCountTo}
+}
+</script>

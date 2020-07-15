@@ -51,6 +51,7 @@
 		<dependency>
 			<groupId>com.github.penggle</groupId>
 			<artifactId>kaptcha</artifactId>
+			<version>${kaptcha.version}</version>
 		</dependency>
 		<!-- AppCloud Common Redis-->
 		<dependency>
