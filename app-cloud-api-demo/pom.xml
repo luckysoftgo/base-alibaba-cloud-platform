@@ -87,6 +87,11 @@
 			<artifactId>shiro-core</artifactId>
 			<version>${shiro-core.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<!-- 全局环境变量 -->
@@ -170,9 +175,9 @@
 				</includes>
 				<filtering>false</filtering>
 				
-				<!-- 本地启动注释掉下面一行，打包部署到生产环境则放开下面一行-->
+				<!-- 本地启动注释掉下面一行，打包部署到生产环境则放开下面一行
 				<targetPath>${project.build.directory}/config</targetPath>
-				
+				-->
 				
 			</resource>
 			<resource>
