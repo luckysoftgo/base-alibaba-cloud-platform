@@ -2,6 +2,9 @@
 server:
   port: 9100
 
+## 连接的地址.
+nacoshosts: 127.0.0.1:8858
+
 # Spring
 spring: 
   application:
@@ -14,12 +17,30 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: 127.0.0.1:8858
+        server-addr: ${nacoshosts}
       config:
         # 配置中心地址
-        server-addr: 127.0.0.1:8858
+        server-addr: ${nacoshosts}
         # 配置文件格式
         file-extension: yml
         # 共享配置
         ##shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
         shared-configs: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+
+##日志打印.
+logging:
+  config: classpath:logconf/logback-spring.xml
+  path: ../logs
+  file:
+    path: ../logs
+    clean-history-on-start: true
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss
+  level:
+    com.application.cloud: debug
+    org.hibernate: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: debug
+    org.hibernate.type.descriptor.sql.BasicExtractor: debug
+    #### API文档报错处理.
+    io.swagger.models.parameters.AbstractSerializableParameter: error

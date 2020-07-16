@@ -27,7 +27,6 @@ import java.lang.annotation.Target;
 @EnableAsync
 // 自动加载类
 @Import({ SecurityImportBeanDefinitionRegistrar.class, OAuth2FeignConfig.class, ApplicationConfig.class })
-public @interface EnableCustomConfig
-{
+public @interface EnableCustomConfig{
 
 }
