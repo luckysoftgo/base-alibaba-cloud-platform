@@ -13,5 +13,3 @@
     博客:
         https://www.jianshu.com/p/3b8d259666d9
 
-3.nacos使用
-    https://gitee.com/cuixiaoyan/RuoYi-Cloud-Nacos/blob/master/RuoYi-Cloud-Nacos.md
