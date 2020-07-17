@@ -169,6 +169,7 @@
 					<include>**/*.yml</include>
 					<include>**/*.xml</include>
 					<include>**/*.txt</include>
+					<include>**/*.vm</include>
 				</includes>
 				<filtering>false</filtering>
 				
