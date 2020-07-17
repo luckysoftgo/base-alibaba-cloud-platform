@@ -20,6 +20,7 @@
 		<!--单独放置.-->
 		<module>app-cloud-generater</module>
 		<module>app-cloud-api-demo</module>
+		<module>app-cloud-test-server</module>
 	</modules>
 	<packaging>pom</packaging>
 	

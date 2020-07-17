@@ -1,0 +1,52 @@
+如何将一个springboot项目,纳入到nacos的服务于发现下？ 步骤可分为:
+1.创建bootstrap.yml文件.
+    创建bootstrap.yml文件,文件的内容和认证中文件的内容相识,具体细项需要修改的是: 应用名称,nacos的配置信息 等.
+
+2.pom.xml 添加服务于发现的jar应用:
+    <!-- SpringCloud Ailibaba Nacos -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    <!-- SpringCloud Ailibaba Nacos Config -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+    <!-- SpringCloud Ailibaba Sentinel -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+    </dependency>
+    <!-- SpringCloud Netflix Hystrix -->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+    </dependency>
+
+3. 配置网关的访问:
+    # 测试服务
+    - id: app-cloud-api-demo
+      uri: lb://app-cloud-api-demo
+      predicates:
+        - Path=/test/**
+     filters:
+        - StripPrefix=1
+
+4. 在 nacos 上创建 app-cloud-api-demo-dev.yml 文件.
+    具体内容，可以参见代码生成配置，也可以参见系统管理配置.
+
+5. 代码生成相应的配置.
+
+
+6. 配置相关目录和菜单
+
+7.将代码放入对应的位置上
+
+8.设置ignore.urls配置，加上如下配置:
+        - /test/*
+
+9.重启所有服务
+
+
+

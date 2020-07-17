@@ -7,7 +7,7 @@
     linux启动:
         https://blog.csdn.net/yangxiao_hui/article/details/106860041
         启动命令:
-            bin/startup.sh -m standalone
+            sh bin/startup.sh -m standalone
 
 二、sentinel
     windows启动:
