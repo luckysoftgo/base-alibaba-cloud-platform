@@ -35,6 +35,7 @@
     http://127.0.0.1:${server.port}/test/cloudtestscore/list2?pageNum=1&pageSize=1
     http://127.0.0.1:${server.port}/druid/index.html
 
+9.本例主要目的是:实现springboot+dynamic datasource 的操作.
 
 
 
