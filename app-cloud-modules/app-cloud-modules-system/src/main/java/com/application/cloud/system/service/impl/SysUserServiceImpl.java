@@ -1,14 +1,5 @@
 package com.application.cloud.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.application.cloud.common.core.constant.UserConstants;
 import com.application.cloud.common.core.exception.CustomException;
 import com.application.cloud.common.core.utils.StringUtils;
@@ -26,6 +17,14 @@ import com.application.cloud.system.mapper.SysUserPostMapper;
 import com.application.cloud.system.mapper.SysUserRoleMapper;
 import com.application.cloud.system.service.ISysConfigService;
 import com.application.cloud.system.service.ISysUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户 业务层处理
@@ -71,7 +70,7 @@ public class SysUserServiceImpl implements ISysUserService
     /**
      * 通过用户名查询用户
      * 
-     * @param userName 用户名
+     * @param userName 用户名/手机号/邮箱
      * @return 用户对象信息
      */
     @Override
