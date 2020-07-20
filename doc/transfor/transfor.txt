@@ -52,7 +52,5 @@
 
 
 
-
-
-
+详细配置可以参见，进行新的服务的发布。
 https://gitee.com/cuixiaoyan/RuoYi-Cloud-Nacos/blob/master/RuoYi-Cloud-Nacos.md
