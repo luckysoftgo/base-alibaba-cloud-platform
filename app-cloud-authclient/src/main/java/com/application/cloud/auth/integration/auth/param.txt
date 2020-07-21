@@ -1,0 +1,42 @@
+原始的 Oauth2 认证方式.
+    一、请求地址:
+        http://localhost/dev-api/auth/oauth/token?username=admin&password=admin123&code=11&uuid=fb73cfd876294f1dae2b378b59b47619&client_id=web&client_secret=123456&grant_type=password&scope=server
+
+    二、请求参数:
+        username: admin
+        password: admin123
+        code: 11
+        uuid: fb73cfd876294f1dae2b378b59b47619
+        client_id: web
+        client_secret: 123456
+        grant_type: password
+        scope: server
+
+改进之后的认证方式:
+
+    一、请求地址:
+       http://localhost/dev-api/auth/oauth/token?username=admin&password=admin123&code=11&uuid=fb73cfd876294f1dae2b378b59b47619&client_id=web&client_secret=123456&grant_type=password&scope=server&auth_type=username
+
+    二、请求参数:
+       username: admin
+       password: admin123
+       code: 11
+       uuid: fb73cfd876294f1dae2b378b59b47619
+       client_id: web
+       client_secret: 123456
+       grant_type: password
+       scope: server
+       auth_type:
+            instance : username,phone,email 支持这三种方式的登录.
+            sms : sms #短信验证的方式
+            code : code #图片验证码或数字验证码.
+            wechat : wechat #微信授权登录权限校验.
+            memory : memory #内存认证,对于接口请求做的校验
+
+使用 auth_type 来区分采用哪种处理方式来处理认证:
+启动 gateway,system,authclient 就可以测试以上的认证方式是否是OK的.
+
+内存认证: http://localhost/dev-api/auth/oauth/token?username=admin&password=admin&code=11&uuid=fb73cfd876294f1dae2b378b59b47619&client_id=web&client_secret=123456&grant_type=password&scope=server&auth_type=memory
+短信认证: http://localhost/dev-api/auth/oauth/token?username=admin&password=123456789&code=11&uuid=fb73cfd876294f1dae2b378b59b47619&client_id=web&client_secret=123456&grant_type=password&scope=server&auth_type=sms
+验证码认证: http://localhost/dev-api/auth/oauth/token?username=admin&password=456789&code=11&uuid=fb73cfd876294f1dae2b378b59b47619&client_id=web&client_secret=123456&grant_type=password&scope=server&auth_type=code
+常用认证: http://localhost/dev-api/auth/oauth/token?username=15888888888&password=admin123&code=11&uuid=fb73cfd876294f1dae2b378b59b47619&client_id=web&client_secret=123456&grant_type=password&scope=server&auth_type=instance

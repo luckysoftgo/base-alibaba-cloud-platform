@@ -11,13 +11,13 @@ import com.application.cloud.common.security.domain.LoginUser;
 import com.application.cloud.system.api.RemoteLogService;
 
 /**
- * 认证成功处理
- * 
+ * 认证成功日志处理.
+ *
  * @author cloud
  */
 @Component
-public class AuthenticationSuccessEventHandler implements ApplicationListener<AuthenticationSuccessEvent>
-{
+public class AuthenticationSuccessEventHandler implements ApplicationListener<AuthenticationSuccessEvent> {
+	
     @Autowired
     private RemoteLogService remoteLogService;
 
@@ -25,13 +25,9 @@ public class AuthenticationSuccessEventHandler implements ApplicationListener<Au
     public void onApplicationEvent(AuthenticationSuccessEvent event)
     {
         Authentication authentication = (Authentication) event.getSource();
-        if (StringUtils.isNotEmpty(authentication.getAuthorities())
-                && authentication.getPrincipal() instanceof LoginUser)
-        {
+        if (StringUtils.isNotEmpty(authentication.getAuthorities()) && authentication.getPrincipal() instanceof LoginUser){
             LoginUser user = (LoginUser) authentication.getPrincipal();
-
             String username = user.getUsername();
-
             // 记录用户登录日志
             remoteLogService.saveLogininfor(username, Constants.LOGIN_SUCCESS, "登录成功");
         }
