@@ -1,6 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.application.cloud.common.security.service.UserDetailsServiceImpl,\
-  com.application.cloud.common.security.handler.CustomAccessDeniedHandler,\
-  com.application.cloud.common.security.handler.GlobalExceptionHandler
+com.application.cloud.common.security.handler.CustomAccessDeniedHandler,\
+com.application.cloud.common.security.handler.GlobalExceptionHandler
 
   

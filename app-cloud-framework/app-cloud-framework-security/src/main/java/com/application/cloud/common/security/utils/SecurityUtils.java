@@ -1,5 +1,6 @@
 package com.application.cloud.common.security.utils;
 
+import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.common.security.domain.LoginUser;
 import com.application.cloud.common.security.userdetail.CloudUser;
 import org.springframework.security.core.Authentication;
@@ -11,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * 
  * @author cloud
  */
-public class SecurityUtils
-{
+public class SecurityUtils{
+	
     /**
      * 获取Authentication
      */
@@ -23,7 +24,7 @@ public class SecurityUtils
     /**
      * 获取用户
      */
-    public static String getLoginName(){
+    public static String getUsername(){
         return getLoginUser().getUsername();
     }
 
@@ -59,6 +60,9 @@ public class SecurityUtils
      */
     public static String encryptPassword(String password){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (StringUtils.isEmpty(password)){
+        	password="123456";
+        }
         return passwordEncoder.encode(password);
     }
 
@@ -93,7 +97,7 @@ public class SecurityUtils
 		return null;
 	}
 	
-	public static String getUsername() {
+	public static String getLoginName() {
 		CloudUser user = getPrincipal();
 		if (user != null) {
 			return user.getUsername();
@@ -127,7 +131,7 @@ public class SecurityUtils
 	public static Long getUserId() {
 		CloudUser user = getPrincipal();
 		if (user != null) {
-			return user.getId();
+			return user.getUserId();
 		}
 		return null;
 	}

@@ -1,7 +1,12 @@
 package com.application.cloud.common.security.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.application.cloud.common.core.constant.HttpStatus;
+import com.application.cloud.common.core.exception.BaseException;
+import com.application.cloud.common.core.exception.CustomException;
+import com.application.cloud.common.core.exception.DemoModeException;
+import com.application.cloud.common.core.utils.StringUtils;
+import com.application.cloud.common.core.web.domain.AjaxResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,23 +15,15 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import com.application.cloud.common.core.constant.HttpStatus;
-import com.application.cloud.common.core.exception.BaseException;
-import com.application.cloud.common.core.exception.CustomException;
-import com.application.cloud.common.core.exception.DemoModeException;
-import com.application.cloud.common.core.utils.StringUtils;
-import com.application.cloud.common.core.web.domain.AjaxResult;
 
 /**
  * 全局异常处理器
  * 
  * @author cloud
  */
+@Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler
-{
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
+public class GlobalExceptionHandler{
     /**
      * 基础异常
      */
