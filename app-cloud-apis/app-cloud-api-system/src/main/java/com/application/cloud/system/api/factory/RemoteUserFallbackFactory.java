@@ -1,23 +1,22 @@
 package com.application.cloud.system.api.factory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import com.application.cloud.common.core.domain.R;
+import com.application.cloud.common.core.domain.GenericResult;
 import com.application.cloud.system.api.RemoteUserService;
+import com.application.cloud.system.api.domain.SysUser;
 import com.application.cloud.system.api.model.UserInfo;
 import feign.hystrix.FallbackFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * 用户服务降级处理
  * 
  * @author cloud
  */
+@Slf4j
 @Component
 public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserService>
 {
-    private static final Logger log = LoggerFactory.getLogger(RemoteUserFallbackFactory.class);
-
     @Override
     public RemoteUserService create(Throwable throwable)
     {
@@ -25,10 +24,17 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         return new RemoteUserService()
         {
             @Override
-            public R<UserInfo> getUserInfo(String username)
-            {
+            public GenericResult<UserInfo> getUserInfo(String username){
                 return null;
             }
+	        @Override
+	        public GenericResult<Integer> findUserInfo(String infoKey){
+		        return null;
+	        }
+	        @Override
+	        public GenericResult<Integer> saveUser(SysUser sysUser){
+		        return null;
+	        }
         };
     }
 }

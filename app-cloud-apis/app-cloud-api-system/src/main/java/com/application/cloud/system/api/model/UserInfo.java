@@ -1,8 +1,10 @@
 package com.application.cloud.system.api.model;
 
-import java.io.Serializable;
-import java.util.Set;
 import com.application.cloud.system.api.domain.SysUser;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 用户信息
@@ -27,6 +29,11 @@ public class UserInfo implements Serializable
      * 角色集合
      */
     private Set<String> roles;
+    
+	/**
+	 * 角色集合
+	 */
+	private List<Integer> depts;
 
     public SysUser getSysUser()
     {
@@ -57,4 +64,12 @@ public class UserInfo implements Serializable
     {
         this.roles = roles;
     }
+	
+	public List<Integer> getDepts() {
+		return depts;
+	}
+	
+	public void setDepts(List<Integer> depts) {
+		this.depts = depts;
+	}
 }

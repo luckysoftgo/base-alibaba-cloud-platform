@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.application.cloud.common.core.constant.ServiceNameConstants;
-import com.application.cloud.common.core.domain.R;
+import com.application.cloud.common.core.domain.GenericResult;
 import com.application.cloud.system.api.domain.SysOperLog;
 import com.application.cloud.system.api.factory.RemoteLogFallbackFactory;
 
@@ -24,7 +24,7 @@ public interface RemoteLogService
      * @return 结果
      */
     @PostMapping("/operlog")
-    R<Boolean> saveLog(@RequestBody SysOperLog sysOperLog);
+    GenericResult<Boolean> saveLog(@RequestBody SysOperLog sysOperLog);
 
     /**
      * 保存访问记录
@@ -35,6 +35,6 @@ public interface RemoteLogService
      * @return 结果
      */
     @PostMapping("/logininfor")
-    R<Boolean> saveLogininfor(@RequestParam("username") String username, @RequestParam("status") String status,
-                              @RequestParam("message") String message);
+    GenericResult<Boolean> saveLogininfor(@RequestParam("username") String username, @RequestParam("status") String status,
+                                          @RequestParam("message") String message);
 }

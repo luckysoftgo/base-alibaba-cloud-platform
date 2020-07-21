@@ -1,23 +1,21 @@
 package com.application.cloud.system.api.factory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import com.application.cloud.common.core.domain.R;
+import com.application.cloud.common.core.domain.GenericResult;
 import com.application.cloud.system.api.RemoteLogService;
 import com.application.cloud.system.api.domain.SysOperLog;
 import feign.hystrix.FallbackFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * 日志服务降级处理
  * 
  * @author cloud
  */
+@Slf4j
 @Component
 public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogService>
 {
-    private static final Logger log = LoggerFactory.getLogger(RemoteLogFallbackFactory.class);
-
     @Override
     public RemoteLogService create(Throwable throwable)
     {
@@ -25,12 +23,12 @@ public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogServic
         return new RemoteLogService()
         {
             @Override
-            public R<Boolean> saveLog(SysOperLog sysOperLog)
+            public GenericResult<Boolean> saveLog(SysOperLog sysOperLog)
             {
                 return null;
             }
             @Override
-            public R<Boolean> saveLogininfor(String username, String status, String message)
+            public GenericResult<Boolean> saveLogininfor(String username, String status, String message)
             {
                 return null;
             }
