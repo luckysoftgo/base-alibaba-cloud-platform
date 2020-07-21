@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.application.cloud.common.core.domain.R;
+import com.application.cloud.common.core.domain.GenericResult;
 import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.common.security.utils.SecurityUtils;
 import com.application.cloud.system.api.RemoteUserService;
@@ -31,7 +31,7 @@ public class AwaitUserService
     public UserInfo info()
     {
         String username = SecurityUtils.getUsername();
-        R<UserInfo> userResult = remoteUserService.getUserInfo(username);
+        GenericResult<UserInfo> userResult = remoteUserService.getUserInfo(username);
         if (StringUtils.isNull(userResult) || StringUtils.isNull(userResult.getData()))
         {
             log.info("数据权限范围查询用户：{} 不存在.", username);

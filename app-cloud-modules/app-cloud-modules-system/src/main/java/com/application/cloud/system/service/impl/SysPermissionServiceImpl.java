@@ -1,14 +1,17 @@
 package com.application.cloud.system.service.impl;
 
-import java.util.HashSet;
-import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.application.cloud.system.api.domain.SysUser;
+import com.application.cloud.system.service.ISysDeptService;
 import com.application.cloud.system.service.ISysMenuService;
 import com.application.cloud.system.service.ISysPermissionService;
 import com.application.cloud.system.service.ISysRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class SysPermissionServiceImpl implements ISysPermissionService
@@ -18,7 +21,10 @@ public class SysPermissionServiceImpl implements ISysPermissionService
 
     @Autowired
     private ISysMenuService menuService;
-
+	
+	@Autowired
+	private ISysDeptService deptService;
+	
     /**
      * 获取角色数据权限
      * 
@@ -62,4 +68,21 @@ public class SysPermissionServiceImpl implements ISysPermissionService
         }
         return perms;
     }
+	
+	@Override
+	public List<Integer> getDeptPermission(Long userId,Long[] roleIds) {
+		List<Integer> perms = new ArrayList<>();
+		// 管理员拥有所有权限
+		if (SysUser.isAdmin(userId))
+		{
+			perms.add(0);
+		}
+		else
+		{
+			for (Long roleId : roleIds ) {
+				perms.addAll(deptService.selectDeptListByRoleId(roleId));
+			}
+		}
+		return perms;
+	}
 }

@@ -83,7 +83,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectUserByUserName" parameterType="String" resultMap="SysUserResult">
 	    <include refid="selectUserVo"/>
-		where (u.user_name = #{userName} or u.phonenumber = #{userName} or u.email= #{userName}) and u.del_flag=0
+		where (u.user_name = #{infoKey} or u.phonenumber = #{infoKey} or u.email= #{infoKey}) and u.status=0
+	</select>
+	
+	<select id="selectUserByInfo" parameterType="String" resultType="Integer">
+		select count(1) from sys_user where (user_name = #{userName} or phonenumber = #{userName} or email= #{userName}) and status=0
 	</select>
 	
 	<select id="selectUserById" parameterType="Long" resultMap="SysUserResult">
@@ -92,15 +96,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="checkUserNameUnique" parameterType="String" resultType="int">
-		select count(1) from sys_user where user_name = #{userName} and del_flag=0
+		select count(1) from sys_user where user_name = #{userName} and status=0
 	</select>
 	
 	<select id="checkPhoneUnique" parameterType="String" resultMap="SysUserResult">
-		select user_id, phonenumber from sys_user where phonenumber = #{phonenumber} and del_flag=0
+		select user_id, phonenumber from sys_user where phonenumber = #{phonenumber} and status=0
 	</select>
 	
 	<select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">
-		select user_id, email from sys_user where email = #{email} and del_flag=0
+		select user_id, email from sys_user where email = #{email} and status=0
 	</select>
 	
 	<insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">

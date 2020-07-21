@@ -1,24 +1,7 @@
 package com.application.cloud.system.controller;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import com.application.cloud.common.core.constant.UserConstants;
-import com.application.cloud.common.core.domain.R;
+import com.application.cloud.common.core.domain.GenericResult;
 import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.common.core.utils.poi.ExcelUtil;
 import com.application.cloud.common.core.web.controller.BaseController;
@@ -34,6 +17,24 @@ import com.application.cloud.system.service.ISysPermissionService;
 import com.application.cloud.system.service.ISysPostService;
 import com.application.cloud.system.service.ISysRoleService;
 import com.application.cloud.system.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息
@@ -101,25 +102,49 @@ public class SysUserController extends BaseController
      * 获取当前用户信息
      */
     @GetMapping("/info/{username}")
-    public R<UserInfo> info(@PathVariable("username") String username)
-    {
+    public GenericResult<UserInfo> info(@PathVariable("username") String username){
         SysUser sysUser = userService.selectUserByUserName(username);
         if (StringUtils.isNull(sysUser))
         {
-            return R.fail("用户名或密码错误");
+            return GenericResult.fail("用户名或密码错误");
         }
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
+	    // 部门集合
+	    List<Integer> depts = permissionService.getDeptPermission(sysUser.getUserId(),sysUser.getRoleIds());
         UserInfo sysUserVo = new UserInfo();
         sysUserVo.setSysUser(sysUser);
         sysUserVo.setRoles(roles);
         sysUserVo.setPermissions(permissions);
-        return R.ok(sysUserVo);
+        sysUserVo.setDepts(depts);
+        return GenericResult.ok(sysUserVo);
     }
-
-    /**
+	
+	
+	/**
+	 * 判断用户是否存在.
+	 */
+	@GetMapping("/judge/{infoKey}")
+	public GenericResult<Integer> judge(@PathVariable("infoKey") String infoKey){
+		Integer count = userService.selectUserByInfo(infoKey);
+		return GenericResult.ok(count);
+	}
+	
+	/**
+	 * 新增用户
+	 */
+	@Log(title = "用户管理", businessType = BusinessType.INSERT)
+	@PostMapping("/simpleSave")
+	public GenericResult<Integer> simpleSave(@RequestBody SysUser user){
+		user.setCreateBy(SecurityUtils.getUsername());
+		user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+		int count = userService.insertUser(user);
+		return GenericResult.ok(count);
+	}
+	
+	/**
      * 获取用户信息
      * 
      * @return 用户信息

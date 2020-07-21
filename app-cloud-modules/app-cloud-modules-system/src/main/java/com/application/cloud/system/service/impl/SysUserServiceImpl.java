@@ -78,8 +78,19 @@ public class SysUserServiceImpl implements ISysUserService
     {
         return userMapper.selectUserByUserName(userName);
     }
-
-    /**
+	
+	/**
+	 * 通过用户名查询用户
+	 *
+	 * @param infoKey 用户名/手机号/邮箱
+	 * @return 用户对象信息
+	 */
+	@Override
+	public Integer selectUserByInfo(String infoKey) {
+		return userMapper.selectUserByInfo(infoKey);
+	}
+	
+	/**
      * 通过用户ID查询用户
      * 
      * @param userId 用户ID

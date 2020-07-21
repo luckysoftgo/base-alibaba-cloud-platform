@@ -1,8 +1,8 @@
 package com.application.cloud.system.service;
 
-import java.util.List;
-
 import com.application.cloud.system.api.domain.SysUser;
+
+import java.util.List;
 
 /**
  * 用户 业务层
@@ -26,7 +26,15 @@ public interface ISysUserService
      * @return 用户对象信息
      */
     public SysUser selectUserByUserName(String userName);
-
+	
+	/**
+	 * 通过用户名查询用户
+	 *
+	 * @param infoKey 用户名/手机号/邮箱
+	 * @return 用户对象信息
+	 */
+	public Integer selectUserByInfo(String infoKey);
+	
     /**
      * 通过用户ID查询用户
      * 

@@ -5,8 +5,8 @@ package com.application.cloud.common.core.constant;
  * 
  * @author cloud
  */
-public class UserConstants
-{
+public class UserConstants {
+	
     /**
      * 平台内系统用户的唯一标志
      */
@@ -56,5 +56,6 @@ public class UserConstants
 
     /** 校验返回结果码 */
     public final static String UNIQUE = "0";
+    
     public final static String NOT_UNIQUE = "1";
 }

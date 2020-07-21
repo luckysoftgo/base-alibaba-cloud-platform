@@ -1,10 +1,9 @@
 package com.application.cloud.system.mapper;
 
-import java.util.List;
-
+import com.application.cloud.system.api.domain.SysUser;
 import org.apache.ibatis.annotations.Param;
 
-import com.application.cloud.system.api.domain.SysUser;
+import java.util.List;
 
 /**
  * 用户表 数据层
@@ -28,7 +27,15 @@ public interface SysUserMapper
      * @return 用户对象信息
      */
     public SysUser selectUserByUserName(String userName);
-
+	
+	/**
+	 * 通过用户名查询用户
+	 *
+	 * @param infoKey 用户名/手机号/邮箱
+	 * @return 用户对象信息
+	 */
+	public Integer selectUserByInfo(String infoKey);
+	
     /**
      * 通过用户ID查询用户
      * 

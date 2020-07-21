@@ -83,10 +83,6 @@
 			<artifactId>app-cloud-framework-swagger</artifactId>
 			<version>${app-cloud.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
 	</dependencies>
 	
 	
