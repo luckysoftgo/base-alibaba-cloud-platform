@@ -1,13 +1,5 @@
 package com.application.cloud.gateway.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-import javax.imageio.ImageIO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.FastByteArrayOutputStream;
-import com.google.code.kaptcha.Producer;
 import com.application.cloud.common.core.constant.Constants;
 import com.application.cloud.common.core.exception.CaptchaException;
 import com.application.cloud.common.core.utils.IdUtils;
@@ -16,6 +8,15 @@ import com.application.cloud.common.core.utils.sign.Base64;
 import com.application.cloud.common.core.web.domain.AjaxResult;
 import com.application.cloud.common.redis.service.RedisService;
 import com.application.cloud.gateway.service.ValidateCodeService;
+import com.google.code.kaptcha.Producer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.FastByteArrayOutputStream;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 验证码实现处理
@@ -81,7 +82,6 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
         String captcha = redisService.getCacheObject(verifyKey);
         redisService.deleteObject(verifyKey);
-
         if (!code.equalsIgnoreCase(captcha))
         {
             throw new CaptchaException("验证码错误");

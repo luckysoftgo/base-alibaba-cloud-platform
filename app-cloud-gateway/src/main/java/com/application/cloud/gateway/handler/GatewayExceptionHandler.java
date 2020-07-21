@@ -1,9 +1,10 @@
 package com.application.cloud.gateway.handler;
 
-import org.springframework.cloud.gateway.support.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.alibaba.fastjson.JSON;
+import com.application.cloud.common.core.domain.GenericResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
+import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -12,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
-import com.alibaba.fastjson.JSON;
-import com.application.cloud.common.core.domain.R;
 import reactor.core.publisher.Mono;
 
 /**
@@ -21,12 +20,11 @@ import reactor.core.publisher.Mono;
  *
  * @author cloud
  */
+@Slf4j
 @Order(-1)
 @Configuration
 public class GatewayExceptionHandler implements ErrorWebExceptionHandler
 {
-    private static final Logger log = LoggerFactory.getLogger(GatewayExceptionHandler.class);
-
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex)
     {
@@ -52,15 +50,13 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler
         {
             msg = "内部服务器错误";
         }
-
         log.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
-
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         response.setStatusCode(HttpStatus.OK);
 
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();
-            return bufferFactory.wrap(JSON.toJSONBytes(R.fail(msg)));
+            return bufferFactory.wrap(JSON.toJSONBytes(GenericResult.fail(msg)));
         }));
     }
 }
