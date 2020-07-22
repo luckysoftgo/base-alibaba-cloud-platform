@@ -15,7 +15,44 @@
     博客:
         https://www.jianshu.com/p/3b8d259666d9
 
+3. admin监控墙
+    采用springboot admin 方式进行服务的管理和监控
+    访问:
+        http://localhost:port/about eg: http://localhost:9100/about
+    用户名和密码:
+        app-cloud:123456
+    此用户名和密码为配置文件: app-cloud-montior-dev.yml 中设置的值.
 
-3.自定义权限类:有权限的话,才可以进行资源的访问.
+
+4.自定义权限类:有权限的话,才可以进行资源的访问.
     PermissionService ---> auth:进行访问头设置.
+
+5.授权的配置
+    认证授权的配置地址是:application-dev.yml,注意里面的client-id,client-secret 和 scope 配置,必须是:sys_oauth_client_details 中的内容.
+# 认证配置
+security:
+  oauth2:
+    client:
+      client-id: app-cloud
+      client-secret: 123456
+      scope: server
+    resource:
+      loadBalanced: true
+      token-info-uri: http://app-cloud-authclient/oauth/check_token
+
+6.系统中用户的加密方式是:BCryptPasswordEncoder 的加密方式。
+
+
+7.不需要权限访问的接口,可以在: application-dev.yml 的 urls 下去配置,如果还需要其他的权限过滤,可以直接添加就好.
+security:
+  oauth2:
+    ignore:
+      urls:
+        - /v2/api-docs
+        - /actuator/**
+        - /user/info/*
+        - /operlog
+        - /logininfor
+
+
 
