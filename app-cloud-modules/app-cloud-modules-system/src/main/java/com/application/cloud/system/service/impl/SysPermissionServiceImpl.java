@@ -72,6 +72,9 @@ public class SysPermissionServiceImpl implements ISysPermissionService
 	@Override
 	public List<Long> getDeptPermission(Long userId,Long[] roleIds) {
 		List<Long> perms = new ArrayList<>();
+		if (userId==null || roleIds==null){
+			return perms;
+		}
 		// 管理员拥有所有权限
 		if (SysUser.isAdmin(userId)){
 			perms.add(0L);
