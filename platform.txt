@@ -13,3 +13,6 @@
     博客:
         https://www.jianshu.com/p/3b8d259666d9
 
+
+3.自定义权限类:
+    PermissionService--->ss:

@@ -17,6 +17,7 @@
 		<module>app-cloud-gateway</module>
 		<module>app-cloud-modules</module>
 		<module>app-cloud-visual</module>
+		
 		<!--单独放置.-->
 		<module>app-cloud-generater</module>
 		<module>app-cloud-api-demo</module>
@@ -76,9 +77,20 @@
 		<swagger.fox.version>2.9.2</swagger.fox.version>
 		<swagger.core.version>1.6.2</swagger.core.version>
 		<spring-boot.mybatis>2.1.2</spring-boot.mybatis>
+		<weixin-java.version>3.8.0</weixin-java.version>
 		
 		<downloadSources>true</downloadSources>
 	</properties>
+
+	
+	<!--全局的包引入-->
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+	</dependencies>
+	
 	
 	<!-- 依赖声明 -->
 	<dependencyManagement>
