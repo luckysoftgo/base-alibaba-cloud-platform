@@ -1,9 +1,9 @@
 package com.application.cloud.system.service;
 
-import java.util.List;
-
 import com.application.cloud.system.api.domain.SysDept;
 import com.application.cloud.system.domain.vo.TreeSelect;
+
+import java.util.List;
 
 /**
  * 部门管理 服务层
@@ -42,7 +42,7 @@ public interface ISysDeptService
      * @param roleId 角色ID
      * @return 选中部门列表
      */
-    public List<Integer> selectDeptListByRoleId(Long roleId);
+    public List<Long> selectDeptListByRoleId(Long roleId);
 
     /**
      * 根据部门ID查询信息

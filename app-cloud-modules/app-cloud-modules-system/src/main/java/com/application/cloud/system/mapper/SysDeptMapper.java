@@ -1,10 +1,9 @@
 package com.application.cloud.system.mapper;
 
-import java.util.List;
-
+import com.application.cloud.system.api.domain.SysDept;
 import org.apache.ibatis.annotations.Param;
 
-import com.application.cloud.system.api.domain.SysDept;
+import java.util.List;
 
 /**
  * 部门管理 数据层
@@ -27,7 +26,7 @@ public interface SysDeptMapper
      * @param roleId 角色ID
      * @return 选中部门列表
      */
-    public List<Integer> selectDeptListByRoleId(Long roleId);
+    public List<Long> selectDeptListByRoleId(Long roleId);
 
     /**
      * 根据部门ID查询信息

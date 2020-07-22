@@ -70,15 +70,12 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     }
 	
 	@Override
-	public List<Integer> getDeptPermission(Long userId,Long[] roleIds) {
-		List<Integer> perms = new ArrayList<>();
+	public List<Long> getDeptPermission(Long userId,Long[] roleIds) {
+		List<Long> perms = new ArrayList<>();
 		// 管理员拥有所有权限
-		if (SysUser.isAdmin(userId))
-		{
-			perms.add(0);
-		}
-		else
-		{
+		if (SysUser.isAdmin(userId)){
+			perms.add(0L);
+		}else{
 			for (Long roleId : roleIds ) {
 				perms.addAll(deptService.selectDeptListByRoleId(roleId));
 			}

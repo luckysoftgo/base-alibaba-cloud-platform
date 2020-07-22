@@ -28,6 +28,6 @@ public interface ISysPermissionService
 	 * @param roleId 角色Id
 	 * @return 角色部门信息
 	 */
-	public List<Integer> getDeptPermission(Long userId,Long[] roleId);
+	public List<Long> getDeptPermission(Long userId,Long[] roleId);
 	
 }

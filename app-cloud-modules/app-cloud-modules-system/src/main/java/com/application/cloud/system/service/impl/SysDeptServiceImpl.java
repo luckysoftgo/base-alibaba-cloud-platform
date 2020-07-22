@@ -1,13 +1,5 @@
 package com.application.cloud.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.application.cloud.common.core.constant.UserConstants;
 import com.application.cloud.common.core.exception.CustomException;
 import com.application.cloud.common.core.utils.StringUtils;
@@ -16,6 +8,13 @@ import com.application.cloud.system.api.domain.SysDept;
 import com.application.cloud.system.domain.vo.TreeSelect;
 import com.application.cloud.system.mapper.SysDeptMapper;
 import com.application.cloud.system.service.ISysDeptService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 部门管理 服务实现
@@ -93,7 +92,7 @@ public class SysDeptServiceImpl implements ISysDeptService
      * @return 选中部门列表
      */
     @Override
-    public List<Integer> selectDeptListByRoleId(Long roleId)
+    public List<Long> selectDeptListByRoleId(Long roleId)
     {
         return deptMapper.selectDeptListByRoleId(roleId);
     }
