@@ -96,10 +96,10 @@ public class SecurityUtils{
 		return null;
 	}
 	
-	public static String getLoginName() {
+	public static String getNickName() {
 		LoginUser user = getLoginUser();
 		if (user != null) {
-			return user.getUsername();
+			return user.getNickName();
 		}
 		return null;
 	}
