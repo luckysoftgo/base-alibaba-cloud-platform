@@ -39,7 +39,7 @@ public class SysMenuController extends BaseController
     /**
      * 获取菜单列表
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:list')")
+    @PreAuthorize("@auth.hasPermi('system:menu:list')")
     @GetMapping("/list")
     public AjaxResult list(SysMenu menu)
     {
@@ -52,7 +52,7 @@ public class SysMenuController extends BaseController
     /**
      * 根据菜单编号获取详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:query')")
+    @PreAuthorize("@auth.hasPermi('system:menu:query')")
     @GetMapping(value = "/{menuId}")
     public AjaxResult getInfo(@PathVariable Long menuId)
     {
@@ -89,7 +89,7 @@ public class SysMenuController extends BaseController
     /**
      * 新增菜单
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:add')")
+    @PreAuthorize("@auth.hasPermi('system:menu:add')")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysMenu menu)
@@ -110,7 +110,7 @@ public class SysMenuController extends BaseController
     /**
      * 修改菜单
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:edit')")
+    @PreAuthorize("@auth.hasPermi('system:menu:edit')")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysMenu menu)
@@ -131,7 +131,7 @@ public class SysMenuController extends BaseController
     /**
      * 删除菜单
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:remove')")
+    @PreAuthorize("@auth.hasPermi('system:menu:remove')")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
     public AjaxResult remove(@PathVariable("menuId") Long menuId)

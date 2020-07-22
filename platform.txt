@@ -14,5 +14,6 @@
         https://www.jianshu.com/p/3b8d259666d9
 
 
-3.自定义权限类:
-    PermissionService--->ss:
+3.自定义权限类:有权限的话,才可以进行资源的访问.
+    PermissionService ---> auth:
+

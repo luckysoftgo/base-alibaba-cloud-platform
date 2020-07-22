@@ -1,6 +1,14 @@
 package com.application.cloud.system.controller;
 
-import java.util.List;
+import com.application.cloud.common.core.utils.StringUtils;
+import com.application.cloud.common.core.web.controller.BaseController;
+import com.application.cloud.common.core.web.domain.AjaxResult;
+import com.application.cloud.common.core.web.page.TableDataInfo;
+import com.application.cloud.common.log.annotation.Log;
+import com.application.cloud.common.log.enums.BusinessType;
+import com.application.cloud.common.security.utils.SecurityUtils;
+import com.application.cloud.system.domain.SysClientDetails;
+import com.application.cloud.system.service.ISysClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,15 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.application.cloud.common.core.utils.StringUtils;
-import com.application.cloud.common.core.web.controller.BaseController;
-import com.application.cloud.common.core.web.domain.AjaxResult;
-import com.application.cloud.common.core.web.page.TableDataInfo;
-import com.application.cloud.common.log.annotation.Log;
-import com.application.cloud.common.log.enums.BusinessType;
-import com.application.cloud.common.security.utils.SecurityUtils;
-import com.application.cloud.system.domain.SysClientDetails;
-import com.application.cloud.system.service.ISysClientDetailsService;
+
+import java.util.List;
 
 /**
  * 终端配置 信息操作处理
@@ -36,7 +37,7 @@ public class SysClientDetailsController extends BaseController
     /**
      * 查询终端配置列表
      */
-    @PreAuthorize("@ss.hasPermi('system:client:list')")
+    @PreAuthorize("@auth.hasPermi('system:client:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysClientDetails sysClientDetails)
     {
@@ -48,7 +49,7 @@ public class SysClientDetailsController extends BaseController
     /**
      * 获取终端配置详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:client:query')")
+    @PreAuthorize("@auth.hasPermi('system:client:query')")
     @GetMapping(value = "/{clientId}")
     public AjaxResult getInfo(@PathVariable("clientId") String clientId)
     {
@@ -58,7 +59,7 @@ public class SysClientDetailsController extends BaseController
     /**
      * 新增终端配置
      */
-    @PreAuthorize("@ss.hasPermi('system:client:add')")
+    @PreAuthorize("@auth.hasPermi('system:client:add')")
     @Log(title = "终端配置", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysClientDetails sysClientDetails)
@@ -75,7 +76,7 @@ public class SysClientDetailsController extends BaseController
     /**
      * 修改终端配置
      */
-    @PreAuthorize("@ss.hasPermi('system:client:edit')")
+    @PreAuthorize("@auth.hasPermi('system:client:edit')")
     @Log(title = "终端配置", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysClientDetails sysClientDetails)
@@ -87,7 +88,7 @@ public class SysClientDetailsController extends BaseController
     /**
      * 删除终端配置
      */
-    @PreAuthorize("@ss.hasPermi('system:client:remove')")
+    @PreAuthorize("@auth.hasPermi('system:client:remove')")
     @Log(title = "终端配置", businessType = BusinessType.DELETE)
     @DeleteMapping("/{clientIds}")
     public AjaxResult remove(@PathVariable String[] clientIds)

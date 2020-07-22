@@ -40,7 +40,7 @@ public class SysPostController extends BaseController
     /**
      * 获取岗位列表
      */
-    @PreAuthorize("@ss.hasPermi('system:post:list')")
+    @PreAuthorize("@auth.hasPermi('system:post:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysPost post)
     {
@@ -50,7 +50,7 @@ public class SysPostController extends BaseController
     }
 
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('system:post:export')")
+    @PreAuthorize("@auth.hasPermi('system:post:export')")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysPost post) throws IOException
     {
@@ -62,7 +62,7 @@ public class SysPostController extends BaseController
     /**
      * 根据岗位编号获取详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:post:query')")
+    @PreAuthorize("@auth.hasPermi('system:post:query')")
     @GetMapping(value = "/{postId}")
     public AjaxResult getInfo(@PathVariable Long postId)
     {
@@ -72,7 +72,7 @@ public class SysPostController extends BaseController
     /**
      * 新增岗位
      */
-    @PreAuthorize("@ss.hasPermi('system:post:add')")
+    @PreAuthorize("@auth.hasPermi('system:post:add')")
     @Log(title = "岗位管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysPost post)
@@ -92,7 +92,7 @@ public class SysPostController extends BaseController
     /**
      * 修改岗位
      */
-    @PreAuthorize("@ss.hasPermi('system:post:edit')")
+    @PreAuthorize("@auth.hasPermi('system:post:edit')")
     @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysPost post)
@@ -112,7 +112,7 @@ public class SysPostController extends BaseController
     /**
      * 删除岗位
      */
-    @PreAuthorize("@ss.hasPermi('system:post:remove')")
+    @PreAuthorize("@auth.hasPermi('system:post:remove')")
     @Log(title = "岗位管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{postIds}")
     public AjaxResult remove(@PathVariable Long[] postIds)

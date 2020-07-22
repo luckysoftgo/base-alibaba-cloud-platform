@@ -1,13 +1,14 @@
 package com.application.cloud.common.security.service;
 
-import java.util.Collection;
+import com.application.cloud.common.security.domain.LoginUser;
+import com.application.cloud.common.security.utils.SecurityUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
-import com.application.cloud.common.security.domain.LoginUser;
-import com.application.cloud.common.security.utils.SecurityUtils;
+
+import java.util.Collection;
 
 /**
  * 自定义权限实现
@@ -15,8 +16,8 @@ import com.application.cloud.common.security.utils.SecurityUtils;
  * @author cloud
  */
 @Service("ss")
-public class PermissionService
-{
+public class PermissionService{
+	
     /** 所有权限标识 */
     private static final String ALL_PERMISSION = "*:*:*";
 
