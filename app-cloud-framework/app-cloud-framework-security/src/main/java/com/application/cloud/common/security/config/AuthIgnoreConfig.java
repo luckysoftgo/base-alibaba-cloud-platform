@@ -1,13 +1,14 @@
 package com.application.cloud.common.security.config;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 忽略服务间的认证
+ * 忽略服务间的认证(不登录可以访问的服务配置设置)
  * 
  * @author cloud
  **/
