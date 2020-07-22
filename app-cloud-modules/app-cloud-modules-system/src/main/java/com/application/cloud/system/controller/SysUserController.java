@@ -113,7 +113,7 @@ public class SysUserController extends BaseController
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
 	    // 部门集合
-	    List<Integer> depts = permissionService.getDeptPermission(sysUser.getUserId(),sysUser.getRoleIds());
+	    List<Long> depts = permissionService.getDeptPermission(sysUser.getUserId(),sysUser.getRoleIds());
         UserInfo sysUserVo = new UserInfo();
         sysUserVo.setSysUser(sysUser);
         sysUserVo.setRoles(roles);
