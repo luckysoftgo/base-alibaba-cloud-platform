@@ -2,7 +2,6 @@ package com.application.cloud.common.security.utils;
 
 import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.common.security.domain.LoginUser;
-import com.application.cloud.common.security.userdetail.CloudUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -90,7 +89,7 @@ public class SecurityUtils{
 	
 	
 	public static Long getTenantId() {
-		CloudUser user = getPrincipal();
+		LoginUser user = getLoginUser();
 		if (user != null) {
 			return user.getTenantId();
 		}
@@ -98,27 +97,16 @@ public class SecurityUtils{
 	}
 	
 	public static String getLoginName() {
-		CloudUser user = getPrincipal();
+		LoginUser user = getLoginUser();
 		if (user != null) {
 			return user.getUsername();
 		}
 		return null;
 	}
 	
-	public static CloudUser getPrincipal() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal != null) {
-			if (principal instanceof CloudUser) {
-				return (CloudUser) principal;
-			} else {
-				throw new IllegalStateException("获取用户数据失败");
-			}
-		}
-		return null;
-	}
 	
 	public static boolean hasRole(String role) {
-		CloudUser user = getPrincipal();
+		LoginUser user = getLoginUser();
 		if (user != null) {
 			if (user.getRoles().contains(role)) {
 				return true;
@@ -129,7 +117,7 @@ public class SecurityUtils{
 	}
 	
 	public static Long getUserId() {
-		CloudUser user = getPrincipal();
+		LoginUser user = getLoginUser();
 		if (user != null) {
 			return user.getUserId();
 		}
@@ -137,7 +125,7 @@ public class SecurityUtils{
 	}
 	
 	public static boolean hasAuthority(String authority) {
-		CloudUser user = getPrincipal();
+		LoginUser user = getLoginUser();
 		if (user != null) {
 			if (user.getAuthorities().contains(authority)) {
 				return true;
@@ -147,9 +135,9 @@ public class SecurityUtils{
 	}
 	
 	public static boolean hasResource(String resource) {
-		CloudUser user = getPrincipal();
+		LoginUser user = getLoginUser();
 		if (user != null) {
-			if (user.getResources().contains(resource)) {
+			if (user.getPermissions().contains(resource)) {
 				return true;
 			}
 		}

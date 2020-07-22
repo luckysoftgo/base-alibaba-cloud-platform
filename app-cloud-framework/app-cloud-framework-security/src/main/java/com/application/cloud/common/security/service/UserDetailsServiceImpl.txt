@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 用户信息处理
+ * 用户信息处理 (单用户名密码的 oauth2 认证)
  *
  * @author cloud
  */

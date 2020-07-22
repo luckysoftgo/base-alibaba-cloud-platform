@@ -33,7 +33,7 @@ public class UserInfo implements Serializable
 	/**
 	 * 角色集合
 	 */
-	private List<Integer> depts;
+	private List<Long> depts;
 
     public SysUser getSysUser()
     {
@@ -65,11 +65,11 @@ public class UserInfo implements Serializable
         this.roles = roles;
     }
 	
-	public List<Integer> getDepts() {
+	public List<Long> getDepts() {
 		return depts;
 	}
 	
-	public void setDepts(List<Integer> depts) {
+	public void setDepts(List<Long> depts) {
 		this.depts = depts;
 	}
 }

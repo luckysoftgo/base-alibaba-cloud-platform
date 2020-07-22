@@ -105,6 +105,20 @@ public class IntegrationUserDetailsService implements UserDetailsService {
 			user.setPassword(passwordEncoder.encode(integrationAuthentication.getAuthParam()));
 		}
 		LoginUser loginUser = new LoginUser(user.getUserId(), user.getUserName(), user.getPassword(), true, true, true, true,authorities);
+		loginUser.setDeptId(user.getDeptId());
+		loginUser.setUserName(user.getUserName());
+		loginUser.setNickName(user.getNickName());
+		loginUser.setEmail(user.getEmail());
+		loginUser.setPhonenumber(user.getPhonenumber());
+		loginUser.setSex(user.getSex());
+		loginUser.setStatus(user.getStatus());
+		loginUser.setDelFlag(user.getDelFlag());
+		loginUser.setRoleIds(user.getRoleIds());
+		loginUser.setRoles(info.getRoles());
+		loginUser.setRoleInfos(user.getRoles());
+		loginUser.setPostIds(user.getPostIds());
+		loginUser.setDepts(info.getDepts());
+		loginUser.setPermissions(info.getPermissions());
 		//带租户的方式,在 SysUser 表中加入 tenantId 字段.
 		return loginUser;
 	}
