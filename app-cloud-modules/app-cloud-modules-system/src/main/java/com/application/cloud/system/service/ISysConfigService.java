@@ -1,8 +1,8 @@
 package com.application.cloud.system.service;
 
-import java.util.List;
-
 import com.application.cloud.system.domain.SysConfig;
+
+import java.util.List;
 
 /**
  * 参数配置 服务层
@@ -71,4 +71,11 @@ public interface ISysConfigService
      * @return 结果
      */
     public String checkConfigKeyUnique(SysConfig config);
+	
+	/**
+	 * 根据key，获取value的Object对象
+	 * @param key    key
+	 * @param clazz  Object对象
+	 */
+	public <T> T getConfigObject(String key, Class<T> clazz);
 }

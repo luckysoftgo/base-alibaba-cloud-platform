@@ -1,10 +1,5 @@
 package com.application.cloud.system.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.application.cloud.common.core.constant.Constants;
 import com.application.cloud.common.core.constant.UserConstants;
 import com.application.cloud.common.core.text.Convert;
@@ -13,12 +8,21 @@ import com.application.cloud.common.redis.service.RedisService;
 import com.application.cloud.system.domain.SysConfig;
 import com.application.cloud.system.mapper.SysConfigMapper;
 import com.application.cloud.system.service.ISysConfigService;
+import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 参数配置 服务层实现
  * 
  * @author cloud
  */
+@Slf4j
 @Service
 public class SysConfigServiceImpl implements ISysConfigService
 {
@@ -172,7 +176,7 @@ public class SysConfigServiceImpl implements ISysConfigService
         return UserConstants.UNIQUE;
     }
 
-    /**
+	/**
      * 设置cache key
      * 
      * @param configKey 参数键
@@ -182,4 +186,24 @@ public class SysConfigServiceImpl implements ISysConfigService
     {
         return Constants.SYS_CONFIG_KEY + configKey;
     }
+	
+	/**
+	 * 根据key，获取value的Object对象
+	 * @param key    key
+	 * @param clazz  Object对象
+	 */
+	@Override
+	public <T> T getConfigObject(String key, Class<T> clazz) {
+		String value = selectConfigByKey(key);
+		if(StringUtils.isNotBlank(value)){
+			return new Gson().fromJson(value, clazz);
+		}
+		try {
+			return clazz.newInstance();
+		} catch (Exception e) {
+			log.info("获取实例对象失败了,失败原因是:{}",e.getMessage());
+		}
+		return null;
+	}
+	
 }
