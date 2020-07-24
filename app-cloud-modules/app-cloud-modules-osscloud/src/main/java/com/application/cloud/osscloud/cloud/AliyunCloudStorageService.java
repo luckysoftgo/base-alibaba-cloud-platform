@@ -29,7 +29,6 @@ public class AliyunCloudStorageService extends CloudStorageService {
 	    //https://help.aliyun.com/document_detail/32010.html?spm=a2c4g.11186623.6.798.2bc645dchuLQhj
 	    //client = new OSSClient(config.getAliyun().getEndPoint(), config.getAliyun().getAccessKeyId(),config.getAliyun().getAccessKeySecret());
 	    client = new OSSClientBuilder().build(config.getAliyun().getEndPoint(), config.getAliyun().getAccessKeyId(),config.getAliyun().getAccessKeySecret());
-	
     }
 
     @Override

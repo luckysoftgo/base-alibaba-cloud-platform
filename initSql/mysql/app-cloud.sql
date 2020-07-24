@@ -286,6 +286,8 @@ insert into sys_menu values('2003', '文件管理新增', '2001', '2', '#',    '
 insert into sys_menu values('2004', '文件管理修改', '2001', '3', '#',    '',               1, 'F', '0', '0', 'oss:file:edit',  '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
 insert into sys_menu values('2005', '文件管理删除', '2001', '4', '#',    '',               1, 'F', '0', '0', 'oss:file:remove','#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
 insert into sys_menu values('2006', '文件管理导出', '2001', '5', '#',    '',               1, 'F', '0', '0', 'oss:file:export','#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
+insert into sys_menu values('2007', '文件管理上传', '2001', '6', '#',    '',               1, 'F', '0', '0', 'oss:file:upload','#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
+insert into sys_menu values('2008', '文件管理下载', '2001', '7', '#',    '',               1, 'F', '0', '0', 'oss:file:download','#',    'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
@@ -410,6 +412,8 @@ insert into sys_role_menu values ('2', '2003');
 insert into sys_role_menu values ('2', '2004');
 insert into sys_role_menu values ('2', '2005');
 insert into sys_role_menu values ('2', '2006');
+insert into sys_role_menu values ('2', '2007');
+insert into sys_role_menu values ('2', '2008');
 
 -- ----------------------------
 -- 8、角色和部门关联表  角色1-N部门

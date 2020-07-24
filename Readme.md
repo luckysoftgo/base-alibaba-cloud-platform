@@ -36,7 +36,7 @@ Sentinel :
 
 # 启动服务
 无关顺序,可以挨个启动每个SpringBoot项目.
-在启动前端工程app-cloudwebsite
+在启动前端工程app-cloud-website
 如此就可以进行系统的访问了.
 
 
