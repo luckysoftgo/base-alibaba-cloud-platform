@@ -136,7 +136,10 @@ public class OssFileManagerController extends BaseController
 			fileManager.setModuleCode(bizCode);
 			fileManager.setUniqueKey(UUID.randomUUID().toString());
 			ossFileManagerService.insertOssFileManager(fileManager);
-			return AjaxResult.success("上传成功!");
+			AjaxResult ajax = AjaxResult.success();
+			ajax.put("fileName", file.getOriginalFilename());
+			ajax.put("url", path);
+			return ajax;
 		} catch (IOException e) {
 			log.error("存储文件失败,失败信息是:{}",e.getMessage());
 			return AjaxResult.error("存储文件失败!");
@@ -158,6 +161,8 @@ public class OssFileManagerController extends BaseController
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("multipart/form-data");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedfileName + "\"");
 		response.setHeader("Content-Length",String.valueOf(attachment.getFileSize()));
 		try {
