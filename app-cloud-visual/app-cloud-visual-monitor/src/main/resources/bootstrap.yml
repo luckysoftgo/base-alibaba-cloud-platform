@@ -18,6 +18,8 @@ spring:
       discovery:
         # 服务注册地址
         server-addr: ${nacoshosts}
+        ## 所属组信息.
+        #group: dev
       config:
         # 配置中心地址
         server-addr: ${nacoshosts}
@@ -26,7 +28,8 @@ spring:
         # 共享配置
         ##shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
         shared-configs: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-
+        ## 所属组信息.
+        #group: dev
 
 ##日志打印.
 logging:

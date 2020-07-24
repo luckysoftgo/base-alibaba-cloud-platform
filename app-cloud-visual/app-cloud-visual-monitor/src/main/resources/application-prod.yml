@@ -1,1 +1,10 @@
-后期需要添加的配置
+# Spring
+spring:
+  security:
+    user:
+      name: app-cloud
+      password: 123456
+  boot:
+    admin:
+      ui:
+        title: 青云服务状态监控
