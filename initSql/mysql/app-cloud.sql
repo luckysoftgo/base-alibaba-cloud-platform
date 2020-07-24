@@ -185,6 +185,7 @@ insert into sys_menu values('113',  'Admin控制台',    '2',   '4',  'http://lo
 insert into sys_menu values('114',  '表单构建',       '3',   '1',  'build',                                'tool/build/index',       1 ,'C', '0', '0', 'tool:build:list',         'build',         'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '表单构建菜单');
 insert into sys_menu values('115',  '代码生成',       '3',   '2',  'gen',                                  'tool/gen/index',         1, 'C', '0', '0', 'tool:gen:list',           'code',          'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '代码生成菜单');
 insert into sys_menu values('116',  '系统接口',       '3',   '3',  'http://localhost:8080/swagger-ui.html', '',                      1, 'C', '0', '0', 'tool:swagger:list',       'swagger',       'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '系统接口菜单');
+insert into sys_menu values('2001', '文件管理',       '2000', '4', 'file',                                  'oss/file/index',        1, 'C', '0', '0', 'oss:file:list',           'client',        'admin', '2020-07-24 10:47:13', 'cloud', '2020-07-24 10:47:13', '文件系统菜单');
 
 -- 三级菜单
 insert into sys_menu values('500',  '操作日志', '109', '1', 'operlog',    'system/operlog/index',     1, 'C', '0', '0', 'system:operlog:list',     'form',          'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '操作日志菜单');
@@ -279,7 +280,7 @@ insert into sys_menu values('1061', '预览代码', '115', '4', '#', '', 1, 'F',
 insert into sys_menu values('1062', '生成代码', '115', '5', '#', '', 1, 'F', '0', '0', 'tool:gen:code',              '#', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '');
 
 -- 文件系统菜单
-insert into sys_menu values('2001', '文件管理',    '2000', '4', 'file', 'oss/file/index', 1, 'C', '0', '0', 'oss:file:list',  'client', 'admin', '2020-07-24 10:47:13', '', '2020-07-24 10:47:13', '');
+
 insert into sys_menu values('2002', '文件管理查询', '2001', '1', '#',    '',               1, 'F', '0', '0', 'oss:file:query', '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
 insert into sys_menu values('2003', '文件管理新增', '2001', '2', '#',    '',               1, 'F', '0', '0', 'oss:file:add',   '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
 insert into sys_menu values('2004', '文件管理修改', '2001', '3', '#',    '',               1, 'F', '0', '0', 'oss:file:edit',  '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
