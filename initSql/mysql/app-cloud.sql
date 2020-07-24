@@ -165,7 +165,7 @@ create table sys_menu (
 insert into sys_menu values('1', '系统管理', '0', '1', 'system',           null,   1, 'M', '0', '0', '', 'system',   'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '系统管理目录');
 insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null,   1, 'M', '0', '0', '', 'monitor',  'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '系统监控目录');
 insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null,   1, 'M', '0', '0', '', 'tool',     'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '系统工具目录');
-insert into sys_menu values('4', '青云官网', '0', '4', 'http://qingcloud.vip', null ,  0, 'M', '0', '0', '', 'guide',    'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '青云官网地址');
+insert into sys_menu values('2000', '文件系统', '0', '4', 'oss',           null,   1, 'M', '0', '0', '', 'upload',   'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '系统工具目录');
 
 -- 二级菜单
 insert into sys_menu values('100',  '用户管理',       '1',   '1',  'user',                                'system/user/index',       1, 'C', '0', '0', 'system:user:list',        'user',          'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '用户管理菜单');
@@ -278,6 +278,13 @@ insert into sys_menu values('1060', '导入代码', '115', '2', '#', '', 1, 'F',
 insert into sys_menu values('1061', '预览代码', '115', '4', '#', '', 1, 'F', '0', '0', 'tool:gen:preview',           '#', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '');
 insert into sys_menu values('1062', '生成代码', '115', '5', '#', '', 1, 'F', '0', '0', 'tool:gen:code',              '#', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '');
 
+-- 文件系统菜单
+insert into sys_menu values('2001', '文件管理',    '2000', '4', 'file', 'oss/file/index', 1, 'C', '0', '0', 'oss:file:list',  'client', 'admin', '2020-07-24 10:47:13', '', '2020-07-24 10:47:13', '');
+insert into sys_menu values('2002', '文件管理查询', '2001', '1', '#',    '',               1, 'F', '0', '0', 'oss:file:query', '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
+insert into sys_menu values('2003', '文件管理新增', '2001', '2', '#',    '',               1, 'F', '0', '0', 'oss:file:add',   '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
+insert into sys_menu values('2004', '文件管理修改', '2001', '3', '#',    '',               1, 'F', '0', '0', 'oss:file:edit',  '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
+insert into sys_menu values('2005', '文件管理删除', '2001', '4', '#',    '',               1, 'F', '0', '0', 'oss:file:remove','#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
+insert into sys_menu values('2006', '文件管理导出', '2001', '5', '#',    '',               1, 'F', '0', '0', 'oss:file:export','#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
@@ -312,7 +319,6 @@ create table sys_role_menu (
 insert into sys_role_menu values ('2', '1');
 insert into sys_role_menu values ('2', '2');
 insert into sys_role_menu values ('2', '3');
-insert into sys_role_menu values ('2', '4');
 insert into sys_role_menu values ('2', '100');
 insert into sys_role_menu values ('2', '101');
 insert into sys_role_menu values ('2', '102');
@@ -394,6 +400,15 @@ insert into sys_role_menu values ('2', '1059');
 insert into sys_role_menu values ('2', '1060');
 insert into sys_role_menu values ('2', '1061');
 insert into sys_role_menu values ('2', '1062');
+
+-- 文件系统
+insert into sys_role_menu values ('2', '2000');
+insert into sys_role_menu values ('2', '2001');
+insert into sys_role_menu values ('2', '2002');
+insert into sys_role_menu values ('2', '2003');
+insert into sys_role_menu values ('2', '2004');
+insert into sys_role_menu values ('2', '2005');
+insert into sys_role_menu values ('2', '2006');
 
 -- ----------------------------
 -- 8、角色和部门关联表  角色1-N部门
@@ -727,3 +742,28 @@ create table sys_oauth_client_details (
 -- ----------------------------
 insert into sys_oauth_client_details values ('web',  '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,refresh_token',                    '', NULL, 3600, 7200, NULL, NULL);
 insert into sys_oauth_client_details values ('app-cloud',  '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,client_credentials,refresh_token', '', NULL, 3600, 7200, NULL, NULL);
+
+
+-- ----------------------------
+-- 21、文件/附件 表.
+-- ----------------------------
+drop table if exists oss_file_manager;
+create table oss_file_manager (
+  oss_id           bigint(20)      not null auto_increment    comment '文件id',
+  file_name         varchar(50)     default ''                 comment '文件名称',
+  file_type         varchar(30)     default ''                 comment '文件类型',
+  file_size         bigint(20)      default 0                  comment '文件大小',
+  file_path         varchar(100)    default ''                 comment '文件的路径',
+  unique_key        varchar(50)     default ''                 comment '文件唯一标识',
+  module_id         varchar(30)     default ''                 comment '文件所属的业务id',
+  module_code       varchar(30)     default ''                 comment '文件所属的业务code',
+  create_by         varchar(64)     default ''                 comment '创建者',
+  create_time 	    datetime                                   comment '创建时间',
+  update_by         varchar(64)     default ''                 comment '更新者',
+  update_time       datetime                                   comment '更新时间',
+  info_desc         varchar(500)    default ''                 comment '描述',
+  primary key (oss_id)
+) ENGINE=InnoDB auto_increment=0 DEFAULT CHARSET=utf8mb4 COMMENT= '文件/附件管理表';
+
+
+
