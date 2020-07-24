@@ -169,7 +169,7 @@ public class OssFileManagerController extends BaseController
 			InputStream inputStream = new FileInputStream(new File(attachment.getFilePath()));
 			IOUtils.copy(inputStream,response.getOutputStream());
 		} catch (IOException e) {
-			throw new RuntimeException("下载文件失败" + e);
+			throw new RuntimeException("下载文件失败" + e.getMessage());
 		}
 	}
 	
