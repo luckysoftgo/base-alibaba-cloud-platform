@@ -12,9 +12,17 @@
 	<description>app-cloud-modules业务模块</description>
 	
 	<modules>
+		<!--系统配置-->
 		<module>app-cloud-modules-system</module>
+		
+		<!--代码生成-->
 		<module>app-cloud-modules-gencode</module>
+		
+		<!--任务管理-->
 		<module>app-cloud-modules-jobtask</module>
+		
+		<!--文件存储-->
+		<module>app-cloud-modules-osscloud</module>
 	</modules>
 
 </project>
