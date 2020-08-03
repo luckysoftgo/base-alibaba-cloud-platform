@@ -46,7 +46,7 @@ public class OssFileManagerController extends BaseController
     @Autowired
     private IOssFileManagerService ossFileManagerService;
 	
-	@Autowired
+	@Autowired(required = false)
 	private CloudStorageService cloudStorageService;
 
 	
