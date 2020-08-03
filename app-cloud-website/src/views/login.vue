@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">青云后台管理系统</h3>
+      <h3 class="title">若依后台管理系统</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -201,6 +201,6 @@ export default {
   letter-spacing: 1px;
 }
 .login-code-img {
-  height: 40px;
+  height: 38px;
 }
 </style>

@@ -6,7 +6,7 @@
           <span slot="label">生成模板</span>
           <el-select v-model="info.tplCategory">
             <el-option label="单表（增删改查）" value="crud" />
-            <el-option label="树表（增删改查）" value="tree"/>
+            <el-option label="树表（增删改查）" value="tree" />
           </el-select>
         </el-form-item>
       </el-col>
@@ -56,6 +56,60 @@
             </el-tooltip>
           </span>
           <el-input v-model="info.functionName" />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="12">
+        <el-form-item>
+          <span slot="label">
+            上级菜单
+            <el-tooltip content="分配到指定菜单下，例如 系统管理" placement="top">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </span>
+          <treeselect
+            :append-to-body="true"
+            v-model="info.parentMenuId"
+            :options="menus"
+            :normalizer="normalizer"
+            :show-count="true"
+            placeholder="请选择系统菜单"
+          />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="12">
+        <el-form-item prop="genType">
+          <span slot="label">
+            生成代码方式
+            <el-tooltip content="默认为zip压缩包下载，也可以自定义生成路径" placement="top">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </span>
+          <el-radio v-model="info.genType" label="0">zip压缩包</el-radio>
+          <el-radio v-model="info.genType" label="1">自定义路径</el-radio>
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="24" v-if="info.genType == '1'">
+        <el-form-item prop="genPath">
+          <span slot="label">
+            自定义路径
+            <el-tooltip content="填写磁盘绝对路径，若不填写，则生成到当前Web项目下" placement="top">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </span>
+          <el-input v-model="info.genPath">
+            <el-dropdown slot="append">
+              <el-button type="primary">
+                最近路径快速选择
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item @click.native="info.genPath = '/'">恢复默认的生成基础路径</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -120,13 +174,21 @@
   </el-form>
 </template>
 <script>
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+
 export default {
   name: "BasicInfoForm",
+  components: { Treeselect },
   props: {
     info: {
       type: Object,
       default: null
-    }
+    },
+    menus: {
+      type: Array,
+      default: []
+    },
   },
   data() {
     return {
@@ -149,6 +211,19 @@ export default {
       }
     };
   },
-  created() {}
+  created() {},
+  methods: {
+    /** 转换菜单数据结构 */
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.menuId,
+        label: node.menuName,
+        children: node.children
+      };
+    }
+  }
 };
 </script>

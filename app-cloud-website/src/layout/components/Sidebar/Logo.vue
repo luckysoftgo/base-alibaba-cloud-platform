@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '青云管理系统',
+      title: '若依管理系统',
       logo: logoImg
     }
   }
