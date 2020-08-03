@@ -1,12 +1,13 @@
 package com.application.cloud.gen.util;
 
-import java.util.Arrays;
-import org.apache.commons.lang3.RegExUtils;
 import com.application.cloud.common.core.constant.GenConstants;
 import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.gen.config.GenConfig;
 import com.application.cloud.gen.domain.GenTable;
 import com.application.cloud.gen.domain.GenTableColumn;
+import org.apache.commons.lang3.RegExUtils;
+
+import java.util.Arrays;
 
 /**
  * 代码生成器 工具类
@@ -200,7 +201,7 @@ public class GenUtils
      */
     public static String replaceText(String text)
     {
-        return RegExUtils.replaceAll(text, "(?:表|若依)", "");
+        return RegExUtils.replaceAll(text, "(?:表|青云)", "");
     }
 
     /**
