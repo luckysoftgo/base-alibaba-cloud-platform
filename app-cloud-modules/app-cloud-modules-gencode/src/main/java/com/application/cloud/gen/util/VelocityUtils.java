@@ -1,15 +1,16 @@
 package com.application.cloud.gen.util;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import org.apache.velocity.VelocityContext;
 import com.alibaba.fastjson.JSONObject;
 import com.application.cloud.common.core.constant.GenConstants;
 import com.application.cloud.common.core.utils.DateUtils;
 import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.gen.domain.GenTable;
 import com.application.cloud.gen.domain.GenTableColumn;
+import org.apache.velocity.VelocityContext;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * 模板工具类
@@ -23,7 +24,10 @@ public class VelocityUtils
 
     /** mybatis空间路径 */
     private static final String MYBATIS_PATH = "main/resources/mapper";
-
+	
+	/** 默认上级菜单，系统工具 */
+	private static final String DEFAULT_PARENT_MENU_ID = "3";
+	
     /**
      * 设置模板变量信息
      * 
@@ -55,13 +59,22 @@ public class VelocityUtils
         velocityContext.put("permissionPrefix", getPermissionPrefix(moduleName, businessName));
         velocityContext.put("columns", genTable.getColumns());
         velocityContext.put("table", genTable);
+	    setMenuVelocityContext(velocityContext, genTable);
         if (GenConstants.TPL_TREE.equals(tplCategory))
         {
             setTreeVelocityContext(velocityContext, genTable);
         }
         return velocityContext;
     }
-
+	
+	public static void setMenuVelocityContext(VelocityContext context, GenTable genTable)
+	{
+		String options = genTable.getOptions();
+		JSONObject paramsObj = JSONObject.parseObject(options);
+		String parentMenuId = getParentMenuId(paramsObj);
+		context.put("parentMenuId", parentMenuId);
+	}
+	
     public static void setTreeVelocityContext(VelocityContext context, GenTable genTable)
     {
         String options = genTable.getOptions();
@@ -210,89 +223,103 @@ public class VelocityUtils
         }
         return importList;
     }
-
-    /**
-     * 获取权限前缀
-     * 
-     * @param moduleName 模块名称
-     * @param businessName 业务名称
-     * @return 返回权限前缀
-     */
-    public static String getPermissionPrefix(String moduleName, String businessName)
-    {
-        return StringUtils.format("{}:{}", moduleName, businessName);
-
-    }
-
-    /**
-     * 获取树编码
-     * 
-     * @param paramsObj 生成其他选项
-     * @return 树编码
-     */
-    public static String getTreecode(JSONObject paramsObj)
-    {
-        if (paramsObj.containsKey(GenConstants.TREE_CODE))
-        {
-            return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_CODE));
-        }
-        return "";
-    }
-
-    /**
-     * 获取树父编码
-     * 
-     * @param paramsObj 生成其他选项
-     * @return 树父编码
-     */
-    public static String getTreeParentCode(JSONObject paramsObj)
-    {
-        if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE))
-        {
-            return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_PARENT_CODE));
-        }
-        return "";
-    }
-
-    /**
-     * 获取树名称
-     * 
-     * @param paramsObj 生成其他选项
-     * @return 树名称
-     */
-    public static String getTreeName(JSONObject paramsObj)
-    {
-        if (paramsObj.containsKey(GenConstants.TREE_NAME))
-        {
-            return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_NAME));
-        }
-        return "";
-    }
-
-    /**
-     * 获取需要在哪一列上面显示展开按钮
-     * 
-     * @param genTable 业务表对象
-     * @return 展开按钮列序号
-     */
-    public static int getExpandColumn(GenTable genTable)
-    {
-        String options = genTable.getOptions();
-        JSONObject paramsObj = JSONObject.parseObject(options);
-        String treeName = paramsObj.getString(GenConstants.TREE_NAME);
-        int num = 0;
-        for (GenTableColumn column : genTable.getColumns())
-        {
-            if (column.isList())
-            {
-                num++;
-                String columnName = column.getColumnName();
-                if (columnName.equals(treeName))
-                {
-                    break;
-                }
-            }
-        }
-        return num;
-    }
+	
+	/**
+	 * 获取权限前缀
+	 *
+	 * @param moduleName 模块名称
+	 * @param businessName 业务名称
+	 * @return 返回权限前缀
+	 */
+	public static String getPermissionPrefix(String moduleName, String businessName)
+	{
+		return StringUtils.format("{}:{}", moduleName, businessName);
+	}
+	
+	/**
+	 * 获取上级菜单ID字段
+	 *
+	 * @param paramsObj 生成其他选项
+	 * @return 上级菜单ID字段
+	 */
+	public static String getParentMenuId(JSONObject paramsObj)
+	{
+		if (StringUtils.isNotEmpty(paramsObj) && paramsObj.containsKey(GenConstants.PARENT_MENU_ID))
+		{
+			return paramsObj.getString(GenConstants.PARENT_MENU_ID);
+		}
+		return DEFAULT_PARENT_MENU_ID;
+	}
+	
+	/**
+	 * 获取树编码
+	 *
+	 * @param paramsObj 生成其他选项
+	 * @return 树编码
+	 */
+	public static String getTreecode(JSONObject paramsObj)
+	{
+		if (paramsObj.containsKey(GenConstants.TREE_CODE))
+		{
+			return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_CODE));
+		}
+		return StringUtils.EMPTY;
+	}
+	
+	/**
+	 * 获取树父编码
+	 *
+	 * @param paramsObj 生成其他选项
+	 * @return 树父编码
+	 */
+	public static String getTreeParentCode(JSONObject paramsObj)
+	{
+		if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE))
+		{
+			return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_PARENT_CODE));
+		}
+		return StringUtils.EMPTY;
+	}
+	
+	/**
+	 * 获取树名称
+	 *
+	 * @param paramsObj 生成其他选项
+	 * @return 树名称
+	 */
+	public static String getTreeName(JSONObject paramsObj)
+	{
+		if (paramsObj.containsKey(GenConstants.TREE_NAME))
+		{
+			return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_NAME));
+		}
+		return StringUtils.EMPTY;
+	}
+	
+	/**
+	 * 获取需要在哪一列上面显示展开按钮
+	 *
+	 * @param genTable 业务表对象
+	 * @return 展开按钮列序号
+	 */
+	public static int getExpandColumn(GenTable genTable)
+	{
+		String options = genTable.getOptions();
+		JSONObject paramsObj = JSONObject.parseObject(options);
+		String treeName = paramsObj.getString(GenConstants.TREE_NAME);
+		int num = 0;
+		for (GenTableColumn column : genTable.getColumns())
+		{
+			if (column.isList())
+			{
+				num++;
+				String columnName = column.getColumnName();
+				if (columnName.equals(treeName))
+				{
+					break;
+				}
+			}
+		}
+		return num;
+	}
 }

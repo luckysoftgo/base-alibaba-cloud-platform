@@ -7,8 +7,10 @@ import com.application.cloud.common.core.web.domain.AjaxResult;
 import com.application.cloud.common.core.web.page.TableDataInfo;
 import com.application.cloud.common.log.annotation.Log;
 import com.application.cloud.common.log.enums.BusinessType;
+import com.application.cloud.common.security.utils.SecurityUtils;
 import com.application.cloud.job.domain.SysJob;
 import com.application.cloud.job.service.ISysJobService;
+import com.application.cloud.job.util.CronUtils;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -71,28 +73,38 @@ public class SysJobController extends BaseController
     {
         return AjaxResult.success(jobService.selectJobById(jobId));
     }
-
-    /**
-     * 新增定时任务
-     */
-    @PreAuthorize("@auth.hasPermi('monitor:job:add')")
-    @Log(title = "定时任务", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody SysJob sysJob) throws SchedulerException, TaskException
-    {
-        return toAjax(jobService.insertJob(sysJob));
-    }
-
-    /**
-     * 修改定时任务
-     */
-    @PreAuthorize("@auth.hasPermi('monitor:job:edit')")
-    @Log(title = "定时任务", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody SysJob sysJob) throws SchedulerException, TaskException
-    {
-        return toAjax(jobService.updateJob(sysJob));
-    }
+	
+	/**
+	 * 新增定时任务
+	 */
+	@PreAuthorize("@ss.hasPermi('monitor:job:add')")
+	@Log(title = "定时任务", businessType = BusinessType.INSERT)
+	@PostMapping
+	public AjaxResult add(@RequestBody SysJob sysJob) throws SchedulerException, TaskException
+	{
+		if (!CronUtils.isValid(sysJob.getCronExpression()))
+		{
+			return AjaxResult.error("cron表达式不正确");
+		}
+		sysJob.setCreateBy(SecurityUtils.getUsername());
+		return toAjax(jobService.insertJob(sysJob));
+	}
+	
+	/**
+	 * 修改定时任务
+	 */
+	@PreAuthorize("@ss.hasPermi('monitor:job:edit')")
+	@Log(title = "定时任务", businessType = BusinessType.UPDATE)
+	@PutMapping
+	public AjaxResult edit(@RequestBody SysJob sysJob) throws SchedulerException, TaskException
+	{
+		if (!CronUtils.isValid(sysJob.getCronExpression()))
+		{
+			return AjaxResult.error("cron表达式不正确");
+		}
+		sysJob.setUpdateBy(SecurityUtils.getUsername());
+		return toAjax(jobService.updateJob(sysJob));
+	}
 
     /**
      * 定时任务状态修改

@@ -1,9 +1,15 @@
 package com.application.cloud.common.log.aspect;
 
-import java.lang.reflect.Method;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.alibaba.fastjson.JSON;
+import com.application.cloud.common.core.utils.ServletUtils;
+import com.application.cloud.common.core.utils.StringUtils;
+import com.application.cloud.common.core.utils.ip.IpUtils;
+import com.application.cloud.common.log.annotation.Log;
+import com.application.cloud.common.log.enums.BusinessStatus;
+import com.application.cloud.common.log.service.AsyncLogService;
+import com.application.cloud.common.security.domain.LoginUser;
+import com.application.cloud.common.security.utils.SecurityUtils;
+import com.application.cloud.system.api.domain.SysOperLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -18,16 +24,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
-import com.alibaba.fastjson.JSON;
-import com.application.cloud.common.core.utils.ServletUtils;
-import com.application.cloud.common.core.utils.StringUtils;
-import com.application.cloud.common.core.utils.ip.IpUtils;
-import com.application.cloud.common.log.annotation.Log;
-import com.application.cloud.common.log.enums.BusinessStatus;
-import com.application.cloud.common.log.service.AsyncLogService;
-import com.application.cloud.common.security.domain.LoginUser;
-import com.application.cloud.common.security.utils.SecurityUtils;
-import com.application.cloud.system.api.domain.SysOperLog;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * 操作日志记录处理
@@ -185,26 +186,32 @@ public class LogAspect
         }
         return null;
     }
-
-    /**
-     * 参数拼装
-     */
-    private String argsArrayToString(Object[] paramsArray)
-    {
-        String params = "";
-        if (paramsArray != null && paramsArray.length > 0)
-        {
-            for (int i = 0; i < paramsArray.length; i++)
-            {
-                if (!isFilterObject(paramsArray[i]))
-                {
-                    Object jsonObj = JSON.toJSON(paramsArray[i]);
-                    params += jsonObj.toString() + " ";
-                }
-            }
-        }
-        return params.trim();
-    }
+	
+	/**
+	 * 参数拼装
+	 */
+	private String argsArrayToString(Object[] paramsArray)
+	{
+		String params = "";
+		if (paramsArray != null && paramsArray.length > 0)
+		{
+			for (int i = 0; i < paramsArray.length; i++)
+			{
+				if (!isFilterObject(paramsArray[i]))
+				{
+					try
+					{
+						Object jsonObj = JSON.toJSON(paramsArray[i]);
+						params += jsonObj.toString() + " ";
+					}
+					catch (Exception e)
+					{
+					}
+				}
+			}
+		}
+		return params.trim();
+	}
 
     /**
      * 判断是否需要过滤的对象。

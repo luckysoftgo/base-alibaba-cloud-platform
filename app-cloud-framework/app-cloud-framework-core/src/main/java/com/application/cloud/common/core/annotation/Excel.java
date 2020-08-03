@@ -33,6 +33,11 @@ public @interface Excel
      * 读取内容转表达式 (如: 0=男,1=女,2=未知)
      */
     public String readConverterExp() default "";
+    
+	/**
+	 * 分隔符，读取字符串组内容
+	 */
+	public String separator() default ",";
 
     /**
      * 导出类型（0数字 1字符串）

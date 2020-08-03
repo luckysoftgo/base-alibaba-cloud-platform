@@ -147,31 +147,43 @@ public class GenController extends BaseController
         Map<String, String> dataMap = genTableService.previewCode(tableId);
         return AjaxResult.success(dataMap);
     }
-
-    /**
-     * 生成代码
-     */
-    @PreAuthorize("@auth.hasPermi('tool:gen:code')")
-    @Log(title = "代码生成", businessType = BusinessType.GENCODE)
-    @GetMapping("/genCode/{tableName}")
-    public void genCode(HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException
-    {
-        byte[] data = genTableService.generatorCode(tableName);
-        genCode(response, data);
-    }
-
-    /**
-     * 批量生成代码
-     */
-    @PreAuthorize("@auth.hasPermi('tool:gen:code')")
-    @Log(title = "代码生成", businessType = BusinessType.GENCODE)
-    @GetMapping("/batchGenCode")
-    public void batchGenCode(HttpServletResponse response, String tables) throws IOException
-    {
-        String[] tableNames = Convert.toStrArray(tables);
-        byte[] data = genTableService.generatorCode(tableNames);
-        genCode(response, data);
-    }
+	
+	/**
+	 * 生成代码（下载方式）
+	 */
+	@PreAuthorize("@ss.hasPermi('tool:gen:code')")
+	@Log(title = "代码生成", businessType = BusinessType.GENCODE)
+	@GetMapping("/download/{tableName}")
+	public void download(HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException
+	{
+		byte[] data = genTableService.downloadCode(tableName);
+		genCode(response, data);
+	}
+	
+	/**
+	 * 生成代码（自定义路径）
+	 */
+	@PreAuthorize("@ss.hasPermi('tool:gen:code')")
+	@Log(title = "代码生成", businessType = BusinessType.GENCODE)
+	@GetMapping("/genCode/{tableName}")
+	public AjaxResult genCode(HttpServletResponse response, @PathVariable("tableName") String tableName)
+	{
+		genTableService.generatorCode(tableName);
+		return AjaxResult.success();
+	}
+	
+	/**
+	 * 批量生成代码
+	 */
+	@PreAuthorize("@ss.hasPermi('tool:gen:code')")
+	@Log(title = "代码生成", businessType = BusinessType.GENCODE)
+	@GetMapping("/batchGenCode")
+	public void batchGenCode(HttpServletResponse response, String tables) throws IOException
+	{
+		String[] tableNames = Convert.toStrArray(tables);
+		byte[] data = genTableService.downloadCode(tableNames);
+		genCode(response, data);
+	}
 
     /**
      * 生成zip文件

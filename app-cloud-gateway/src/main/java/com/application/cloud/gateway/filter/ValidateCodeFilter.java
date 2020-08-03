@@ -21,43 +21,60 @@ import reactor.core.publisher.Mono;
 @Component
 public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
 {
-    private final static String AUTH_URL = "/oauth/token";
-
-    @Autowired
-    private ValidateCodeService validateCodeService;
-
-    private static final String BASIC_ = "Basic ";
-
-    private static final String CODE = "code";
-
-    private static final String UUID = "uuid";
-
-    @Override
-    public GatewayFilter apply(Object config){
-        return (exchange, chain) -> {
-            ServerHttpRequest request = exchange.getRequest();
-            // 非登录请求，不处理
-            if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL))
-            {
-                return chain.filter(exchange);
-            }
-
-            // 消息头存在内容，且不存在验证码参数，不处理
-            String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-            if (StringUtils.isNotEmpty(header) && StringUtils.startsWith(header, BASIC_)
-                    && !request.getQueryParams().containsKey(CODE) && !request.getQueryParams().containsKey(UUID))
-            {
-                return chain.filter(exchange);
-            }
-            try{
-                validateCodeService.checkCapcha(request.getQueryParams().getFirst(CODE),request.getQueryParams().getFirst(UUID));
-            }
-            catch (Exception e){
-                ServerHttpResponse response = exchange.getResponse();
-                return exchange.getResponse().writeWith(
-                        Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error(e.getMessage())))));
-            }
-            return chain.filter(exchange);
-        };
-    }
+	private final static String AUTH_URL = "/oauth/token";
+	
+	@Autowired
+	private ValidateCodeService validateCodeService;
+	
+	private static final String BASIC_ = "Basic ";
+	
+	private static final String CODE = "code";
+	
+	private static final String UUID = "uuid";
+	
+	private static final String GRANT_TYPE = "grant_type";
+	
+	private static final String REFRESH_TOKEN = "refresh_token";
+	
+	@Override
+	public GatewayFilter apply(Object config)
+	{
+		return (exchange, chain) -> {
+			ServerHttpRequest request = exchange.getRequest();
+			
+			// 非登录请求，不处理
+			if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL))
+			{
+				return chain.filter(exchange);
+			}
+			
+			// 刷新token请求，不处理
+			String grantType = request.getQueryParams().getFirst(GRANT_TYPE);
+			if (StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL) && StringUtils.containsIgnoreCase(grantType, REFRESH_TOKEN))
+			{
+				return chain.filter(exchange);
+			}
+			
+			// 消息头存在内容，且不存在验证码参数，不处理
+			String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+			if (StringUtils.isNotEmpty(header) && StringUtils.startsWith(header, BASIC_)
+					&& !request.getQueryParams().containsKey(CODE) && !request.getQueryParams().containsKey(UUID))
+			{
+				return chain.filter(exchange);
+			}
+			try
+			{
+				validateCodeService.checkCapcha(request.getQueryParams().getFirst(CODE),
+						request.getQueryParams().getFirst(UUID));
+			}
+			catch (Exception e)
+			{
+				ServerHttpResponse response = exchange.getResponse();
+				response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+				return exchange.getResponse().writeWith(
+						Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error(e.getMessage())))));
+			}
+			return chain.filter(exchange);
+		};
+	}
 }

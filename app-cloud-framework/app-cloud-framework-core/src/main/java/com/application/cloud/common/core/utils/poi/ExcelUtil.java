@@ -1,21 +1,13 @@
 package com.application.cloud.common.core.utils.poi;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
+import com.application.cloud.common.core.annotation.Excel;
+import com.application.cloud.common.core.annotation.Excel.ColumnType;
+import com.application.cloud.common.core.annotation.Excel.Type;
+import com.application.cloud.common.core.annotation.Excels;
+import com.application.cloud.common.core.text.Convert;
+import com.application.cloud.common.core.utils.DateUtils;
+import com.application.cloud.common.core.utils.StringUtils;
+import com.application.cloud.common.core.utils.reflect.ReflectUtils;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -39,14 +31,22 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFDataValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.application.cloud.common.core.annotation.Excel;
-import com.application.cloud.common.core.annotation.Excel.ColumnType;
-import com.application.cloud.common.core.annotation.Excel.Type;
-import com.application.cloud.common.core.annotation.Excels;
-import com.application.cloud.common.core.text.Convert;
-import com.application.cloud.common.core.utils.DateUtils;
-import com.application.cloud.common.core.utils.StringUtils;
-import com.application.cloud.common.core.utils.reflect.ReflectUtils;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Excel相关处理
@@ -191,10 +191,13 @@ public class ExcelUtil<T>
                 Excel attr = field.getAnnotation(Excel.class);
                 if (attr != null && (attr.type() == Type.ALL || attr.type() == type))
                 {
-                    // 设置类的私有字段属性可访问.
-                    field.setAccessible(true);
-                    Integer column = cellMap.get(attr.name());
-                    fieldsMap.put(column, field);
+	                // 设置类的私有字段属性可访问.
+	                field.setAccessible(true);
+	                Integer column = cellMap.get(attr.name());
+	                if (column != null)
+	                {
+		                fieldsMap.put(column, field);
+	                }
                 }
             }
             for (int i = 1; i < rows; i++)
@@ -265,7 +268,7 @@ public class ExcelUtil<T>
                         }
                         else if (StringUtils.isNotEmpty(attr.readConverterExp()))
                         {
-                            val = reverseByExp(String.valueOf(val), attr.readConverterExp());
+	                        val = reverseByExp(Convert.toStr(val), attr.readConverterExp(), attr.separator());
                         }
                         ReflectUtils.invokeSetter(entity, propertyName, val);
                     }
@@ -525,13 +528,14 @@ public class ExcelUtil<T>
                 Object value = getTargetValue(vo, field, attr);
                 String dateFormat = attr.dateFormat();
                 String readConverterExp = attr.readConverterExp();
+	            String separator = attr.separator();
                 if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
                 {
                     cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value));
                 }
                 else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
                 {
-                    cell.setCellValue(convertByExp(String.valueOf(value), readConverterExp));
+	                cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
                 }
                 else
                 {
@@ -603,66 +607,82 @@ public class ExcelUtil<T>
 
         sheet.addValidationData(dataValidation);
     }
-
-    /**
-     * 解析导出值 0=男,1=女,2=未知
-     * 
-     * @param propertyValue 参数值
-     * @param converterExp 翻译注解
-     * @return 解析后值
-     * @throws Exception
-     */
-    public static String convertByExp(String propertyValue, String converterExp) throws Exception
-    {
-        try
-        {
-            String[] convertSource = converterExp.split(",");
-            for (String item : convertSource)
-            {
-                String[] itemArray = item.split("=");
-                if (itemArray[0].equals(propertyValue))
-                {
-                    return itemArray[1];
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            throw e;
-        }
-        return propertyValue;
-    }
-
-    /**
-     * 反向解析值 男=0,女=1,未知=2
-     * 
-     * @param propertyValue 参数值
-     * @param converterExp 翻译注解
-     * @return 解析后值
-     * @throws Exception
-     */
-    public static String reverseByExp(String propertyValue, String converterExp) throws Exception
-    {
-        try
-        {
-            String[] convertSource = converterExp.split(",");
-            for (String item : convertSource)
-            {
-                String[] itemArray = item.split("=");
-                if (itemArray[1].equals(propertyValue))
-                {
-                    return itemArray[0];
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            throw e;
-        }
-        return propertyValue;
-    }
-
-    /**
+	
+	/**
+	 * 解析导出值 0=男,1=女,2=未知
+	 *
+	 * @param propertyValue 参数值
+	 * @param converterExp 翻译注解
+	 * @param separator 分隔符
+	 * @return 解析后值
+	 */
+	public static String convertByExp(String propertyValue, String converterExp, String separator)
+	{
+		StringBuilder propertyString = new StringBuilder();
+		String[] convertSource = converterExp.split(",");
+		for (String item : convertSource)
+		{
+			String[] itemArray = item.split("=");
+			if (StringUtils.containsAny(separator, propertyValue))
+			{
+				for (String value : propertyValue.split(separator))
+				{
+					if (itemArray[0].equals(value))
+					{
+						propertyString.append(itemArray[1] + separator);
+						break;
+					}
+				}
+			}
+			else
+			{
+				if (itemArray[0].equals(propertyValue))
+				{
+					return itemArray[1];
+				}
+			}
+		}
+		return StringUtils.stripEnd(propertyString.toString(), separator);
+	}
+	
+	/**
+	 * 反向解析值 男=0,女=1,未知=2
+	 *
+	 * @param propertyValue 参数值
+	 * @param converterExp 翻译注解
+	 * @param separator 分隔符
+	 * @return 解析后值
+	 */
+	public static String reverseByExp(String propertyValue, String converterExp, String separator)
+	{
+		StringBuilder propertyString = new StringBuilder();
+		String[] convertSource = converterExp.split(",");
+		for (String item : convertSource)
+		{
+			String[] itemArray = item.split("=");
+			if (StringUtils.containsAny(separator, propertyValue))
+			{
+				for (String value : propertyValue.split(separator))
+				{
+					if (itemArray[1].equals(value))
+					{
+						propertyString.append(itemArray[0] + separator);
+						break;
+					}
+				}
+			}
+			else
+			{
+				if (itemArray[1].equals(propertyValue))
+				{
+					return itemArray[0];
+				}
+			}
+		}
+		return StringUtils.stripEnd(propertyString.toString(), separator);
+	}
+	
+	/**
      * 获取bean中的属性值
      * 
      * @param vo 实体对象
@@ -783,64 +803,59 @@ public class ExcelUtil<T>
             wb.setSheetName(index, sheetName + index);
         }
     }
-
-    /**
-     * 获取单元格值
-     * 
-     * @param row 获取的行
-     * @param column 获取单元格列号
-     * @return 单元格值
-     */
-    public Object getCellValue(Row row, int column)
-    {
-        if (row == null)
-        {
-            return row;
-        }
-        Object val = "";
-        try
-        {
-            Cell cell = row.getCell(column);
-            if (StringUtils.isNotNull(cell))
-            {
-                if (cell.getCellTypeEnum() == CellType.NUMERIC || cell.getCellTypeEnum() == CellType.FORMULA)
-                {
-                    val = cell.getNumericCellValue();
-                    if (HSSFDateUtil.isCellDateFormatted(cell))
-                    {
-                        val = DateUtil.getJavaDate((Double) val); // POI Excel 日期格式转换
-                    }
-                    else
-                    {
-                        if ((Double) val % 1 > 0)
-                        {
-                            val = new DecimalFormat("0.00").format(val);
-                        }
-                        else
-                        {
-                            val = new DecimalFormat("0").format(val);
-                        }
-                    }
-                }
-                else if (cell.getCellTypeEnum() == CellType.STRING)
-                {
-                    val = cell.getStringCellValue();
-                }
-                else if (cell.getCellTypeEnum() == CellType.BOOLEAN)
-                {
-                    val = cell.getBooleanCellValue();
-                }
-                else if (cell.getCellTypeEnum() == CellType.ERROR)
-                {
-                    val = cell.getErrorCellValue();
-                }
-
-            }
-        }
-        catch (Exception e)
-        {
-            return val;
-        }
-        return val;
-    }
+	
+	/**
+	 * 获取单元格值
+	 *
+	 * @param row 获取的行
+	 * @param column 获取单元格列号
+	 * @return 单元格值
+	 */
+	public Object getCellValue(Row row, int column)
+	{
+		if (row == null)
+		{
+			return row;
+		}
+		Object val = "";
+		try
+		{
+			Cell cell = row.getCell(column);
+			if (StringUtils.isNotNull(cell))
+			{
+				if (cell.getCellTypeEnum() == CellType.NUMERIC || cell.getCellTypeEnum() == CellType.FORMULA)
+				{
+					val = cell.getNumericCellValue();
+					if (HSSFDateUtil.isCellDateFormatted(cell))
+					{
+						// POI Excel 日期格式转换
+						val = DateUtil.getJavaDate((Double) val);
+					}
+					else
+					{
+						// 浮点格式处理
+						val = new BigDecimal(val.toString());
+					}
+				}
+				else if (cell.getCellTypeEnum() == CellType.STRING)
+				{
+					val = cell.getStringCellValue();
+				}
+				else if (cell.getCellTypeEnum() == CellType.BOOLEAN)
+				{
+					val = cell.getBooleanCellValue();
+				}
+				else if (cell.getCellTypeEnum() == CellType.ERROR)
+				{
+					val = cell.getErrorCellValue();
+				}
+				
+			}
+		}
+		catch (Exception e)
+		{
+			return val;
+		}
+		return val;
+	}
 }

@@ -1,12 +1,13 @@
 package com.application.cloud.system.utils;
 
-import java.util.Collection;
-import java.util.List;
 import com.application.cloud.common.core.constant.Constants;
 import com.application.cloud.common.core.utils.SpringUtils;
 import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.common.redis.service.RedisService;
 import com.application.cloud.system.domain.SysDictData;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 字典工具类
@@ -37,8 +38,8 @@ public class DictUtils
         Object cacheObj = SpringUtils.getBean(RedisService.class).getCacheObject(getCacheKey(key));
         if (StringUtils.isNotNull(cacheObj))
         {
-            List<SysDictData> DictDatas = StringUtils.cast(cacheObj);
-            return DictDatas;
+            List<SysDictData> dictDatas = StringUtils.cast(cacheObj);
+            return dictDatas;
         }
         return null;
     }
