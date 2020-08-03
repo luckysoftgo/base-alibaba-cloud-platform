@@ -1,0 +1,15 @@
+## 根据实际情况来填写这里面的内容,填写完成之后,根据后缀名来放入到 nacos 中去管理.
+#### xxx 可以是dev, test, prod 等.
+## 配置信息
+spring:
+  ## 数据库配置信息
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/app_cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+  ## Redis配置信息
+  redis:
+    host: localhost
+    port: 6379
+    password:
