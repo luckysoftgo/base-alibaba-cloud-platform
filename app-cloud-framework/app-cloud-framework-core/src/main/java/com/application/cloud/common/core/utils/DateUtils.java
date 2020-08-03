@@ -1,10 +1,11 @@
 package com.application.cloud.common.core.utils;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import java.lang.management.ManagementFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 /**
  * 时间工具类
@@ -16,7 +17,9 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     public static String YYYY = "yyyy";
 
     public static String YYYY_MM = "yyyy-MM";
-
+	
+	public static String YYYYMMDD = "yyyyMMdd";
+	
     public static String YYYY_MM_DD = "yyyy-MM-dd";
 
     public static String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
@@ -37,7 +40,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     {
         return new Date();
     }
-
+	
+	/**
+	 * 获取当前日期
+	 *
+	 * @return String
+	 */
+	public static String getYyyyMmDdDate()
+	{
+		return dateTimeNow(YYYYMMDD);
+	}
+	
     /**
      * 获取当前日期, 默认格式为yyyy-MM-dd
      * 
