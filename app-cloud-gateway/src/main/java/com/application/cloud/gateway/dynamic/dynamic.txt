@@ -7,7 +7,7 @@
     https://blog.csdn.net/weixin_42697074/article/details/103820504
     https://developer.aliyun.com/article/761993?spm=a2c6h.12873639.0.0.1a104c9asBZ6ba
 
-3.自定义token检测:参数中必须有 token 关键字.
+3.网关过滤,自定义token检测:参数中必须有 token 关键字.
     https://developer.aliyun.com/article/762005?spm=a2c6h.12873639.0.0.51b33d2b8yS54O
 
 @Component
