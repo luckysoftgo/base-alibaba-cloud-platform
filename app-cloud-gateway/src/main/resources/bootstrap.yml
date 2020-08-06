@@ -43,9 +43,12 @@ spring:
         ds1:
           nacos:
             server-addr: ${nacoshosts}
+            ##读取配置文件的dataId
             dataId: sentinel-app-cloud-gateway
             groupId: DEFAULT_GROUP #${spring.cloud.nacos.config.group}
+            ##读取培训文件类型为json
             data-type: json
+            ##路由存储规则
             rule-type: flow
 
 

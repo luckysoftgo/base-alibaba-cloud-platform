@@ -1,0 +1,37 @@
+
+1.作用:
+    可以实现用户的验证登录、解决跨域、日志拦截、权限控制、限流、熔断、负载均衡、黑名单与白名单机制等。
+
+2.动态网关可以参照:
+    https://blog.csdn.net/weixin_42697074/article/details/103820931
+    https://blog.csdn.net/weixin_42697074/article/details/103820504
+    https://developer.aliyun.com/article/761993?spm=a2c6h.12873639.0.0.1a104c9asBZ6ba
+
+3.自定义token检测:参数中必须有 token 关键字.
+    https://developer.aliyun.com/article/762005?spm=a2c6h.12873639.0.0.51b33d2b8yS54O
+
+@Component
+public class TokenFilter implements GlobalFilter {
+    @Override
+   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        String token = exchange.getRequest().getQueryParams().getFirst("token");
+        if (token == null || token.isEmpty()) {
+            ServerHttpResponse response = exchange.getResponse();
+            response.setStatusCode(HttpStatus.BAD_REQUEST);
+            String msg = "token not is null ";
+            DataBuffer buffer = response.bufferFactory().wrap(msg.getBytes());
+            return response.writeWith(Mono.just(buffer));
+        }
+        // 使用网关过滤
+        return chain.filter(exchange);
+        // 在请求头中存放serverPort serverPort
+        ServerHttpRequest request = exchange.getRequest().mutate().header("serverPort", serverPort).build();
+        return chain.filter(exchange.mutate().request(request).build());
+    }
+}
+
+
+4.sentinel 限流处理:
+    https://developer.aliyun.com/article/762016?spm=a2c6h.12873639.0.0.1c076e3a3mBMA8
+
+
