@@ -793,5 +793,5 @@ create table gateway_dynamic_route (
   update_by         varchar(64)     default ''                  comment '更新者',
   update_time       datetime                                    comment '更新时间',
   primary key (id)
-) ENGINE=InnoDB auto_increment=0 DEFAULT CHARSET=utf8mb4 COMMENT= 'gateWay动态路由配置表';
+) ENGINE=InnoDB auto_increment=0 DEFAULT CHARSET=utf8mb4 COMMENT= 'GateWay动态路由配置表';
 
