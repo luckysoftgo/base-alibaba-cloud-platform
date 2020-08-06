@@ -773,4 +773,25 @@ create table oss_file_manager (
 ) ENGINE=InnoDB auto_increment=0 DEFAULT CHARSET=utf8mb4 COMMENT= '文件/附件管理表';
 
 
+-- ----------------------------
+-- 22、动态路由
+-- ----------------------------
+drop table if exists gateway_dynamic_route;
+create table gateway_dynamic_route (
+  id           bigint(20)      not null auto_increment    comment '路由id',
+  route_id          varchar(20)      default ''                 comment '路由的id',
+  route_name        varchar(64)      default ''                 comment '路由的名称',
+  route_uri         varchar(128)     default ''                 comment '路由规则转发的uri,可能会有http开头的,也可能是lb开头的',
+  predicate_json    varchar(256)     default ''                 comment '路由断言集合配置json串',
+  filter_json       varchar(256)     default ''                 comment '路由过滤器集合配置json串',
+  route_order       int(11)          default 0                  comment '路由的执行顺序',
+  info_desc         varchar(512)     default ''                 comment 'route的相关描述',
+  status            int(1)           default 0                  comment '网关状态（0正常 1停用）',
+  disabled          int(1)           default 0                  comment '删除标志（0正常 1删除）',
+  create_by         varchar(64)      default ''                 comment '创建者',
+  create_time 	    datetime                                    comment '创建时间',
+  update_by         varchar(64)     default ''                  comment '更新者',
+  update_time       datetime                                    comment '更新时间',
+  primary key (id)
+) ENGINE=InnoDB auto_increment=0 DEFAULT CHARSET=utf8mb4 COMMENT= 'gateWay动态路由配置表';
 
