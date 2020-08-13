@@ -468,7 +468,7 @@ public class ExcelUtil<T>
     {
         if (ColumnType.STRING == attr.cellType())
         {
-            cell.setCellType(CellType.NUMERIC);
+            cell.setCellType(CellType.STRING);
             cell.setCellValue(StringUtils.isNull(value) ? attr.defaultValue() : value + attr.suffix());
         }
         else if (ColumnType.NUMERIC == attr.cellType())
@@ -483,7 +483,7 @@ public class ExcelUtil<T>
      */
     public void setDataValidation(Excel attr, Row row, int column)
     {
-        if (attr.name().indexOf("注：") >= 0)
+        if (attr.name().indexOf("注：") >= 0 ||attr.name().indexOf("注:") >= 0)
         {
             sheet.setColumnWidth(column, 6000);
         }
