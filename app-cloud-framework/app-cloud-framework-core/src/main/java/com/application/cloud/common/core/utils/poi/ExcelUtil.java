@@ -39,6 +39,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -537,6 +538,10 @@ public class ExcelUtil<T>
                 {
 	                cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
                 }
+                else if (value instanceof BigDecimal && -1 != attr.scale())
+                {
+	                cell.setCellValue((((BigDecimal) value).setScale(attr.scale(), attr.roundingMode())).toString());
+                }
                 else
                 {
                     // 设置列类型
@@ -833,8 +838,14 @@ public class ExcelUtil<T>
 					}
 					else
 					{
-						// 浮点格式处理
-						val = new BigDecimal(val.toString());
+						if ((Double) val % 1 > 0)
+						{
+							val = new BigDecimal(val.toString());
+						}
+						else
+						{
+							val = new DecimalFormat("0").format(val);
+						}
 					}
 				}
 				else if (cell.getCellTypeEnum() == CellType.STRING)

@@ -19,7 +19,7 @@ public class PageDomain
     private String orderByColumn;
     /** 排序的方向 "desc" 或者 "asc". */
 
-    private String isAsc;
+    private String isAsc="ASC";
 
     public String getOrderBy()
     {

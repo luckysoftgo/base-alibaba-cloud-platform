@@ -6,7 +6,6 @@ import com.application.cloud.common.core.web.domain.AjaxResult;
 import com.application.cloud.common.core.web.page.TableDataInfo;
 import com.application.cloud.common.log.annotation.Log;
 import com.application.cloud.common.log.enums.BusinessType;
-import com.application.cloud.common.security.utils.SecurityUtils;
 import com.application.cloud.system.domain.SysClientDetails;
 import com.application.cloud.system.service.ISysClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +68,6 @@ public class SysClientDetailsController extends BaseController
         {
             return AjaxResult.error("新增终端'" + clientId + "'失败，编号已存在");
         }
-        sysClientDetails.setClientSecret(SecurityUtils.encryptPassword(sysClientDetails.getClientSecret()));
         return toAjax(sysClientDetailsService.insertSysClientDetails(sysClientDetails));
     }
 
@@ -81,7 +79,6 @@ public class SysClientDetailsController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SysClientDetails sysClientDetails)
     {
-        sysClientDetails.setClientSecret(SecurityUtils.encryptPassword(sysClientDetails.getClientSecret()));
         return toAjax(sysClientDetailsService.updateSysClientDetails(sysClientDetails));
     }
 

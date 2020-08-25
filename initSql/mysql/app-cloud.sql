@@ -281,13 +281,13 @@ insert into sys_menu values('1062', '生成代码', '115', '5', '#', '', 1, 'F',
 
 -- 文件系统菜单
 
-insert into sys_menu values('2002', '文件管理查询', '2001', '1', '#',    '',               1, 'F', '0', '0', 'oss:file:query', '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
-insert into sys_menu values('2003', '文件管理新增', '2001', '2', '#',    '',               1, 'F', '0', '0', 'oss:file:add',   '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
-insert into sys_menu values('2004', '文件管理修改', '2001', '3', '#',    '',               1, 'F', '0', '0', 'oss:file:edit',  '#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
-insert into sys_menu values('2005', '文件管理删除', '2001', '4', '#',    '',               1, 'F', '0', '0', 'oss:file:remove','#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
-insert into sys_menu values('2006', '文件管理导出', '2001', '5', '#',    '',               1, 'F', '0', '0', 'oss:file:export','#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
-insert into sys_menu values('2007', '文件管理上传', '2001', '6', '#',    '',               1, 'F', '0', '0', 'oss:file:upload','#',      'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
-insert into sys_menu values('2008', '文件管理下载', '2001', '7', '#',    '',               1, 'F', '0', '0', 'oss:file:download','#',    'admin', '2018-03-01 00:00:00', 'cloud', '2018-03-01 00:00:00', '');
+insert into sys_menu values('2002', '文件管理查询', '2001', '1', '#',    '',               1, 'F', '0', '0', 'oss:file:query', '#',      'admin', '2020-03-01 00:00:00', 'cloud', '2020-03-01 00:00:00', '');
+insert into sys_menu values('2003', '文件管理新增', '2001', '2', '#',    '',               1, 'F', '0', '0', 'oss:file:add',   '#',      'admin', '2020-03-01 00:00:00', 'cloud', '2020-03-01 00:00:00', '');
+insert into sys_menu values('2004', '文件管理修改', '2001', '3', '#',    '',               1, 'F', '0', '0', 'oss:file:edit',  '#',      'admin', '2020-03-01 00:00:00', 'cloud', '2020-03-01 00:00:00', '');
+insert into sys_menu values('2005', '文件管理删除', '2001', '4', '#',    '',               1, 'F', '0', '0', 'oss:file:remove','#',      'admin', '2020-03-01 00:00:00', 'cloud', '2020-03-01 00:00:00', '');
+insert into sys_menu values('2006', '文件管理导出', '2001', '5', '#',    '',               1, 'F', '0', '0', 'oss:file:export','#',      'admin', '2020-03-01 00:00:00', 'cloud', '2020-03-01 00:00:00', '');
+insert into sys_menu values('2007', '文件管理上传', '2001', '6', '#',    '',               1, 'F', '0', '0', 'oss:file:upload','#',      'admin', '2020-03-01 00:00:00', 'cloud', '2020-03-01 00:00:00', '');
+insert into sys_menu values('2008', '文件管理下载', '2001', '7', '#',    '',               1, 'F', '0', '0', 'oss:file:download','#',    'admin', '2020-03-01 00:00:00', 'cloud', '2020-03-01 00:00:00', '');
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
@@ -505,7 +505,7 @@ insert into sys_dict_type values(7,  '通知类型', 'sys_notice_type',     '0',
 insert into sys_dict_type values(8,  '通知状态', 'sys_notice_status',   '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '通知状态列表');
 insert into sys_dict_type values(9,  '操作类型', 'sys_oper_type',       '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '操作类型列表');
 insert into sys_dict_type values(10, '系统状态', 'sys_common_status',   '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '登录状态列表');
-
+insert into sys_dict_type values(11, '授权类型', 'sys_grant_type',      '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '授权类型列表');
 
 -- ----------------------------
 -- 12、字典数据表
@@ -558,6 +558,11 @@ insert into sys_dict_data values(25, 8,  '生成代码', '8',       'sys_oper_ty
 insert into sys_dict_data values(26, 9,  '清空数据', '9',       'sys_oper_type',       '',   'danger',  'N', '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '清空操作');
 insert into sys_dict_data values(27, 1,  '成功',     '0',       'sys_common_status',   '',   'primary', 'N', '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '正常状态');
 insert into sys_dict_data values(28, 2,  '失败',     '1',       'sys_common_status',   '',   'danger',  'N', '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '停用状态');
+insert into sys_dict_data values(29, 1,  '授权码模式',  'authorization_code',  'sys_grant_type',   '',   '',  'N', '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '授权码模式');
+insert into sys_dict_data values(30, 2,  '密码模式',    'password',            'sys_grant_type',   '',   '',  'N', '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '密码模式');
+insert into sys_dict_data values(31, 3,  '客户端模式',  'client_credentials',  'sys_grant_type',   '',   '',  'N', '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '客户端模式');
+insert into sys_dict_data values(32, 4,  '简化模式',    'implicit',            'sys_grant_type',   '',   '',  'N', '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '简化模式');
+insert into sys_dict_data values(33, 5,  '刷新模式',    'refresh_token',       'sys_grant_type',   '',   '',  'N', '0', 'admin', '2020-03-16 11-33-00', 'cloud', '2020-03-16 11-33-00', '刷新模式');
 
 
 -- ----------------------------
@@ -740,6 +745,7 @@ create table sys_oauth_client_details (
   refresh_token_validity     int(11)       default null      comment '设定终端的refresh_token的有效时间值（秒）',
   additional_information     varchar(4096) default null      comment '附加信息',
   autoapprove                tinyint(4)    default null      comment '是否登录时跳过授权',
+  origin_secret              varchar(255)  not null          comment '终端明文安全码',
   primary key (client_id)
 ) ENGINE=InnoDB auto_increment=1 DEFAULT CHARSET=utf8mb4 COMMENT= '终端配置表';
 
@@ -747,8 +753,8 @@ create table sys_oauth_client_details (
 -- ----------------------------
 -- 初始化-终端配置表数据
 -- ----------------------------
-insert into sys_oauth_client_details values ('web',  '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,refresh_token',                    '', NULL, 3600, 7200, NULL, NULL);
-insert into sys_oauth_client_details values ('app-cloud',  '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,client_credentials,refresh_token', '', NULL, 3600, 7200, NULL, NULL);
+insert into sys_oauth_client_details values ('web',  '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,refresh_token',                    '', NULL, 3600, 7200, NULL, NULL,'123456');
+insert into sys_oauth_client_details values ('app-cloud',  '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,client_credentials,refresh_token', '', NULL, 3600, 7200, NULL, NULL,'123456');
 
 
 -- ----------------------------

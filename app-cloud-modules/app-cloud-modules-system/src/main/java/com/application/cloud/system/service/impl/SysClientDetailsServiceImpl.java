@@ -1,13 +1,15 @@
 package com.application.cloud.system.service.impl;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.stereotype.Service;
 import com.application.cloud.common.core.constant.CacheConstants;
+import com.application.cloud.common.security.utils.SecurityUtils;
 import com.application.cloud.system.domain.SysClientDetails;
 import com.application.cloud.system.mapper.SysClientDetailsMapper;
 import com.application.cloud.system.service.ISysClientDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 终端配置Service业务层处理
@@ -53,6 +55,7 @@ public class SysClientDetailsServiceImpl implements ISysClientDetailsService
     @Override
     public int insertSysClientDetails(SysClientDetails sysClientDetails)
     {
+	    sysClientDetails.setClientSecret(SecurityUtils.encryptPassword(sysClientDetails.getOriginSecret()));
         return sysClientDetailsMapper.insertSysClientDetails(sysClientDetails);
     }
 
@@ -66,6 +69,7 @@ public class SysClientDetailsServiceImpl implements ISysClientDetailsService
     @CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#sysClientDetails.clientId")
     public int updateSysClientDetails(SysClientDetails sysClientDetails)
     {
+	    sysClientDetails.setClientSecret(SecurityUtils.encryptPassword(sysClientDetails.getOriginSecret()));
         return sysClientDetailsMapper.updateSysClientDetails(sysClientDetails);
     }
 

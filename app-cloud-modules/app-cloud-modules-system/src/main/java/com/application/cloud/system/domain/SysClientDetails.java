@@ -67,6 +67,11 @@ public class SysClientDetails extends BaseEntity
      * 是否登录时跳过授权
      */
     private String autoapprove;
+	
+	/**
+	 * 终端明文安全码
+	 */
+	private String originSecret;
 
     public String getClientId()
     {
@@ -177,21 +182,33 @@ public class SysClientDetails extends BaseEntity
     {
         this.autoapprove = autoapprove;
     }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("clientId", getClientId())
-            .append("resourceIds", getResourceIds())
-            .append("clientSecret", getClientSecret())
-            .append("scope", getScope())
-            .append("authorizedGrantTypes", getAuthorizedGrantTypes())
-            .append("webServerRedirectUri", getWebServerRedirectUri())
-            .append("authorities", getAuthorities())
-            .append("accessTokenValidity", getAccessTokenValidity())
-            .append("refreshTokenValidity", getRefreshTokenValidity())
-            .append("additionalInformation", getAdditionalInformation())
-            .append("autoapprove", getAutoapprove())
-            .toString();
-    }
+	
+	
+	public String getOriginSecret()
+	{
+		return originSecret;
+	}
+	
+	public void setOriginSecret(String originSecret)
+	{
+		this.originSecret = originSecret;
+	}
+	
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+				.append("clientId", getClientId())
+				.append("resourceIds", getResourceIds())
+				.append("clientSecret", getClientSecret())
+				.append("scope", getScope())
+				.append("authorizedGrantTypes", getAuthorizedGrantTypes())
+				.append("webServerRedirectUri", getWebServerRedirectUri())
+				.append("authorities", getAuthorities())
+				.append("accessTokenValidity", getAccessTokenValidity())
+				.append("refreshTokenValidity", getRefreshTokenValidity())
+				.append("additionalInformation", getAdditionalInformation())
+				.append("autoapprove", getAutoapprove())
+				.append("originSecret", getOriginSecret())
+				.toString();
+	}
 }
