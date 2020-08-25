@@ -46,22 +46,15 @@
           v-hasPermi="['system:client:remove']"
         >删除</el-button>
       </el-col>
-      <div class="top-right-btn">
-        <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-          <el-button size="mini" circle icon="el-icon-refresh" @click="handleQuery" />
-        </el-tooltip>
-        <el-tooltip class="item" effect="dark" :content="showSearch ? '隐藏搜索' : '显示搜索'" placement="top">
-          <el-button size="mini" circle icon="el-icon-search" @click="showSearch=!showSearch" />
-        </el-tooltip>
-      </div>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="clientList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="编号" align="center" prop="clientId" />
-      <el-table-column label="安全码" align="center" prop="clientSecret" :show-overflow-tooltip="true" />
+      <el-table-column label="安全码" align="center" prop="originSecret" :show-overflow-tooltip="true" />
       <el-table-column label="授权范围" align="center" prop="scope" />
-      <el-table-column label="授权类型" align="center" prop="authorizedGrantTypes" :show-overflow-tooltip="true" />
+      <el-table-column label="授权类型" align="center" prop="authorizedGrantTypes" :formatter="authorizedGrantTypesFormat" :show-overflow-tooltip="true"/>
       <el-table-column label="令牌时效" align="center" prop="accessTokenValidity" />
       <el-table-column label="刷新时效" align="center" prop="refreshTokenValidity" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -98,14 +91,21 @@
         <el-form-item label="编号" prop="clientId">
           <el-input v-model="form.clientId" placeholder="请输入编号" :disabled="!isAdd" />
         </el-form-item>
-        <el-form-item label="安全码" prop="clientSecret">
-          <el-input v-model="form.clientSecret" placeholder="请输入安全码" />
+        <el-form-item label="安全码" prop="originSecret">
+          <el-input v-model="form.originSecret" placeholder="请输入安全码" />
         </el-form-item>
         <el-form-item label="授权范围" prop="scope">
           <el-input v-model="form.scope" placeholder="请输入授权范围" />
         </el-form-item>
         <el-form-item label="授权类型" prop="authorizedGrantTypes">
-          <el-input v-model="form.authorizedGrantTypes" placeholder="请输入授权类型" />
+          <el-checkbox-group v-model="form.authorizedGrantTypes">
+            <el-checkbox
+              v-for="dict in authorizedGrantTypesOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue">
+              {{dict.dictLabel}}
+            </el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
         <el-form-item label="令牌时效" prop="accessTokenValidity">
           <el-input-number v-model="form.accessTokenValidity" controls-position="right" :min="0" />
@@ -147,6 +147,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 终端授权类型字典
+      authorizedGrantTypesOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -162,7 +164,7 @@ export default {
         clientId: [
           { required: true, message: "编号不能为空", trigger: "blur" }
         ],
-        clientSecret: [
+        originSecret: [
           { required: true, message: "安全码不能为空", trigger: "blur" }
         ],
         scope: [
@@ -176,6 +178,9 @@ export default {
   },
   created() {
     this.getList();
+    this.getDicts("sys_grant_type").then(response => {
+      this.authorizedGrantTypesOptions = response.data;
+    });
   },
   methods: {
     /** 查询终端列表 */
@@ -186,6 +191,10 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    // 终端授权类型字典翻译
+    authorizedGrantTypesFormat(row, column) {
+      return this.selectDictLabels(this.authorizedGrantTypesOptions, row.authorizedGrantTypes);
     },
     // 取消按钮
     cancel() {
@@ -198,7 +207,7 @@ export default {
         clientId: undefined,
         clientSecret: undefined,
         scope: "server",
-        authorizedGrantTypes: "password,refresh_token",
+        authorizedGrantTypes: [],
         accessTokenValidity: 3600,
         refreshTokenValidity: 7200
       };
@@ -234,6 +243,7 @@ export default {
       const clientId = row.clientId || this.ids;
       getClient(clientId).then(response => {
         this.form = response.data;
+        this.form.authorizedGrantTypes = this.form.authorizedGrantTypes.split(",");
         this.open = true;
         this.title = "修改终端";
       });
@@ -242,6 +252,7 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.authorizedGrantTypes = this.form.authorizedGrantTypes.join(",");
           if (!this.isAdd && this.form.clientId != undefined) {
             updateClient(this.form).then(response => {
               if (response.code === 200) {

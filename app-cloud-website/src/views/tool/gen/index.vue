@@ -76,14 +76,7 @@
           v-hasPermi="['tool:gen:remove']"
         >删除</el-button>
       </el-col>
-      <div class="top-right-btn">
-        <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-          <el-button size="mini" circle icon="el-icon-refresh" @click="handleQuery" />
-        </el-tooltip>
-        <el-tooltip class="item" effect="dark" :content="showSearch ? '隐藏搜索' : '显示搜索'" placement="top">
-          <el-button size="mini" circle icon="el-icon-search" @click="showSearch=!showSearch" />
-        </el-tooltip>
-      </div>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange">
@@ -256,7 +249,7 @@ export default {
           this.msgSuccess("成功生成到自定义路径：" + row.genPath);
         });
       } else {
-        downLoadZip("/code/gen/batchGenCode?tables=" + tableNames, "appcloud");
+          downLoadZip("/code/gen/batchGenCode?tables=" + tableNames, "ruoyi");
       }
     },
     /** 打开导入表弹窗 */
