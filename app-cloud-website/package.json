@@ -1,7 +1,7 @@
 {
   "name": "app-cloud",
   "version": "2.1.0",
-  "description": "青云管理系统",
+  "description": "青云-Cloud管理系统",
   "author": "青云",
   "license": "MIT",
   "scripts": {
