@@ -28,7 +28,7 @@ public class AwaitUserService
      * 
      * @return 用户基本信息
      */
-    public UserInfo info()
+    public UserInfo getUserInfo()
     {
         String username = SecurityUtils.getUsername();
         GenericResult<UserInfo> userResult = remoteUserService.getUserInfo(username);

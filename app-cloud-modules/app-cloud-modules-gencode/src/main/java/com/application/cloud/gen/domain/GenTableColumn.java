@@ -1,9 +1,9 @@
 package com.application.cloud.gen.domain;
 
-import javax.validation.constraints.NotBlank;
-
 import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.common.core.web.domain.BaseEntity;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 代码生成业务字段表 gen_table_column
@@ -341,7 +341,7 @@ public class GenTableColumn extends BaseEntity
     public static boolean isUsableColumn(String javaField)
     {
         // isSuperColumn()中的名单用于避免生成多余Domain属性，若某些属性在生成页面时需要用到不能忽略，则放在此处白名单
-        return StringUtils.equalsAnyIgnoreCase(javaField, "parentId", "orderNum");
+	    return StringUtils.equalsAnyIgnoreCase(javaField, "parentId", "orderNum", "remark");
     }
 
     public String readConverterExp()

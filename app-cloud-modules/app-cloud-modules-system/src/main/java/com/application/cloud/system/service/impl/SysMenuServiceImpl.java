@@ -1,15 +1,5 @@
 package com.application.cloud.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.application.cloud.common.core.constant.UserConstants;
 import com.application.cloud.common.core.utils.StringUtils;
 import com.application.cloud.common.security.utils.SecurityUtils;
@@ -21,6 +11,17 @@ import com.application.cloud.system.domain.vo.TreeSelect;
 import com.application.cloud.system.mapper.SysMenuMapper;
 import com.application.cloud.system.mapper.SysRoleMenuMapper;
 import com.application.cloud.system.service.ISysMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 菜单 业务层处理
@@ -177,22 +178,27 @@ public class SysMenuServiceImpl implements ISysMenuService
     @Override
     public List<SysMenu> buildMenuTree(List<SysMenu> menus)
     {
-        List<SysMenu> returnList = new ArrayList<SysMenu>();
-        for (Iterator<SysMenu> iterator = menus.iterator(); iterator.hasNext();)
-        {
-            SysMenu t = (SysMenu) iterator.next();
-            // 根据传入的某个父节点ID,遍历该父节点的所有子节点
-            if (t.getParentId() == 0)
-            {
-                recursionFn(menus, t);
-                returnList.add(t);
-            }
-        }
-        if (returnList.isEmpty())
-        {
-            returnList = menus;
-        }
-        return returnList;
+	    List<SysMenu> returnList = new ArrayList<SysMenu>();
+	    List<Long> tempList = new ArrayList<Long>();
+	    for (SysMenu dept : menus)
+	    {
+		    tempList.add(dept.getMenuId());
+	    }
+	    for (Iterator<SysMenu> iterator = menus.iterator(); iterator.hasNext();)
+	    {
+		    SysMenu menu = (SysMenu) iterator.next();
+		    // 如果是顶级节点, 遍历该父节点的所有子节点
+		    if (!tempList.contains(menu.getParentId()))
+		    {
+			    recursionFn(menus, menu);
+			    returnList.add(menu);
+		    }
+	    }
+	    if (returnList.isEmpty())
+	    {
+		    returnList = menus;
+	    }
+	    return returnList;
     }
 
     /**

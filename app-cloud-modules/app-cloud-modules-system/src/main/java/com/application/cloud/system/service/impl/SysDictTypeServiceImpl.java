@@ -1,10 +1,5 @@
 package com.application.cloud.system.service.impl;
 
-import java.util.List;
-import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.application.cloud.common.core.constant.UserConstants;
 import com.application.cloud.common.core.exception.CustomException;
 import com.application.cloud.common.core.utils.StringUtils;
@@ -14,6 +9,12 @@ import com.application.cloud.system.mapper.SysDictDataMapper;
 import com.application.cloud.system.mapper.SysDictTypeMapper;
 import com.application.cloud.system.service.ISysDictTypeService;
 import com.application.cloud.system.utils.DictUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * 字典 业务层处理
@@ -75,18 +76,18 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     @Override
     public List<SysDictData> selectDictDataByType(String dictType)
     {
-        List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
-        if (StringUtils.isNotNull(dictDatas))
-        {
-            return dictDatas;
-        }
-        dictDatas = dictDataMapper.selectDictDataByType(dictType);
-        if (StringUtils.isNotNull(dictDatas))
-        {
-            DictUtils.setDictCache(dictType, dictDatas);
-            return dictDatas;
-        }
-        return null;
+	    List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
+	    if (StringUtils.isNotEmpty(dictDatas))
+	    {
+		    return dictDatas;
+	    }
+	    dictDatas = dictDataMapper.selectDictDataByType(dictType);
+	    if (StringUtils.isNotEmpty(dictDatas))
+	    {
+		    DictUtils.setDictCache(dictType, dictDatas);
+		    return dictDatas;
+	    }
+	    return null;
     }
 
     /**

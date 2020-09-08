@@ -1,6 +1,12 @@
 package com.application.cloud.common.datascope.aspect;
 
-import java.lang.reflect.Method;
+import com.application.cloud.common.core.utils.StringUtils;
+import com.application.cloud.common.core.web.domain.BaseEntity;
+import com.application.cloud.common.datascope.annotation.DataScope;
+import com.application.cloud.common.datascope.service.AwaitUserService;
+import com.application.cloud.system.api.domain.SysRole;
+import com.application.cloud.system.api.domain.SysUser;
+import com.application.cloud.system.api.model.UserInfo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
@@ -9,13 +15,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.application.cloud.common.core.utils.StringUtils;
-import com.application.cloud.common.core.web.domain.BaseEntity;
-import com.application.cloud.common.datascope.annotation.DataScope;
-import com.application.cloud.common.datascope.service.AwaitUserService;
-import com.application.cloud.system.api.domain.SysRole;
-import com.application.cloud.system.api.domain.SysUser;
-import com.application.cloud.system.api.model.UserInfo;
+
+import java.lang.reflect.Method;
 
 /**
  * 数据过滤处理
@@ -58,7 +59,7 @@ public class DataScopeAspect
 
     @Autowired
     private AwaitUserService awaitUserService;
-
+	
     // 配置织入点
     @Pointcut("@annotation(com.application.cloud.common.datascope.annotation.DataScope)")
     public void dataScopePointCut()
@@ -80,7 +81,7 @@ public class DataScopeAspect
             return;
         }
         // 获取当前的用户
-        UserInfo loginUser = awaitUserService.info();
+        UserInfo loginUser = awaitUserService.getUserInfo();
         SysUser currentUser = loginUser.getSysUser();
         if (currentUser != null)
         {
@@ -145,8 +146,12 @@ public class DataScopeAspect
 
         if (StringUtils.isNotBlank(sqlString.toString()))
         {
-            BaseEntity baseEntity = (BaseEntity) joinPoint.getArgs()[0];
-            baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
+	        Object params = joinPoint.getArgs()[0];
+	        if (StringUtils.isNotNull(params) && params instanceof BaseEntity)
+	        {
+		        BaseEntity baseEntity = (BaseEntity) params;
+		        baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
+	        }
         }
     }
 
