@@ -128,7 +128,12 @@
 			<!--  SpringBoot 监控客户端 -->
 			<dependency>
 				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server-ui</artifactId>
 				<version>${spring-boot-admin.version}</version>
 			</dependency>
 			<!-- Mybatis 依赖配置 -->
