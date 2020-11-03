@@ -12,5 +12,4 @@
 	<artifactId>app-cloud-test-server</artifactId>
 	<description>阿里微服务实践</description>
 	<packaging>pom</packaging>
-
 </project>
