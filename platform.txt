@@ -53,3 +53,6 @@ security:
         - /user/info/*
         - /operlog
         - /logininfor
+
+8.spring 版本问题
+https://spring.io/projects/spring-cloud/
