@@ -39,16 +39,17 @@ public class SmsIntegrationAuthenticator extends AbstractPreparableIntegrationAu
 
     @Override
     public UserInfo authenticate(IntegrationAuthentication integrationAuthentication) {
-        //获取密码，实际值是验证码
-        String password = integrationAuthentication.getAuthParameter(AuthClientConst.AUTH_PASSWORD);
-        //获取用户名的手机号
-        String mobilePhone = integrationAuthentication.getAuthInstance();
-        if (StringUtils.isEmpty(mobilePhone)){
-        	mobilePhone = integrationAuthentication.getAuthParameter(AuthClientConst.AUTH_USERNAME);
-        }
-        //发布事件，可以监听事件进行自动注册用户,RemoteUserService 有方法，但是现在不用尝试.
-        this.applicationEventPublisher.publishEvent(new SmsAuthenticateBeforeEvent(integrationAuthentication));
-        //通过手机号码查询用户
+	    //获取密码，实际值是验证码
+	    // TODO 到redis中去验证是否是短信验证码.
+	    String password = integrationAuthentication.getAuthParameter(AuthClientConst.AUTH_PASSWORD);
+	    //获取用户名的手机号
+	    String mobilePhone = integrationAuthentication.getAuthInstance();
+	    if (StringUtils.isEmpty(mobilePhone)) {
+		    mobilePhone = integrationAuthentication.getAuthParameter(AuthClientConst.AUTH_USERNAME);
+	    }
+	    //发布事件，可以监听事件进行自动注册用户,RemoteUserService 有方法，但是现在不用尝试.
+	    this.applicationEventPublisher.publishEvent(new SmsAuthenticateBeforeEvent(integrationAuthentication));
+	    //通过手机号码查询用户
 	    GenericResult<UserInfo> genericResult = this.sysUserClient.getUserInfo(mobilePhone);
         if (genericResult!=null && genericResult.getCode()== HttpStatus.SUCCESS){
 	        UserInfo userInfo = genericResult.getData();
