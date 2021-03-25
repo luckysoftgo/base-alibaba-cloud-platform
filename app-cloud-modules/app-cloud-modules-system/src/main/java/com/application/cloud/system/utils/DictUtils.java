@@ -11,31 +11,31 @@ import java.util.List;
 
 /**
  * 字典工具类
- * 
+ *
  * @author cloud
  */
 public class DictUtils
 {
     /**
      * 设置字典缓存
-     * 
+     *
      * @param key 参数键
      * @param dictDatas 字典数据列表
      */
     public static void setDictCache(String key, List<SysDictData> dictDatas)
     {
-        SpringUtils.getBean(RedisService.class).setCacheObject(getCacheKey(key), dictDatas);
+	    SpringUtils.getBean(RedisService.class).put(getCacheKey(key), dictDatas);
     }
 
     /**
      * 获取字典缓存
-     * 
+     *
      * @param key 参数键
      * @return dictDatas 字典数据列表
      */
     public static List<SysDictData> getDictCache(String key)
     {
-        Object cacheObj = SpringUtils.getBean(RedisService.class).getCacheObject(getCacheKey(key));
+	    Object cacheObj = SpringUtils.getBean(RedisService.class).get(getCacheKey(key));
         if (StringUtils.isNotNull(cacheObj))
         {
             List<SysDictData> dictDatas = StringUtils.cast(cacheObj);
@@ -50,12 +50,12 @@ public class DictUtils
     public static void clearDictCache()
     {
         Collection<String> keys = SpringUtils.getBean(RedisService.class).keys(Constants.SYS_DICT_KEY + "*");
-        SpringUtils.getBean(RedisService.class).deleteObject(keys);
+	    SpringUtils.getBean(RedisService.class).delete(keys);
     }
 
     /**
      * 设置cache key
-     * 
+     *
      * @param configKey 参数键
      * @return 缓存键key
      */

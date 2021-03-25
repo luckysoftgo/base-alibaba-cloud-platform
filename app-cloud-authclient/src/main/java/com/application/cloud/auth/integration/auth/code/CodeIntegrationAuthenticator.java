@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * @author : 孤狼
  * @NAME: CodeIntegrationAuthenticator
@@ -38,18 +40,18 @@ public class CodeIntegrationAuthenticator extends UsernamePasswordAuthenticator 
 		if (StringUtils.isEmpty(vcInstance)){
 			vcInstance = integrationAuthentication.getAuthParameter(AuthClientConst.AUTH_USERNAME);
 		}
-		if (StringUtils.isEmpty(vcInstance)){
+		if (StringUtils.isEmpty(vcInstance)) {
 			throw new OAuth2Exception("验证码存储对象信息为空");
 		}
 		String vcCode = integrationAuthentication.getAuthParameter(AuthClientConst.AUTH_PASSWORD);
-		if (StringUtils.isEmpty(vcCode)){
+		if (StringUtils.isEmpty(vcCode)) {
 			throw new OAuth2Exception("输入的验证码信息为空");
 		}
 		//验证验证码
 		//测试用的，测试放开
 		//redisService.setCacheObject(CacheConstants.CLIENT_AUTH_INFO+vcInstance,"123456789");
-		String cacheCode = redisService.getCacheObject(CacheConstants.CLIENT_AUTH_INFO+vcInstance);
-		if (!cacheCode.trim().equalsIgnoreCase(vcCode.trim())){
+		String cacheCode = Objects.toString(redisService.get(CacheConstants.CLIENT_AUTH_INFO + vcInstance), "");
+		if (!cacheCode.trim().equalsIgnoreCase(vcCode.trim())) {
 			throw new OAuth2Exception("验证码错误,登录失败");
 		}
 	}

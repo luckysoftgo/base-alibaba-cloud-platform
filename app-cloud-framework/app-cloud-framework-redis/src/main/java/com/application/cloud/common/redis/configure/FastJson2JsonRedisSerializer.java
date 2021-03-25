@@ -13,7 +13,7 @@ import java.nio.charset.Charset;
 
 /**
  * Redis使用FastJson序列化
- * 
+ *
  * @author cloud
  */
 public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T>
@@ -54,7 +54,6 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T>
             return null;
         }
         String str = new String(bytes, DEFAULT_CHARSET);
-
         return JSON.parseObject(str, clazz);
     }
 

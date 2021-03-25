@@ -19,8 +19,11 @@ import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * 短信验证码集成认证
+ *
  * @author : 孤狼
  * @NAME: SmsAuthenticateSuccessEvent
  * @DESC: SmsAuthenticateSuccessEvent 类设计
@@ -66,18 +69,18 @@ public class SmsIntegrationAuthenticator extends AbstractPreparableIntegrationAu
 	    if (StringUtils.isEmpty(mobilePhone)){
 	    	mobilePhone = integrationAuthentication.getAuthParameter(AuthClientConst.AUTH_USERNAME);
 	    }
-	    if (StringUtils.isEmpty(mobilePhone)){
+	    if (StringUtils.isEmpty(mobilePhone)) {
 		    throw new OAuth2Exception("输入的手机号信息为空");
 	    }
 	    String smsCode = integrationAuthentication.getAuthParameter(AuthClientConst.AUTH_PASSWORD);
-	    if (StringUtils.isEmpty(smsCode)){
+	    if (StringUtils.isEmpty(smsCode)) {
 		    throw new OAuth2Exception("输入的验证码信息为空");
 	    }
 	    //验证验证码
 	    //测试用的，测试放开
 	    //redisService.setCacheObject(CacheConstants.CLIENT_AUTH_INFO+mobilePhone,"123456789");
-	    String cacheCode = redisService.getCacheObject(CacheConstants.CLIENT_AUTH_INFO+mobilePhone);
-	    if (!cacheCode.trim().equalsIgnoreCase(smsCode.trim())){
+	    String cacheCode = Objects.toString(redisService.get(CacheConstants.CLIENT_AUTH_INFO + mobilePhone), "");
+	    if (!cacheCode.trim().equalsIgnoreCase(smsCode.trim())) {
 		    throw new OAuth2Exception("短信验证码错误,登录失败");
 	    }
     }
