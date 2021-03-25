@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * spring redis 工具类
  * https://blog.csdn.net/xinhuashudiao/article/details/84906538
+ * https://blog.csdn.net/qq_19734597/article/details/92798699
  *
  * @author cloud
  **/
