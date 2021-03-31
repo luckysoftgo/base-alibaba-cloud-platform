@@ -11,6 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 //@SpringBootTest(classes = MessageApplication.class)
 public class BasicTest {
-
+ //TODO 测试编写
 
 }
