@@ -3,13 +3,13 @@
     {
       "name": "spring.rabbitmq.dynamic.primary",
       "type": "java.lang.String",
-      "sourceType": "com.application.cloud.common.rabbitmq.boot.autoconfigure.DynamicRabbitConnSourceProperties",
+      "sourceType": "com.application.cloud.common.rabbitmq.complex.boot.autoconfigure.DynamicRabbitConnSourceProperties",
       "description": "默认主链接的设置."
     },
     {
       "name": "spring.rabbitmq.dynamic.connections",
       "type": "java.util.Map",
-      "sourceType": "com.application.cloud.common.rabbitmq.boot.autoconfigure.DynamicRabbitConnSourceProperties",
+      "sourceType": "com.application.cloud.common.rabbitmq.complex.boot.autoconfigure.DynamicRabbitConnSourceProperties",
       "description": "以key-value结构的链接配置;key如:master,master1,master2...;value:为链接的配置详细信息,详细查阅源码:RabbitMqProperty类中的配置，和springboot中的RABBITMQ配置是一致的"
     }
   ]

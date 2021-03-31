@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>app-cloud-framework-redis</artifactId>
 	<description>app-cloud-framework-redis缓存服务</description>
-	
+
 	<dependencies>
 		<!-- SpringBoot Boot Redis -->
 		<dependency>
@@ -23,7 +23,10 @@
 			<artifactId>app-cloud-framework-core</artifactId>
 			<version>${app-cloud.version}</version>
 		</dependency>
-	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

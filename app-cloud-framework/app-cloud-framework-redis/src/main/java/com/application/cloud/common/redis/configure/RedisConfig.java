@@ -1,5 +1,6 @@
 package com.application.cloud.common.redis.configure;
 
+import com.application.cloud.common.redis.service.RedisService;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,17 +14,16 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * redis配置
- * 
+ *
  * @author cloud
  */
 @Configuration
 @EnableCaching
-public class RedisConfig extends CachingConfigurerSupport
-{
-	@Bean
-	@SuppressWarnings(value = { "unchecked", "rawtypes", "deprecation" })
-	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory)
-	{
+public class RedisConfig extends CachingConfigurerSupport {
+	
+	@Bean(name = "redisTemplate")
+	@SuppressWarnings(value = {"unchecked", "rawtypes", "deprecation"})
+	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
 		RedisTemplate<Object, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(connectionFactory);
 		
@@ -39,6 +39,12 @@ public class RedisConfig extends CachingConfigurerSupport
 		template.setKeySerializer(new StringRedisSerializer());
 		template.afterPropertiesSet();
 		return template;
+	}
+	
+	@Bean(name = "redisOperClient")
+	public RedisService redisOperClient(RedisTemplate<Object, Object> redisTemplate) {
+		RedisService redisOperClient = new RedisService(redisTemplate);
+		return redisOperClient;
 	}
 	
 }

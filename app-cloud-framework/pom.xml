@@ -13,7 +13,7 @@
 	<name>app-cloud-framework</name>
 	<description>平台组件相关的基础设置</description>
 	<packaging>pom</packaging>
-	
+
 	<modules>
 		<module>app-cloud-framework-basic</module>
 		<module>app-cloud-framework-core</module>
@@ -22,6 +22,7 @@
 		<module>app-cloud-framework-swagger</module>
 		<module>app-cloud-framework-security</module>
 		<module>app-cloud-framework-datascope</module>
+		<module>app-cloud-framework-message</module>
 	</modules>
-	
+
 </project>

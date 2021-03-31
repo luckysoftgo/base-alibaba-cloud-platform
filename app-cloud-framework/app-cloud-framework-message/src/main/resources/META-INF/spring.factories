@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.application.cloud.common.rabbitmq.boot.DynamicDataSourceAutoConfiguration
+com.application.cloud.common.rabbitmq.complex.boot.DynamicDataSourceAutoConfiguration
