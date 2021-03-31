@@ -1,0 +1,64 @@
+spring:
+  rabbitmq:
+    dynamic:
+      connections:
+        ##主链接配置
+        master:
+          addresses: 10.128.202.144:5672
+          port: 5672
+          username: rabbitmq
+          password: 123456
+          virtual-host: /
+          publisher-returns: true
+          publisher-confirm-type: correlated
+          ##连接池配置
+          pool:
+            maxIdle: 50
+            maxTotal: 100
+            maxWaitMillis: 18000
+            minIdle: 50
+            numTestsPerEvictionRun: -1
+            testOnBorrow: true
+            testOnReturn: true
+            testWhileIdle: true
+            timeBetweenEvictionRunsMillis: 60000
+        slave:
+          addresses: 10.128.202.144:5672
+          port: 5672
+          username: rabbitmq
+          password: 123456
+          virtual-host: /
+          publisher-returns: true
+          publisher-confirm-type: correlated
+          ##连接池配置
+          pool:
+            maxIdle: 50
+            maxTotal: 100
+            maxWaitMillis: 18000
+            minIdle: 50
+            numTestsPerEvictionRun: -1
+            testOnBorrow: true
+            testOnReturn: true
+            testWhileIdle: true
+            timeBetweenEvictionRunsMillis: 60000
+        slave1:
+          addresses: 10.128.202.144:5672
+          port: 5672
+          username: rabbitmq
+          password: 123456
+          virtual-host: /
+          publisher-returns: true
+          publisher-confirm-type: correlated
+          ##连接池配置
+          pool:
+            maxIdle: 50
+            maxTotal: 100
+            maxWaitMillis: 18000
+            minIdle: 50
+            numTestsPerEvictionRun: -1
+            testOnBorrow: true
+            testOnReturn: true
+            testWhileIdle: true
+            timeBetweenEvictionRunsMillis: 60000
+
+
