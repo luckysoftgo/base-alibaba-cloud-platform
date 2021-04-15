@@ -40,7 +40,7 @@ public class RedisService {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给key指定失效时间异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -55,7 +55,7 @@ public class RedisService {
 	public long getExpire(String key) {
 		try {
 			return redisTemplate.getExpire(key, TimeUnit.SECONDS);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取key失效时间异常，异常信息是:{}", e.getMessage());
 			return 0L;
 		}
@@ -70,7 +70,7 @@ public class RedisService {
 	public Long getExpire(String key, TimeUnit timeUnit) {
 		try {
 			return redisTemplate.getExpire(key, timeUnit);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取key失效时间异常，异常信息是:{}", e.getMessage());
 			return 0L;
 		}
@@ -86,7 +86,7 @@ public class RedisService {
 	public boolean hasKey(String key) {
 		try {
 			return redisTemplate.hasKey(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取key是否存在异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -107,7 +107,7 @@ public class RedisService {
 					redisTemplate.delete(CollectionUtils.arrayToList(key));
 				}
 			}
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("删除指定的缓存key发生异常，异常信息是:{}", e.getMessage());
 		}
 	}
@@ -121,7 +121,7 @@ public class RedisService {
 	public void delete(Collection<String> keys) {
 		try {
 			redisTemplate.delete(keys);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("删除指定的缓存key发生异常，异常信息是:{}", e.getMessage());
 		}
 	}
@@ -135,7 +135,7 @@ public class RedisService {
 	public void delete(List<String> keys) {
 		try {
 			redisTemplate.delete(keys);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("删除指定的缓存key发生异常，异常信息是:{}", e.getMessage());
 		}
 	}
@@ -149,7 +149,7 @@ public class RedisService {
 	public Object get(String key) {
 		try {
 			return key == null ? null : redisTemplate.opsForValue().get(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("通过指定的key获取缓存对象异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -164,7 +164,7 @@ public class RedisService {
 	public List<Object> getByKeys(Collection keys) {
 		try {
 			return redisTemplate.opsForValue().multiGet(keys);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("通过指定的key集合获取对应的值集合发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -181,7 +181,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForValue().set(key, value);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("往缓存中放入键值对象发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -203,7 +203,7 @@ public class RedisService {
 				redisTemplate.opsForValue().set(key, value);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("往缓存中放入键值对象发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -226,7 +226,7 @@ public class RedisService {
 				redisTemplate.opsForValue().set(key, value);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("往缓存中放入键值对象发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -242,7 +242,7 @@ public class RedisService {
 	public Object replace(String key, String value) {
 		try {
 			return redisTemplate.opsForValue().getAndSet(key, value);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给key重新设置value值发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -262,7 +262,7 @@ public class RedisService {
 				return true;
 			}
 			return false;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("往缓存中放入键值对象发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -277,7 +277,7 @@ public class RedisService {
 	public long incr(String key) {
 		try {
 			return redisTemplate.opsForValue().increment(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给指定的key顺势添加1发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -293,10 +293,10 @@ public class RedisService {
 	public long incr(String key, long delta) {
 		try {
 			if (delta < 0) {
-				throw new RuntimeException("递增因子必须大于0");
+				throw new RuntimeRedisException("递增因子必须大于0");
 			}
 			return redisTemplate.opsForValue().increment(key, delta);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给指定的key顺势添加指定因子发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -311,7 +311,7 @@ public class RedisService {
 	public long decr(String key) {
 		try {
 			return redisTemplate.opsForValue().decrement(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给指定的key顺势减少1发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -327,10 +327,10 @@ public class RedisService {
 	public long decr(String key, long delta) {
 		try {
 			if (delta < 0) {
-				throw new RuntimeException("递减因子必须大于0");
+				throw new RuntimeRedisException("递减因子必须大于0");
 			}
 			return redisTemplate.opsForValue().decrement(key, delta);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给指定的key顺势减少指定因子发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -346,7 +346,7 @@ public class RedisService {
 	public Map<Object, Object> getMaps(String key) {
 		try {
 			return redisTemplate.opsForHash().entries(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取hash中Key对应的所有键值对发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -361,7 +361,7 @@ public class RedisService {
 	public List<Object> getMapValues(String key) {
 		try {
 			return redisTemplate.opsForHash().values(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取hash中Key对应的所有value键值发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -377,7 +377,7 @@ public class RedisService {
 	public Object getMapValue(String key, String hKey) {
 		try {
 			return redisTemplate.opsForHash().get(key, hKey);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取Hash中的hkey对应的value数据发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -392,7 +392,7 @@ public class RedisService {
 	public Long getMapSize(String key) {
 		try {
 			return redisTemplate.opsForHash().size(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取hash中Key对应的集合大小发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -407,7 +407,7 @@ public class RedisService {
 	public List<Object> getMultiMapValue(String key, Collection<Object> hKeys) {
 		try {
 			return redisTemplate.opsForHash().multiGet(key, hKeys);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("以集合的方式获取变量中的值,获取多个Hash中的数据发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -424,7 +424,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForHash().putAll(key, map);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("通过key获取hash值对应的Map信息发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -445,7 +445,7 @@ public class RedisService {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给缓存中放入Map集合发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -463,7 +463,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForHash().put(key, item, value);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("向hash表中放入数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -485,7 +485,7 @@ public class RedisService {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("向hash表中放入数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -501,7 +501,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForHash().delete(key, hashKey);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("删除hash表中的多个key对应的value值发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -517,7 +517,7 @@ public class RedisService {
 	public boolean mapKeyExists(String key, String hashKey) {
 		try {
 			return redisTemplate.opsForHash().hasKey(key, hashKey);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("判断hash表中是否有该hashKey的值发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -534,7 +534,7 @@ public class RedisService {
 	public double incrMapVal(String key, String item, long delta) {
 		try {
 			return redisTemplate.opsForHash().increment(key, item, delta);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("hash表的key对应value的值递增发生异常，异常信息是:{}", e.getMessage());
 			return 0d;
 		}
@@ -551,7 +551,7 @@ public class RedisService {
 	public double decrMapVal(String key, String item, long delta) {
 		try {
 			return redisTemplate.opsForHash().increment(key, item, -delta);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("hash表的key对应value的值递减发生异常，异常信息是:{}", e.getMessage());
 			return 0d;
 		}
@@ -566,7 +566,7 @@ public class RedisService {
 	public Set<Object> getSetVals(String key) {
 		try {
 			return redisTemplate.opsForSet().members(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("根据key获取Set中的所有值发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -582,7 +582,7 @@ public class RedisService {
 	public Set<Object> getSameSetVals(String sourceKey, String destKey) {
 		try {
 			return redisTemplate.opsForSet().intersect(sourceKey, destKey);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取两个集合中的相同同值并返回发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -598,7 +598,7 @@ public class RedisService {
 	public Set<Object> getDiffSetVals(String sourceKey, String destKey) {
 		try {
 			return redisTemplate.opsForSet().difference(sourceKey, destKey);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取两个集合中的不同值并返回发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -614,7 +614,7 @@ public class RedisService {
 	public Set<Object> getAllSetVals(String sourceKey, String destKey) {
 		try {
 			return redisTemplate.opsForSet().union(sourceKey, destKey);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取两个集合中的所有值并返回发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -630,7 +630,7 @@ public class RedisService {
 	public boolean isSetMember(String key, Object value) {
 		try {
 			return redisTemplate.opsForSet().isMember(key, value);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("检查set中是否存在这个value发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -646,7 +646,7 @@ public class RedisService {
 	public long setAdd(String key, Object... values) {
 		try {
 			return redisTemplate.opsForSet().add(key, values);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("将数据放入set缓存发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -667,7 +667,7 @@ public class RedisService {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 			}
 			return count;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("将set数据放入缓存发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -682,7 +682,7 @@ public class RedisService {
 	public long getSetSize(String key) {
 		try {
 			return redisTemplate.opsForSet().size(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("根据key获取set缓存的长度值发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -699,7 +699,7 @@ public class RedisService {
 		try {
 			Long count = redisTemplate.opsForSet().remove(key, values);
 			return count;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("根据key移除set缓存的value发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -715,7 +715,7 @@ public class RedisService {
 	public boolean putZSet(String key, String value, double score) {
 		try {
 			return redisTemplate.opsForZSet().add(key, value, score);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("添加数据到zset集合中去发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -731,7 +731,7 @@ public class RedisService {
 	public Set<Object> getZsetRangeVals(String key, long start, long end) {
 		try {
 			return redisTemplate.opsForZSet().range(key, start, end);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获得zset集合中开始位置和结束位置的集合发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -747,7 +747,7 @@ public class RedisService {
 	public Set<Object> getZsetRangeVals(String key, double min, double max) {
 		try {
 			return redisTemplate.opsForZSet().rangeByScore(key, min, max);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获得zset集合中最大值和最小值的集合发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -766,7 +766,7 @@ public class RedisService {
 	public Set<Object> getZsetRangeVals(String key, double min, double max, long offset, long count) {
 		try {
 			return redisTemplate.opsForZSet().rangeByScore(key, min, max, offset, count);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获得zset集合中最大值和最小值的集合发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -782,7 +782,7 @@ public class RedisService {
 	public Double getZsetScore(String key, Object element) {
 		try {
 			return redisTemplate.opsForZSet().score(key, element);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取zset集合中元素为element的得分值发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -799,7 +799,7 @@ public class RedisService {
 	public Double incrZsetScore(String key, Object element, double score) {
 		try {
 			return redisTemplate.opsForZSet().incrementScore(key, element, score);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给zset集合中元素为element的得分值再添加操作发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -816,7 +816,7 @@ public class RedisService {
 	public List<Object> listGet(String key, long start, long end) {
 		try {
 			return redisTemplate.opsForList().range(key, start, end);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取list缓存的信息发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -831,7 +831,7 @@ public class RedisService {
 	public long listGetSize(String key) {
 		try {
 			return redisTemplate.opsForList().size(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获取list缓存的长度发生异常，异常信息是:{}", e.getMessage());
 			return 0;
 		}
@@ -847,7 +847,7 @@ public class RedisService {
 	public Object listValByIndex(String key, long index) {
 		try {
 			return redisTemplate.opsForList().index(key, index);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("通过索引index获取list中的值发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -862,7 +862,7 @@ public class RedisService {
 	public Object listRightPop(String key) {
 		try {
 			return redisTemplate.opsForList().rightPop(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("删除并返回存储在的列表中的最后一个元素发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -879,7 +879,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForList().rightPush(key, value);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给已经存在的list集合处理从右追加数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -900,7 +900,7 @@ public class RedisService {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给已经存在的list集合处理从右追加数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -917,7 +917,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForList().rightPushAll(key, value);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给已经存在的list集合处理从右追加List数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -938,7 +938,7 @@ public class RedisService {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给已经存在的list集合处理从右追加List数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -956,7 +956,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForList().set(key, index, value);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("根据索引修改list中的某条数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -974,7 +974,7 @@ public class RedisService {
 		try {
 			Long remove = redisTemplate.opsForList().remove(key, count, value);
 			return remove > 0 ? true : false;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("移除集合List中count个值为value的操作发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -989,7 +989,7 @@ public class RedisService {
 	public Object leftPop(String key) {
 		try {
 			return redisTemplate.opsForList().leftPop(key);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("删除并返回存储在的列表中的第一个元素发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -1006,7 +1006,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForList().leftPush(key, value);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给已经存在的list集合处理从右追加数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -1027,7 +1027,7 @@ public class RedisService {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给已经存在的list集合处理从右追加数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -1044,7 +1044,7 @@ public class RedisService {
 		try {
 			redisTemplate.opsForList().leftPushAll(key, value);
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给已经存在的list集合处理从右追加List数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -1065,7 +1065,7 @@ public class RedisService {
 				redisTemplate.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("给已经存在的list集合处理从右追加List数据发生异常，异常信息是:{}", e.getMessage());
 			return false;
 		}
@@ -1081,7 +1081,7 @@ public class RedisService {
 	public Object listRightPopAndLeftPush(String sourceKey, String destinationKey) {
 		try {
 			return redisTemplate.opsForList().rightPopAndLeftPush(sourceKey, destinationKey);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("用于移除列表的最后一个元素，并将该元素添加到另一个列表第一个并返回发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -1096,7 +1096,7 @@ public class RedisService {
 	public List<Object> getAllListVals(String key) {
 		try {
 			return redisTemplate.opsForList().range(key, 0, -1);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获得缓存的list对象发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
@@ -1112,7 +1112,7 @@ public class RedisService {
 	public List<Object> getRangeListVals(String key,long start,long end){
 		try {
 			return redisTemplate.opsForList().range(key, start, end);
-		} catch (Exception e) {
+		} catch (RedisException e) {
 			log.error("获得缓存的list对象发生异常，异常信息是:{}", e.getMessage());
 			return null;
 		}
