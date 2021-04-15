@@ -1,6 +1,5 @@
 package com.application.cloud.common;
 
-import com.application.cloud.common.redis.configure.EnableRedis;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @modified By：
  * @version: 1.0.0
  */
-@EnableRedis
 @SpringBootApplication
 public class RedisApplication {
 	

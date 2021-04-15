@@ -1,5 +1,6 @@
 package com.application.cloud.common.redis.service;
 
+import com.application.cloud.common.redis.exception.RedisException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.*;
 import org.springframework.util.CollectionUtils;
@@ -293,7 +294,7 @@ public class RedisService {
 	public long incr(String key, long delta) {
 		try {
 			if (delta < 0) {
-				throw new RuntimeRedisException("递增因子必须大于0");
+				throw new RedisException("递增因子必须大于0");
 			}
 			return redisTemplate.opsForValue().increment(key, delta);
 		} catch (RedisException e) {
@@ -327,7 +328,7 @@ public class RedisService {
 	public long decr(String key, long delta) {
 		try {
 			if (delta < 0) {
-				throw new RuntimeRedisException("递减因子必须大于0");
+				throw new RedisException("递减因子必须大于0");
 			}
 			return redisTemplate.opsForValue().decrement(key, delta);
 		} catch (RedisException e) {
