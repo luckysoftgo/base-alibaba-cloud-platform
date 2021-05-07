@@ -130,7 +130,10 @@ public class RabbitMqConfig {
 		if (!StringUtils.isEmpty(virtualHost)) {
 			connectionFactory.setVirtualHost(virtualHost);
 		}
+		//生产端配置
+		// 发布返回
 		connectionFactory.setPublisherReturns(true);
+		// 开启发布确认,就是confirm模式. 消费端ack应答后,才将消息从队列中删除
 		connectionFactory.setPublisherConfirms(true);
 		return connectionFactory;
 	}
@@ -143,6 +146,8 @@ public class RabbitMqConfig {
 	 */
 	private RabbitTemplate createRabbitTemplate(@Qualifier("secondConnectionFactory") ConnectionFactory connectionFactory) {
 		RabbitTemplate secondRabbitTemplate = new RabbitTemplate(connectionFactory);
+		//模板配置
+		//设置为 true 后 消费者在消息没有被路由到合适队列情况下会被return监听，而不会自动删除
 		secondRabbitTemplate.setMandatory(true);
 		return secondRabbitTemplate;
 	}
@@ -158,11 +163,13 @@ public class RabbitMqConfig {
 		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
 		//设置当前的消费者数量
 		factory.setConcurrentConsumers(1);
-		//设置当前的消费者数量上限
+		//设置当前的消费者数量上限数量
 		factory.setMaxConcurrentConsumers(5);
+		//在单个请求中处理的消息个数，他应该大于等于事务数量(unack的最大数量)
+		factory.setPrefetchCount(1);
 		//设置是否重回队列
 		factory.setDefaultRequeueRejected(true);
-		//设置手动签收 --》 这里指定确认方式 Auto为自动  MANUAL为手动
+		//设置手动签收 --》 这里指定确认方式 AUTO为自动ack ; MANUAL为手动ack
 		factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 		configurer.configure(factory, connectionFactory);
 		return factory;
