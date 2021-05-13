@@ -47,10 +47,9 @@ public final class ValidationBeanHandler {
 	 * @throws RuntimeException
 	 */
 	public static <T> boolean validated(T t) throws RuntimeException {
-		Validator validator = factory.getValidator();
-		Set<ConstraintViolation<T>> constraintViolations = validator.validate(t);
-		if (constraintViolations != null && constraintViolations.size() > 0) {
-			throw new RuntimeException(constraintViolations.iterator().next().getMessage());
+		List<String> messageList = validate(t);
+		if (messageList.size() > 0) {
+			throw new RuntimeException(messageList.toString());
 		}
 		return true;
 	}
