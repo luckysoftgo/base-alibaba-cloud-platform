@@ -3,6 +3,7 @@ package com.application.cloud.common.redis.service;
 import com.application.cloud.common.redis.exception.RedisException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
@@ -1157,8 +1158,59 @@ public class RedisService {
 	 * @param pattern 字符串前缀
 	 * @return 对象列表
 	 */
-	public Collection<String> keys(final String pattern)
-	{
+	public Collection<String> keys(final String pattern) {
 		return redisTemplate.keys(pattern);
+	}
+	
+	/**
+	 * 分布式锁
+	 *
+	 * @param key
+	 * @return
+	 */
+	public boolean distributedLock(String key) {
+		return distributedLock(key, 5, TimeUnit.SECONDS);
+	}
+	
+	/**
+	 * 分布式锁的实现
+	 *
+	 * @param key
+	 * @param unitNumber
+	 * @param timeUnit
+	 * @return
+	 */
+	public boolean distributedLock(String key, int unitNumber, TimeUnit timeUnit) {
+		ValueOperations<String, String> ops = redisTemplate.opsForValue();
+		try {
+			Boolean lock = ops.setIfAbsent(key, key, unitNumber, timeUnit);
+			return lock;
+		} catch (RedisException e) {
+			log.error("给key：{}加分布式锁出现了异常，异常信息是:{}", key, e.getMessage());
+			return false;
+		}
+	}
+	
+	/**
+	 * 分布式解锁
+	 *
+	 * @param key
+	 * @return
+	 */
+	public boolean distributedUnLock(String key) {
+		ValueOperations<String, String> ops = redisTemplate.opsForValue();
+		try {
+			String lockValue = ops.get(key);
+			String script = "if redis.call(\"get\",KEYS[1]) == ARGV[1] then\n" +
+					"    return redis.call(\"del\",KEYS[1])\n" +
+					"else\n" +
+					"    return 0\n" +
+					"end";
+			Object result = redisTemplate.execute(new DefaultRedisScript<Long>(script, Long.class), Arrays.asList(key), lockValue);
+			return result.equals(Long.valueOf(1));
+		} catch (RedisException e) {
+			log.error("给key：{}解锁出现了异常，异常信息是:{}", key, e.getMessage());
+			return false;
+		}
 	}
 }
