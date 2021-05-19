@@ -2,6 +2,7 @@ package com.application.cloud.common.redis.service;
 
 import com.application.cloud.common.redis.exception.RedisException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.util.CollectionUtils;
@@ -1165,7 +1166,7 @@ public class RedisService {
 	 * @param key
 	 * @return
 	 */
-	public boolean distributedLock(String key) {
+	public synchronized boolean distributedLock(String key) {
 		return distributedLock(key, 5, TimeUnit.SECONDS);
 	}
 	
@@ -1177,8 +1178,19 @@ public class RedisService {
 	 * @param timeUnit
 	 * @return
 	 */
-	public boolean distributedLock(String key, int unitNumber, TimeUnit timeUnit) {
+	public synchronized boolean distributedLock(String key, int unitNumber, TimeUnit timeUnit) {
 		ValueOperations<String, String> ops = redisTemplate.opsForValue();
+		String exists = Objects.toString(ops.get(key));
+		do {
+			try {
+				if (StringUtils.isNotEmpty(exists)) {
+					Thread.sleep(100);
+					exists = Objects.toString(ops.get(key));
+				}
+			} catch (Exception e) {
+				log.error("当前线程停止100毫秒出现了异常,异常信息是:{}", e.getMessage());
+			}
+		} while (StringUtils.isEmpty(exists));
 		try {
 			Boolean lock = ops.setIfAbsent(key, key, unitNumber, timeUnit);
 			return lock;
