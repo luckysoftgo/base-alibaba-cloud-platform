@@ -276,7 +276,12 @@ public class RedisService {
 	 */
 	public long incr(String key) {
 		try {
-			return redisTemplate.opsForValue().increment(key);
+			if (Objects.isNull(redisTemplate.opsForValue().get(key))) {
+				redisTemplate.opsForValue().set(key, 1);
+				return 1L;
+			} else {
+				return redisTemplate.opsForValue().increment(key);
+			}
 		} catch (RedisException e) {
 			log.error("给指定的key顺势添加1发生异常，异常信息是:{}", e.getMessage());
 			return 0;
@@ -295,7 +300,12 @@ public class RedisService {
 			if (delta < 0) {
 				throw new RedisException("递增因子必须大于0");
 			}
-			return redisTemplate.opsForValue().increment(key, delta);
+			if (Objects.isNull(redisTemplate.opsForValue().get(key))) {
+				redisTemplate.opsForValue().set(key, delta);
+				return delta;
+			} else {
+				return redisTemplate.opsForValue().increment(key, delta);
+			}
 		} catch (RedisException e) {
 			log.error("给指定的key顺势添加指定因子发生异常，异常信息是:{}", e.getMessage());
 			return 0;
@@ -310,7 +320,11 @@ public class RedisService {
 	 */
 	public long decr(String key) {
 		try {
-			return redisTemplate.opsForValue().decrement(key);
+			if (Objects.isNull(redisTemplate.opsForValue().get(key))) {
+				throw new RedisException("没有找到key:" + key + "对应的值");
+			} else {
+				return redisTemplate.opsForValue().decrement(key);
+			}
 		} catch (RedisException e) {
 			log.error("给指定的key顺势减少1发生异常，异常信息是:{}", e.getMessage());
 			return 0;
@@ -329,7 +343,11 @@ public class RedisService {
 			if (delta < 0) {
 				throw new RedisException("递减因子必须大于0");
 			}
-			return redisTemplate.opsForValue().decrement(key, delta);
+			if (Objects.isNull(redisTemplate.opsForValue().get(key))) {
+				throw new RedisException("没有找到key:" + key + "对应的值");
+			} else {
+				return redisTemplate.opsForValue().decrement(key, delta);
+			}
 		} catch (RedisException e) {
 			log.error("给指定的key顺势减少指定因子发生异常，异常信息是:{}", e.getMessage());
 			return 0;
