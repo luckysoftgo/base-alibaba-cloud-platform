@@ -5,7 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * @author ：孤狼
@@ -18,7 +24,16 @@ public class RestTemplateConfig {
 	
 	@Bean
 	public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
-		return new RestTemplate(factory);
+		RestTemplate restTemplate = new RestTemplate(factory);
+		List<HttpMessageConverter<?>> httpMessageConverters = restTemplate.getMessageConverters();
+		httpMessageConverters.stream().forEach(httpMessageConverter -> {
+			if (httpMessageConverter instanceof StringHttpMessageConverter) {
+				StringHttpMessageConverter messageConverter = (StringHttpMessageConverter) httpMessageConverter;
+				messageConverter.setDefaultCharset(Charset.forName(StandardCharsets.UTF_8.toString()));
+			}
+			
+		});
+		return restTemplate;
 	}
 	
 	@Bean
