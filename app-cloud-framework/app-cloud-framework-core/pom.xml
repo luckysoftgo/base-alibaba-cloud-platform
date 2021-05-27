@@ -8,11 +8,11 @@
 		<version>1.0.0-RELEASE</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<artifactId>app-cloud-framework-core</artifactId>
 	<name>app-cloud-framework-core</name>
 	<description>app-cloud-framework-core核心模块</description>
-	
+
 	<dependencies>
 		<!-- SpringCloud Openfeign -->
 		<dependency>
@@ -85,7 +85,11 @@
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
 		</dependency>
-	
+		<!-- okhttp -->
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
