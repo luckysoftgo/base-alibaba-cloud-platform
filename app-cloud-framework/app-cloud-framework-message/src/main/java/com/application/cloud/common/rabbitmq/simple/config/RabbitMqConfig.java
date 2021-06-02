@@ -175,28 +175,4 @@ public class RabbitMqConfig {
 		return factory;
 	}
 	
-	
-	/**
-	 * 声明交换机 amq.topic topic类型的，其他类型的直接改TopicExchange
-	 */
-	@Bean
-	public TopicExchange basicExchange() {
-		return new TopicExchange("amq.topic", true, false);
-	}
-	
-	/**
-	 * 声明消息队列 启动创建，停止自动删除
-	 */
-	@Bean(name = "basicQueue")
-	public Queue basicQueue() {
-		return new Queue("basic.Queue", false, true, true);
-	}
-	
-	/**
-	 * 队列绑定交换机 *.*.*.*.*.*为rountingkey
-	 */
-	@Bean
-	public Binding basicBinding() {
-		return BindingBuilder.bind(basicQueue()).to(basicExchange()).with("*.*.*.*.*.*");
-	}
 }
