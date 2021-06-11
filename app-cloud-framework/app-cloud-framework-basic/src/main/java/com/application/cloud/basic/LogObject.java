@@ -1,12 +1,12 @@
 package com.application.cloud.basic;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author ：admin
  * @date ：2021-6-11
- * @description: 日志打印对象
+ * @description: 日志打印对象:
+ * 可以通过该对象来打印日志，也可以将其存入数据库，做控制台的日志管理以及链上的半自动补偿措施
  * @modified By：
  * @version: 1.0.0
  */
