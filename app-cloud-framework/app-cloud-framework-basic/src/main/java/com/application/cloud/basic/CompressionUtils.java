@@ -7,6 +7,7 @@ import sun.misc.BASE64Encoder;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Enumeration;
 import java.util.zip.*;
 
 /**
@@ -256,6 +257,62 @@ public class CompressionUtils {
 			input.close();
 			return decompressed;
 		}
+		
+		/**
+		 * 解压文件.
+		 *
+		 * @param zipFilePath    zip 文件位置
+		 * @param targetFilePath 解压后文件位置
+		 * @throws Exception
+		 */
+		public static void zipUncompress(String zipFilePath, String targetFilePath) throws Exception {
+			File srcFile = new File(zipFilePath);
+			// 判断源文件是否存在
+			if (!srcFile.exists()) {
+				throw new Exception(srcFile.getPath() + "所指定的文件夹不存在");
+			}
+			ZipFile zipFile = new ZipFile(srcFile);
+			try {
+				//创建压缩文件对象
+				//开始解压
+				Enumeration<?> entries = zipFile.entries();
+				while (entries.hasMoreElements()) {
+					ZipEntry entry = (ZipEntry) entries.nextElement();
+					// 如果是文件夹，就创建个文件夹
+					if (entry.isDirectory()) {
+						srcFile.mkdirs();
+					} else {
+						// 如果是文件，就先创建一个文件，然后用io流把内容copy过去
+						File targetFile = new File(targetFilePath);
+						// 保证这个文件的父文件夹必须要存在
+						if (!targetFile.getParentFile().exists()) {
+							targetFile.getParentFile().mkdirs();
+						}
+						targetFile.createNewFile();
+						// 将压缩文件内容写入到这个文件中
+						InputStream is = zipFile.getInputStream(entry);
+						FileOutputStream fos = new FileOutputStream(targetFile);
+						int len;
+						byte[] buf = new byte[1024];
+						while ((len = is.read(buf)) != -1) {
+							fos.write(buf, 0, len);
+						}
+						// 关流顺序，先打开的后关闭
+						fos.flush();
+						fos.close();
+						//关闭
+						is.close();
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("解压文件出错,错误信息是:{},堆栈信息是:{}" + e.getMessage() + e);
+			} finally {
+				zipFile.close();
+				//删除已经存在的
+				srcFile.delete();
+				srcFile.deleteOnExit();
+			}
+		}
 	}
 	
 	/**
@@ -387,6 +444,128 @@ public class CompressionUtils {
 			gzip.close();
 			input.close();
 			return decompressed;
+		}
+		
+		/**
+		 * 压缩
+		 *
+		 * @param orginalFile
+		 * @param compressFile
+		 * @throws IOException
+		 */
+		public static void compress(File orginalFile, File compressFile) throws IOException {
+			if (orginalFile != null && orginalFile.isFile() && compressFile != null && compressFile.isFile()) {
+				FileInputStream is = new FileInputStream(orginalFile);
+				FileOutputStream os = new FileOutputStream(compressFile);
+				compress(is, os);
+				is.close();
+				os.close();
+			}
+		}
+		
+		/**
+		 * 压缩
+		 *
+		 * @param orginalFile
+		 * @param compressFile
+		 * @throws IOException
+		 */
+		public static void compress(String orginalFile, String compressFile) throws IOException {
+			if (orginalFile != null && compressFile != null) {
+				FileInputStream is = new FileInputStream(orginalFile);
+				FileOutputStream os = new FileOutputStream(compressFile);
+				compress(is, os);
+				is.close();
+				os.close();
+			}
+		}
+		
+		/**
+		 * 压缩
+		 *
+		 * @param is
+		 * @param os
+		 * @throws IOException
+		 */
+		public static void compress(InputStream is, OutputStream os) throws IOException {
+			GZIPOutputStream gos = new GZIPOutputStream(os);
+			int len = 0;
+			byte[] buffer = new byte[1024];
+			while ((len = is.read(buffer)) != -1) {
+				gos.write(buffer, 0, len);
+			}
+			gos.finish();
+			gos.flush();
+			gos.close();
+		}
+		
+		/**
+		 * 解压
+		 *
+		 * @param compressFile
+		 * @param orginalFile
+		 * @throws IOException
+		 */
+		public static void deCompress(File compressFile, File orginalFile) throws IOException {
+			if (orginalFile != null && orginalFile.isFile() && compressFile != null && compressFile.isFile()) {
+				FileInputStream is = new FileInputStream(compressFile);
+				FileOutputStream os = new FileOutputStream(orginalFile);
+				deCompress(is, os);
+				is.close();
+				os.close();
+			}
+		}
+		
+		/**
+		 * 解压
+		 *
+		 * @param compressFile
+		 * @param orginalFile
+		 * @throws IOException
+		 */
+		public static void deCompress(String compressFile, String orginalFile) throws IOException {
+			if (orginalFile != null && compressFile != null) {
+				FileInputStream is = new FileInputStream(compressFile);
+				FileOutputStream os = new FileOutputStream(orginalFile);
+				deCompress(is, os);
+				is.close();
+				os.close();
+			}
+		}
+		
+		/**
+		 * 解压
+		 *
+		 * @param bytes
+		 * @return
+		 * @throws IOException
+		 */
+		public static byte[] deCompress(byte[] bytes) throws IOException {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+			deCompress(bais, baos);
+			bytes = baos.toByteArray();
+			bais.close();
+			baos.close();
+			return bytes;
+		}
+		
+		/**
+		 * 解压
+		 *
+		 * @param is
+		 * @param os
+		 * @throws IOException
+		 */
+		public static void deCompress(InputStream is, OutputStream os) throws IOException {
+			GZIPInputStream gis = new GZIPInputStream(is);
+			int len = 0;
+			byte[] buffer = new byte[1024];
+			while ((len = gis.read(buffer)) != -1) {
+				os.write(buffer, 0, len);
+			}
+			os.flush();
+			gis.close();
 		}
 	}
 }
