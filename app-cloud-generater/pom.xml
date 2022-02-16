@@ -35,7 +35,7 @@
 		<mysql.version>8.0.17</mysql.version>
 		<mssql.version>4.0</mssql.version>
 		<oracle.version>11.2.0.3</oracle.version>
-		<postgresql.version>42.2.10</postgresql.version>
+		<postgresql.version>42.3.3</postgresql.version>
 		<mongo.version>3.11.0</mongo.version>
 		<lombok.version>1.18.12 </lombok.version>
 		
