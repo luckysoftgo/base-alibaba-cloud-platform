@@ -86,6 +86,8 @@ public class IntegrationUserDetailsService implements UserDetailsService {
 	
 	/**
 	 * 获得认证的对象信息.
+	 * 给 UserDetails赋值操作.
+	 *
 	 * @param info
 	 * @return
 	 */
